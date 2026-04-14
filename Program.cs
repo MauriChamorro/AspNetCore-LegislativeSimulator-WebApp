@@ -9,8 +9,16 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connect
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(); // Esto habilita la interfaz gráfica
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
