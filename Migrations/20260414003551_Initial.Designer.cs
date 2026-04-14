@@ -10,7 +10,7 @@ using WebAppMVC.Contexts;
 namespace WebAppMVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260413235752_Initial")]
+    [Migration("20260414003551_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
