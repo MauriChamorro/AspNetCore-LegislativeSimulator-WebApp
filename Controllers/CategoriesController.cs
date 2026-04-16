@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebAppMVC.Models;
 
 namespace WebAppMVC.Controllers;
 
@@ -10,8 +11,9 @@ public class CategoriesController : Controller
         return View();
     }
     
-    public IActionResult Edit(int id)
+    public IActionResult Edit(int? id)
     {
-        return new ContentResult{ Content = id.ToString()};
+        var cat = new Category { Id = id ?? 0 };
+        return View(cat);
     }
 }
