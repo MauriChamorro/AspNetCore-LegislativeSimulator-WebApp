@@ -15,7 +15,7 @@ public class CategoriesController : Controller
     
     public IActionResult Edit(int? id)
     {
-        var cat = new Category { Id = id ?? 0 };
+        var cat = StaticCategoriesRepositories.GetCategoryById(id ?? 0);
         return View(cat);
     }
 }
