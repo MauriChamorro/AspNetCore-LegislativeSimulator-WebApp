@@ -14,8 +14,9 @@
         <thead>
             <tr>
             <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -25,6 +26,9 @@
                 <th scope="row">@cat.Id</th>
                 <td>@cat.Name</td>
                 <td>@cat.Description</td>
+                <td><a class="btn btn-link" asp-controller="Categories" asp-action="Edit" asp-route-id="@cat.Id">Edit</a></td>
+                <!-- <td><a class="btn btn-link" href="categories/edit/@cat.Id">Edit</a></td>-->
+                <!-- <td><a class="btn btn-link" href="@($"categories/edit/{cat.Id}")">Edit</a></td> -->
             </tr>
         }
         </tbody>
