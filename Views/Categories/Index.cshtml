@@ -1,9 +1,13 @@
 @{
-    // ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Categories";
 }
 
+@section title {
+    <h1 class="display-4">@ViewData["Title"]</h1>
+}
+
+ <!-- BODY -->
 <div class="text-center">
-    <h1 class="display-4">Categories</h1>
     <a href="/categories/edit/1"> Cat 1</a>
     <a href="/categories/edit/2"> Cat 2</a>
 </div>
