@@ -1,13 +1,16 @@
 @{
     ViewData["Title"] = "Categories";
 }
+@model Category[]
 
 @section title {
     <h1 class="display-4">@ViewData["Title"]</h1>
 }
 
  <!-- BODY -->
-<div class="text-center">
-    <a href="/categories/edit/1"> Cat 1</a>
-    <a href="/categories/edit/2"> Cat 2</a>
-</div>
+ <div class="text-center">
+     @foreach (var cat in Model)
+     {
+         <li> <a href="/categories/edit/@cat.Id"> @cat.Name </a> </li>
+     }
+ </div>
