@@ -6,6 +6,7 @@
         <h1 class="display-4">Cat @Model.Name</h1>
         
         <form method="post" asp-controller="Categories" asp-action="Edit">
+            <input type="hidden" asp-for="Id"/>
             <div class="row mb-3">
                 <div class="col-2">
                     <label class="col-form-label">Nombre</label>

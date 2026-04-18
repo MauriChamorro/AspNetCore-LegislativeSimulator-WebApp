@@ -18,4 +18,11 @@ public class CategoriesController : Controller
         var cat = StaticCategoriesRepositories.GetCategoryById(id ?? 0);
         return View(cat);
     }
+    
+    [HttpPost]
+    public IActionResult Edit(Category category)
+    {
+        StaticCategoriesRepositories.UpdateCategory(category);
+        return RedirectToAction(nameof(Index));
+    }
 }
