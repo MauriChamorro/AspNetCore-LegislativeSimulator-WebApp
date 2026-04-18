@@ -22,7 +22,11 @@ public class CategoriesController : Controller
     [HttpPost]
     public IActionResult Edit(Category category)
     {
-        StaticCategoriesRepositories.UpdateCategory(category);
-        return RedirectToAction(nameof(Index));
+        if (ModelState.IsValid)
+        {
+            StaticCategoriesRepositories.UpdateCategory(category);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(category);
     }
 }
