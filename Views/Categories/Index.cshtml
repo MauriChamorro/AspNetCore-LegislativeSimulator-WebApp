@@ -16,7 +16,8 @@
             <th scope="col">ID</th>
             <th scope="col">Nombre</th>
             <th scope="col">Descripción</th>
-            <th scope="col">Acciones</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Borrar</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +28,7 @@
                 <td>@cat.Name</td>
                 <td>@cat.Description</td>
                 <td><a class="btn btn-link" asp-controller="Categories" asp-action="Edit" asp-route-id="@cat.Id">Editar</a></td>
+                <td><a class="btn btn-link" asp-controller="Categories" asp-action="Delete" asp-route-categoryId="@cat.Id" onclick="confirmDelete()">Borrar</a></td>
                 <!-- <td><a class="btn btn-link" href="categories/edit/@cat.Id">Edit</a></td>-->
                 <!-- <td><a class="btn btn-link" href="@($"categories/edit/{cat.Id}")">Edit</a></td> -->
             </tr>
@@ -35,3 +37,17 @@
     </table>
     <a class="btn btn-primary" asp-controller="Categories" asp-action="Add" role="button">Agregar</a>
 }
+
+@section Scripts
+{
+    <script>
+        function confirmDelete(){
+            return confirm("¿Estás seguro que desea eliminar esta categoria?");
+        }
+    </script>
+}
+
+
+
+
+

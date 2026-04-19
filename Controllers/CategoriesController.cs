@@ -46,4 +46,9 @@ public class CategoriesController : Controller
         }
         return View(category);
     }
+    public IActionResult Delete(int categoryId)
+    {
+        StaticCategoriesRepositories.DeleteCategory(categoryId);
+        return RedirectToAction(nameof(Index));
+    }
 }
