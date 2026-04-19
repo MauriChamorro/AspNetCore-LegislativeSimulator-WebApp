@@ -29,4 +29,21 @@ public class CategoriesController : Controller
         }
         return View(category);
     }
+    
+    [HttpGet]
+    public IActionResult Add()
+    {
+        return View();
+    }
+    
+    [HttpPost]
+    public IActionResult Add(Category category)
+    {
+        if (ModelState.IsValid)
+        {
+            StaticCategoriesRepositories.AddCategory(category.Name, category.Description);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(category);
+    }
 }
