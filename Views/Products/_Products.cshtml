@@ -1,0 +1,75 @@
+@model Product
+
+@{
+    string action = ViewBag.Action ?? string.Empty;
+}
+
+<form method="post" asp-controller="Products" asp-action="@action">
+    @if (action == "edit")
+    {
+        <input type="hidden" asp-for="Id"/>
+    }
+    <div class="row mb-3">
+        <div class="col-2">
+            <label class="col-form-label">Nombre</label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="Name" class="form-control"/>
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2">
+            <label class="col-form-label">Descripción</label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="Description" class="form-control"/>
+        </div>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col-2">
+            <label class="col-form-label">Categoria</label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="CategoryId" class="form-control"/>
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="CategoryId"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2">
+            <label class="col-form-label">Precio</label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="Price" class="form-control"/>
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Price"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2">
+            <label class="col-form-label">Cantidad</label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="Quantity" class="form-control"/>
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Quantity"></span>
+        </div>
+    </div>
+    
+    
+    <!-- Confirm Button -->
+    <div class="row mb-3">
+        <div class="col-2">
+            <input type="submit" class="btn btn-primary" value="Confirmar"/>
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+</form>
