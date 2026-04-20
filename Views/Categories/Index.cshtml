@@ -7,7 +7,7 @@
     <h1 class="display-4">@ViewData["Title"]</h1>
 }
 
- <!-- BODY -->
+<!-- BODY -->
 @if (Model.Length > 0)
 {
     <table class="table table-dark">
@@ -27,8 +27,10 @@
                 <th scope="row">@cat.Id</th>
                 <td>@cat.Name</td>
                 <td>@cat.Description</td>
-                <td><a class="btn btn-link" asp-controller="Categories" asp-action="Edit" asp-route-id="@cat.Id">Editar</a></td>
-                <td><a class="btn btn-link" asp-controller="Categories" asp-action="Delete" asp-route-categoryId="@cat.Id" onclick="return confirmDelete()">Borrar</a></td>
+                <td><a class="btn btn-link" asp-controller="Categories" asp-action="Edit"
+                       asp-route-id="@cat.Id">Editar</a></td>
+                <td><a class="btn btn-link" asp-controller="Categories" asp-action="Delete"
+                       asp-route-categoryId="@cat.Id" onclick="return confirmDelete()">Borrar</a></td>
                 <!-- <td><a class="btn btn-link" href="categories/edit/@cat.Id">Edit</a></td>-->
                 <!-- <td><a class="btn btn-link" href="@($"categories/edit/{cat.Id}")">Edit</a></td> -->
             </tr>
@@ -41,7 +43,7 @@
 @section Scripts
 {
     <script>
-        function confirmDelete(){
+        function confirmDelete() {
             return confirm("¿Estás seguro que desea eliminar esta categoria?");
         }
     </script>

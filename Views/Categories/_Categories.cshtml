@@ -1,8 +1,5 @@
 @model Category
 
-@section title {
-    <h3>Agregar Categoria</h3>
-}
 
 <form method="post" asp-controller="Categories" asp-action="Add">
     <div class="row mb-3">
@@ -10,7 +7,7 @@
             <label class="col-form-label">Nombre</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Name" class="form-control"/>
+            <input type="text" asp-for="Name" class="form-control" />
         </div>
         <div class="col">
             <span class="text-danger" asp-validation-for="Name"></span>
@@ -21,7 +18,7 @@
             <label class="col-form-label">Descripción</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Description" class="form-control"/>
+            <input type="text" asp-for="Description" class="form-control" />
         </div>
     </div>
     <div class="row mb-3">

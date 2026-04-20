@@ -12,13 +12,13 @@ public class CategoriesController : Controller
         var categories = StaticCategoriesRepositories.GetCategories();
         return View(categories);
     }
-    
+
     public IActionResult Edit(int? id)
     {
         var cat = StaticCategoriesRepositories.GetCategoryById(id ?? 0);
         return View(cat);
     }
-    
+
     [HttpPost]
     public IActionResult Edit(Category category)
     {
@@ -27,15 +27,16 @@ public class CategoriesController : Controller
             StaticCategoriesRepositories.UpdateCategory(category);
             return RedirectToAction(nameof(Index));
         }
+
         return View(category);
     }
-    
+
     [HttpGet]
     public IActionResult Add()
     {
         return View();
     }
-    
+
     [HttpPost]
     public IActionResult Add(Category category)
     {
@@ -44,8 +45,10 @@ public class CategoriesController : Controller
             StaticCategoriesRepositories.AddCategory(category.Name, category.Description);
             return RedirectToAction(nameof(Index));
         }
+
         return View(category);
     }
+
     public IActionResult Delete(int categoryId)
     {
         StaticCategoriesRepositories.DeleteCategory(categoryId);
