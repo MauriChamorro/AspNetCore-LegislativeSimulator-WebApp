@@ -5,7 +5,7 @@
 }
 
 <form method="post" asp-controller="Products" asp-action="@action">
-    @if (action == "edit")
+    @if (action.ToLower() == "edit")
     {
         <input type="hidden" asp-for="Product.Id"/>
     }

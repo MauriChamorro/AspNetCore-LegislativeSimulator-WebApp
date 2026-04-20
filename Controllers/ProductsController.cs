@@ -16,31 +16,36 @@ public class ProductsController : Controller
     
     public IActionResult Edit(int? id)
     {
-        ViewBag.Action = "Edit";
+        var prodVm = new ProductViewModel
+        {
+            //avoid app crashes
+            Product = StaticProductRepository.GetProductById(id ?? 0) ?? new Product(),
+            Categories = StaticCategoriesRepositories.GetCategories()
+        };
         
-        var prod = StaticProductRepository.GetProductById(id ?? 0);
-        return View(prod);
+        ViewBag.Action = "Edit";
+        return View(prodVm);
     }
 
     [HttpPost]
-    public IActionResult Edit(Product product)
+    public IActionResult Edit(ProductViewModel productVm)
     {
-        ViewBag.Action = "Edit";
-        
         if (ModelState.IsValid)
         {
-            StaticProductRepository.UpdateProduct(product);
+            StaticProductRepository.UpdateProduct(productVm.Product);
             return RedirectToAction(nameof(Index));
         }
-
-        return View(product);
+        
+        ViewBag.Action = "Edit";
+        productVm.Categories = StaticCategoriesRepositories.GetCategories();
+        return View(productVm);
     }
     
     [HttpGet]
     public IActionResult Add()
     {
         ViewBag.Action = "Add";
-        var newProductTemplate = new ProductViewModel()
+        var newProductTemplate = new ProductViewModel
         {
             Categories = StaticCategoriesRepositories.GetCategories(),
             Product = new Product()

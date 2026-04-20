@@ -1,9 +1,9 @@
-@model Product
+@model ProductViewModel
 
 @section title {
     @if (Model != null)
     {
-        <h3>Editar Producto</h3>
+        <h3>Editar Producto: @Model.Product?.Name</h3>
     }
 }
 
