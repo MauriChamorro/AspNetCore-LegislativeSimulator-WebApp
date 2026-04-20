@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Products";
+}
+
+@model Product[]
+
+@section title {
+    <h1 class="display-4">@ViewData["Title"]</h1>
+}
+
+@if (Model != null && Model.Length > 0)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Cod</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Borrar</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var prod in Model)
+        {
+            <tr>
+                <th scope="row">@prod.Id</th>
+                <td>@prod.Name</td>
+                <td>@prod.Description</td>
+                <td>@prod.CategoryId</td>
+                <td>@prod.Price</td>
+                <td>@prod.Quantity</td>
+                <td><a class="btn btn-link" asp-controller="Products" asp-action="Edit"
+                       asp-route-id="@prod.Id">Editar</a></td>
+                <td><a class="btn btn-link" asp-controller="Products" asp-action="Delete"
+                       asp-route-categoryId="@prod.Id" onclick="return confirmDelete()">Borrar</a></td>
+                <!-- <td><a class="btn btn-link" href="categories/edit/@prod.Id">Edit</a></td>-->
+                <!-- <td><a class="btn btn-link" href="@($"categories/edit/{prod.Id}")">Edit</a></td> -->
+            </tr>
+        }
+        </tbody>
+    </table>
+    <a class="btn btn-primary" asp-controller="Products" asp-action="Add" role="button">Agregar</a>
+}
+
+@section Scripts
+{
+    <script>
+        function confirmDelete() {
+            return confirm("¿Estás seguro que desea eliminar esta categoria?");
+        }
+    </script>
+}
