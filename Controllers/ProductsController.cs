@@ -10,7 +10,7 @@ public class ProductsController : Controller
     // GET
     public IActionResult Index()
     {
-        var products = StaticProductRepository.GetProducts(loadCategories:false);
+        var products = StaticProductRepository.GetProducts(loadCategories:true);
         return View(products);
     }
     
@@ -49,16 +49,16 @@ public class ProductsController : Controller
     }
 
     [HttpPost]
-    public IActionResult Add(Product product)
+    public IActionResult Add(ProductViewModel productVm)
     {
         ViewBag.Action = "Add";
         if (ModelState.IsValid)
         {
-            StaticProductRepository.AddProduct(product);
+            StaticProductRepository.AddProduct(productVm.Product);
             return RedirectToAction(nameof(Index));
         }
-
-        return View(product);
+        productVm.Categories = StaticCategoriesRepositories.GetCategories();
+        return View(productVm);
     }
     
     public IActionResult Delete(int productId)
