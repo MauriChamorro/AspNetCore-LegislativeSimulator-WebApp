@@ -66,6 +66,7 @@ public class ProductsController : Controller
         return View(productVm);
     }
     
+    [HttpPost]
     public IActionResult Delete(int productId)
     {
         StaticProductRepository.Delete(productId);

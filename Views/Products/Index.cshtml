@@ -35,10 +35,11 @@
                 <td>@prod.Quantity</td>
                 <td><a class="btn btn-link" asp-controller="Products" asp-action="Edit"
                        asp-route-id="@prod.Id">Editar</a></td>
-                <td><a class="btn btn-link" asp-controller="Products" asp-action="Delete"
-                       asp-route-productId="@prod.Id" onclick="return confirmDelete()">Borrar</a></td>
-                <!-- <td><a class="btn btn-link" href="categories/edit/@prod.Id">Edit</a></td>-->
-                <!-- <td><a class="btn btn-link" href="@($"categories/edit/{prod.Id}")">Edit</a></td> -->
+                <td>
+                    <form method="post" asp-controller="Products" asp-action="Delete" asp-route-productId="@prod.Id" s tyle="display: inline">
+                        <button type="submit" class="btn btn-link" onclick="return confirmDelete()">Borrar</button>
+                    </form>
+                </td>
             </tr>
         }
         </tbody>
@@ -50,7 +51,7 @@
 {
     <script>
         function confirmDelete() {
-            return confirm("¿Estás seguro que desea eliminar esta categoria?");
+            return confirm("¿Estás seguro que desea el producto?");
         }
     </script>
 }
