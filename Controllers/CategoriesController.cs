@@ -15,6 +15,8 @@ public class CategoriesController : Controller
 
     public IActionResult Edit(int? id)
     {
+        ViewBag.Action = "Edit";
+        
         var cat = StaticCategoriesRepositories.GetCategoryById(id ?? 0);
         return View(cat);
     }
@@ -22,6 +24,8 @@ public class CategoriesController : Controller
     [HttpPost]
     public IActionResult Edit(Category category)
     {
+        ViewBag.Action = "Edit";
+        
         if (ModelState.IsValid)
         {
             StaticCategoriesRepositories.UpdateCategory(category);
@@ -34,12 +38,15 @@ public class CategoriesController : Controller
     [HttpGet]
     public IActionResult Add()
     {
+        ViewBag.Action = "Add";
+        
         return View();
     }
 
     [HttpPost]
     public IActionResult Add(Category category)
     {
+        ViewBag.Action = "Add";
         if (ModelState.IsValid)
         {
             StaticCategoriesRepositories.AddCategory(category.Name, category.Description);

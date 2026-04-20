@@ -1,13 +1,20 @@
 @model Category
 
+@{
+    string action = ViewBag.Action ?? string.Empty;
+}
 
-<form method="post" asp-controller="Categories" asp-action="Add">
+<form method="post" asp-controller="Categories" asp-action="@action">
+    @if (action == "edit")
+    {
+        <input type="hidden" asp-for="Id"/>
+    }
     <div class="row mb-3">
         <div class="col-2">
             <label class="col-form-label">Nombre</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Name" class="form-control" />
+            <input type="text" asp-for="Name" class="form-control"/>
         </div>
         <div class="col">
             <span class="text-danger" asp-validation-for="Name"></span>
@@ -18,7 +25,7 @@
             <label class="col-form-label">Descripción</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Description" class="form-control" />
+            <input type="text" asp-for="Description" class="form-control"/>
         </div>
     </div>
     <div class="row mb-3">
