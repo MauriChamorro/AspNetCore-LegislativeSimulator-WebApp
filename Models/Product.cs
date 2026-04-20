@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebAppMVC.Models;
@@ -12,7 +13,7 @@ public class Product
     public decimal? Price { get; set; }
     [Required]
     public int? Quantity { get; set; }
-    [Required]
+    [Required] [DisplayName("Categoria")]
     public int? CategoryId { get; set; }
 
     public Category? Category { get; set; }

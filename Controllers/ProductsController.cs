@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Models;
 using WebAppMVC.Models.Repositories;
+using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
 
@@ -39,8 +40,12 @@ public class ProductsController : Controller
     public IActionResult Add()
     {
         ViewBag.Action = "Add";
-        
-        return View();
+        var newProductTemplate = new ProductViewModel()
+        {
+            Categories = StaticCategoriesRepositories.GetCategories(),
+            Product = new Product()
+        };
+        return View(newProductTemplate);
     }
 
     [HttpPost]

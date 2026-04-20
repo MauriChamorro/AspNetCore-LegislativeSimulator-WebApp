@@ -1,4 +1,4 @@
-@model Product
+@model ProductViewModel
 
 @{
     string action = ViewBag.Action ?? string.Empty;
@@ -7,17 +7,17 @@
 <form method="post" asp-controller="Products" asp-action="@action">
     @if (action == "edit")
     {
-        <input type="hidden" asp-for="Id"/>
+        <input type="hidden" asp-for="Product.Id"/>
     }
     <div class="row mb-3">
         <div class="col-2">
             <label class="col-form-label">Nombre</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Name" class="form-control"/>
+            <input type="text" asp-for="Product.Name" class="form-control"/>
         </div>
         <div class="col">
-            <span class="text-danger" asp-validation-for="Name"></span>
+            <span class="text-danger" asp-validation-for="Product.Name"></span>
         </div>
     </div>
     <div class="row mb-3">
@@ -25,30 +25,43 @@
             <label class="col-form-label">Descripción</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Description" class="form-control"/>
+            <input type="text" asp-for="Product.Description" class="form-control"/>
         </div>
     </div>
     
     <div class="row mb-3">
         <div class="col-2">
-            <label class="col-form-label">Categoria</label>
+            <label class="col-form-label" asp-for="Product.CategoryId"></label>
         </div>
+    
         <div class="col-6">
-            <input type="text" asp-for="CategoryId" class="form-control"/>
+            <select asp-for="Product.CategoryId">
+                <option>- Selecciona una opción -</option>
+                @if (Model.Categories != null && Model.Categories.Count() > 0)
+                {
+                    @foreach (var cat in Model.Categories)
+                    {
+                        <option value="@cat.Id">@cat.Name</option>
+                    }
+                }
+                </select>
         </div>
+        
         <div class="col">
-            <span class="text-danger" asp-validation-for="CategoryId"></span>
+            <span class="text-danger" asp-validation-for="Product.CategoryId"></span>
         </div>
     </div>
+    
+    
     <div class="row mb-3">
         <div class="col-2">
             <label class="col-form-label">Precio</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Price" class="form-control"/>
+            <input type="number" asp-for="Product.Price" class="form-control" min="0" step="any"/>
         </div>
         <div class="col">
-            <span class="text-danger" asp-validation-for="Price"></span>
+            <span class="text-danger" asp-validation-for="Product.Price"></span>
         </div>
     </div>
     <div class="row mb-3">
@@ -56,10 +69,10 @@
             <label class="col-form-label">Cantidad</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Quantity" class="form-control"/>
+            <input type="number" asp-for="Product.Quantity" class="form-control" min="0"/>
         </div>
         <div class="col">
-            <span class="text-danger" asp-validation-for="Quantity"></span>
+            <span class="text-danger" asp-validation-for="Product.Quantity"></span>
         </div>
     </div>
     
