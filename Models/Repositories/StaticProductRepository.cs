@@ -66,9 +66,9 @@ public class StaticProductRepository
         }
     }
 
-    public static void Delete(Product product)
+    public static void Delete(int productId)
     {
-        var prod = _products.FirstOrDefault(x => x.Id == product.Id);
+        var prod = _products.FirstOrDefault(x => x.Id == productId);
         if (prod != null)
             _products.Remove(prod);
     }

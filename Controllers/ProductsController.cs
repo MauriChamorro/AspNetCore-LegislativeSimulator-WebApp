@@ -55,4 +55,10 @@ public class ProductsController : Controller
 
         return View(product);
     }
+    
+    public IActionResult Delete(int productId)
+    {
+        StaticProductRepository.Delete(productId);
+        return RedirectToAction(nameof(Index));
+    }
 }
