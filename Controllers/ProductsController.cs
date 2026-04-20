@@ -67,6 +67,7 @@ public class ProductsController : Controller
     }
     
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Delete(int productId)
     {
         StaticProductRepository.Delete(productId);

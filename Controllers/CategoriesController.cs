@@ -56,6 +56,8 @@ public class CategoriesController : Controller
         return View(category);
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Delete(int categoryId)
     {
         StaticCategoriesRepositories.DeleteCategory(categoryId);
