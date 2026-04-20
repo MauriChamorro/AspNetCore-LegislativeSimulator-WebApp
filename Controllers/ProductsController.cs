@@ -34,4 +34,25 @@ public class ProductsController : Controller
 
         return View(product);
     }
+    
+    [HttpGet]
+    public IActionResult Add()
+    {
+        ViewBag.Action = "Add";
+        
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Add(Product product)
+    {
+        ViewBag.Action = "Add";
+        if (ModelState.IsValid)
+        {
+            StaticProductRepository.AddProduct(product);
+            return RedirectToAction(nameof(Index));
+        }
+
+        return View(product);
+    }
 }
