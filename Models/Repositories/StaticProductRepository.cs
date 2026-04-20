@@ -33,12 +33,12 @@ public class StaticProductRepository
         _products.Add(product);
     }
 
-    public static Product? GetProductById(int id)
+    public static Product? GetProductById(int id, bool loadCategories = false)
     {
         var prod = _products.FirstOrDefault(x => x.Id == id);
         if (prod != null)
         {
-            return new Product
+            var newProd = new Product
             {
                 Id = prod.Id,
                 Name = prod.Name,
@@ -47,11 +47,26 @@ public class StaticProductRepository
                 Quantity = prod.Quantity,
                 Price = prod.Price
             };
+
+            if (loadCategories &&  newProd.CategoryId.HasValue)
+                newProd.Category = StaticCategoriesRepositories.GetCategoryById(prod.CategoryId.Value);
+            
+            return newProd;
         }
         return null;
     }
     
-    public static Product[] GetProducts() => _products.ToArray();
+    public static Product[] GetProducts(bool loadCategories = false)
+    {
+        var prods = _products.ToArray();
+        if (loadCategories)
+        {
+            foreach (var prod in prods)
+                if (prod.CategoryId.HasValue)
+                    prod.Category = StaticCategoriesRepositories.GetCategoryById(prod.CategoryId.Value);
+        }
+        return prods;
+    }
 
     public static void UpdateProduct(Product product)
     {
