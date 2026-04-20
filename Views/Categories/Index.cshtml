@@ -28,7 +28,7 @@
                 <td>@cat.Name</td>
                 <td>@cat.Description</td>
                 <td><a class="btn btn-link" asp-controller="Categories" asp-action="Edit" asp-route-id="@cat.Id">Editar</a></td>
-                <td><a class="btn btn-link" asp-controller="Categories" asp-action="Delete" asp-route-categoryId="@cat.Id" onclick="confirmDelete()">Borrar</a></td>
+                <td><a class="btn btn-link" asp-controller="Categories" asp-action="Delete" asp-route-categoryId="@cat.Id" onclick="return confirmDelete()">Borrar</a></td>
                 <!-- <td><a class="btn btn-link" href="categories/edit/@cat.Id">Edit</a></td>-->
                 <!-- <td><a class="btn btn-link" href="@($"categories/edit/{cat.Id}")">Edit</a></td> -->
             </tr>
