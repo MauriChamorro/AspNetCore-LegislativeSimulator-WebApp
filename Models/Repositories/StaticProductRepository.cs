@@ -28,9 +28,16 @@ public static class StaticProductRepository
 
     public static void AddProduct(Product product)
     {
-        var maxId = _products.Max(x => x.Id);
-        product.Id = maxId + 1;
-        _products.Add(product);
+        if (_products.Count > 0)
+        {
+            var maxId = _products.Max(x => x.Id);
+            product.Id = maxId + 1;
+        }
+        else
+        {
+            product.Id = 1;
+            _products.Add(product);
+        }
     }
 
     public static Product? GetProductById(int id, bool loadCategories = false)

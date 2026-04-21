@@ -11,8 +11,15 @@ public static class StaticCategoriesRepositories
 
     public static void AddCategory(string name, string description)
     {
-        var maxId = _categories.Max(x => x.Id);
-        _categories.Add(new Category { Id = maxId + 1, Name = name, Description = description });
+        if (_categories.Count > 0)
+        {
+            var maxId = _categories.Max(x => x.Id);
+            _categories.Add(new Category { Id = maxId + 1, Name = name, Description = description });
+        }
+        else
+        {
+            _categories.Add(new Category { Id = 1, Name = name, Description = description });
+        }
     }
 
     public static Category[] GetCategories()
