@@ -4,9 +4,10 @@ public static class StaticCategoriesRepositories
 {
     private static readonly List<Category> _categories = new()
     {
-        new Category { Id = 1, Name = "Rolls de Salmon", Description = "Solo Salmon" },
-        new Category { Id = 2, Name = "Rolls de Pescados y Mariscos", Description = "Salmon, Atun rojo, Langostinos" },
-        new Category { Id = 3, Name = "Rolls Cocidos", Description = "Proteinas cocidas" }
+        new Category { Id = 1, Name = "Agua", Description = "Manejo de las emociones" },
+        new Category { Id = 2, Name = "Tierra", Description = "Perseverancia" },
+        new Category { Id = 3, Name = "Aire", Description = "Pensamientos" },
+        new Category { Id = 4, Name = "Fuego", Description = "Acción-Reacción" }
     };
 
     public static void AddCategory(string name, string description)
