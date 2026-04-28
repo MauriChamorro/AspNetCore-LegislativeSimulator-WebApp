@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebAppMVC.Filters;
 using WebAppMVC.Models;
 using WebAppMVC.Models.Repositories;
 
@@ -44,15 +45,16 @@ public class CategoriesController : Controller
     }
 
     [HttpPost]
+    [CategoryAddFilter]
     public IActionResult Add(Category category)
     {
-        ViewBag.Action = "Add";
         if (ModelState.IsValid)
         {
             StaticCategoriesRepositories.AddCategory(category.Name, category.Description);
             return RedirectToAction(nameof(Index));
         }
-
+        
+        ViewBag.Action = "Add";
         return View(category);
     }
 

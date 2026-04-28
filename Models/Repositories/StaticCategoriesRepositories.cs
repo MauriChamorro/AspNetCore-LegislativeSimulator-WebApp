@@ -51,4 +51,7 @@ public static class StaticCategoriesRepositories
         if (cat != null)
             _categories.Remove(cat);
     }
+
+    public static bool Exist(Category category) => 
+        _categories.Any(x => x.Name == category.Name);
 }
