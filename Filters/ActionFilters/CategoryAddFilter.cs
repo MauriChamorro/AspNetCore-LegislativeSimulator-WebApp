@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using WebAppMVC.Models;
 using WebAppMVC.Models.Repositories;
 
-namespace WebAppMVC.Filters;
+namespace WebAppMVC.Filters.ActionFilters;
 
 public class CategoryAddFilter: ActionFilterAttribute
 {

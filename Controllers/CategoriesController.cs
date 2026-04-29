@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Filters;
+using WebAppMVC.Filters.ActionFilters;
+using WebAppMVC.Filters.ExceptionFilters;
 using WebAppMVC.Models;
 using WebAppMVC.Models.Repositories;
 
@@ -23,6 +25,7 @@ public class CategoriesController : Controller
     }
 
     [HttpPost]
+    [CategoryEditExceptionFilter]
     public IActionResult Edit(Category category)
     {
         ViewBag.Action = "Edit";
