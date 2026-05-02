@@ -1,8 +1,10 @@
-namespace WebAppMVC.Models.Repositories;
+using WebAppMVC.Models;
+
+namespace WebAppMVC.Infrastructure.Repositories.StaticRepositories;
 
 public static class StaticCategoriesRepositories
 {
-    private static readonly List<Category> _categories = new()
+    private static readonly List<Category> Categories = new()
     {
         new Category { Id = 1, Name = "Agua", Description = "Manejo de las emociones" },
         new Category { Id = 2, Name = "Tierra", Description = "Perseverancia" },
@@ -12,25 +14,25 @@ public static class StaticCategoriesRepositories
 
     public static void AddCategory(string name, string description)
     {
-        if (_categories.Count > 0)
+        if (Categories.Count > 0)
         {
-            var maxId = _categories.Max(x => x.Id);
-            _categories.Add(new Category { Id = maxId + 1, Name = name, Description = description });
+            var maxId = Categories.Max(x => x.Id);
+            Categories.Add(new Category { Id = maxId + 1, Name = name, Description = description });
         }
         else
         {
-            _categories.Add(new Category { Id = 1, Name = name, Description = description });
+            Categories.Add(new Category { Id = 1, Name = name, Description = description });
         }
     }
 
     public static Category[] GetCategories()
     {
-        return _categories.ToArray();
+        return Categories.ToArray();
     }
 
     public static Category? GetCategoryById(int id)
     {
-        var cat = _categories.FirstOrDefault(x => x.Id == id);
+        var cat = Categories.FirstOrDefault(x => x.Id == id);
         return cat != null
             ? new Category { Id = cat.Id, Name = cat.Name, Description = cat.Description }
             : null;
@@ -38,7 +40,7 @@ public static class StaticCategoriesRepositories
 
     public static void UpdateCategory(Category catUpdated)
     {
-        var cat = _categories.FirstOrDefault(x => x.Id == catUpdated.Id);
+        var cat = Categories.FirstOrDefault(x => x.Id == catUpdated.Id);
         if (cat != null)
         {
             cat.Name = catUpdated.Name;
@@ -48,11 +50,11 @@ public static class StaticCategoriesRepositories
 
     public static void DeleteCategory(int id)
     {
-        var cat = _categories.FirstOrDefault(x => x.Id == id);
+        var cat = Categories.FirstOrDefault(x => x.Id == id);
         if (cat != null)
-            _categories.Remove(cat);
+            Categories.Remove(cat);
     }
 
     public static bool Exist(Category category) => 
-        _categories.Any(x => x.Name == category.Name);
+        Categories.Any(x => x.Name == category.Name);
 }

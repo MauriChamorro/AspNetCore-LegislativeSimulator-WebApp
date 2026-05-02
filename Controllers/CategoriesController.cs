@@ -1,26 +1,30 @@
 using Microsoft.AspNetCore.Mvc;
-using WebAppMVC.Filters;
+using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Filters.ExceptionFilters;
 using WebAppMVC.Models;
-using WebAppMVC.Models.Repositories;
 
 namespace WebAppMVC.Controllers;
 
 public class CategoriesController : Controller
 {
+    private readonly ICategoryRepository _categoryRepository;
+
+    public CategoriesController(ICategoryRepository categoryRepository)
+    {
+        _categoryRepository = categoryRepository;
+    }
     // GET
     public IActionResult Index()
     {
-        var categories = StaticCategoriesRepositories.GetCategories();
+        var categories = _categoryRepository.GetCategories();
         return View(categories);
     }
 
     public IActionResult Edit(int? id)
     {
         ViewBag.Action = "Edit";
-        
-        var cat = StaticCategoriesRepositories.GetCategoryById(id ?? 0);
+        var cat = _categoryRepository.GetCategoryById(id ?? 0);
         return View(cat);
     }
 
@@ -32,7 +36,7 @@ public class CategoriesController : Controller
         
         if (ModelState.IsValid)
         {
-            StaticCategoriesRepositories.UpdateCategory(category);
+            _categoryRepository.UpdateCategory(category);
             return RedirectToAction(nameof(Index));
         }
 
@@ -53,7 +57,7 @@ public class CategoriesController : Controller
     {
         if (ModelState.IsValid)
         {
-            StaticCategoriesRepositories.AddCategory(category.Name, category.Description);
+            _categoryRepository.AddCategory(category.Name, category.Description);
             return RedirectToAction(nameof(Index));
         }
         
@@ -65,7 +69,7 @@ public class CategoriesController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Delete(int categoryId)
     {
-        StaticCategoriesRepositories.DeleteCategory(categoryId);
+        _categoryRepository.DeleteCategory(categoryId);
         return RedirectToAction(nameof(Index));
     }
 }

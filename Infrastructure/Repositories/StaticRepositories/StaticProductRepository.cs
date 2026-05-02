@@ -1,4 +1,6 @@
-namespace WebAppMVC.Models.Repositories;
+using WebAppMVC.Models;
+
+namespace WebAppMVC.Infrastructure.Repositories.StaticRepositories;
 
 public static class StaticProductRepository
 {
