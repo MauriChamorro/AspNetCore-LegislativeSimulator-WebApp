@@ -3,6 +3,7 @@ using WebAppMVC.Contexts;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;
+using WebAppMVC.Infrastructure.Repositories.DbContexts;
 using WebAppMVC.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connect
 
 // Add services to the container.
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
 builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();

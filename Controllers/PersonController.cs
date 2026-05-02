@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Contexts;
 using WebAppMVC.Domain.Models;
+using WebAppMVC.Domain.Repositories;
 
 namespace WebAppMVC.Controllers;
 
@@ -10,17 +11,20 @@ namespace WebAppMVC.Controllers;
 public class PersonController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly IPersonRepository _personRepository;
 
-    public PersonController(AppDbContext context)
+    public PersonController(AppDbContext context, IPersonRepository personRepository)
     {
         _context = context;
+        _personRepository = personRepository;
     }
 
     // GET: api/Person
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Person>>> GetPersons()
     {
-        return await _context.Persons.ToListAsync();
+        //return await _context.Persons.ToListAsync();
+        return await _personRepository.GetAllPersons();
     }
 
     // GET: api/Person/5
