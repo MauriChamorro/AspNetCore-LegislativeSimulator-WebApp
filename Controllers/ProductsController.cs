@@ -45,7 +45,7 @@ public class ProductsController : Controller
         }
         
         ViewBag.Action = "Edit";
-        _productService.UpdateCategories(productVm);
+        _productService.UpdateCategoriesFor(productVm);
         return View(productVm);
     }
     

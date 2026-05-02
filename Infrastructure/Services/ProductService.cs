@@ -14,10 +14,9 @@ public class ProductService: IProductService
         _categoryRepository = categoryRepository;
     }
     
-    public void UpdateCategories(ProductViewModel productVm)
+    public void UpdateCategoriesFor(ProductViewModel productVm)
     {
         productVm.Categories = _categoryRepository.GetCategories();
-
     }
 
     public void UpdateProduct(ProductViewModel productVm)
