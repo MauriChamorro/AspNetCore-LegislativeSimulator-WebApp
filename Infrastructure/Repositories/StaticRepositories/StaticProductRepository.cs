@@ -8,23 +8,11 @@ public static class StaticProductRepository
     {
         new Product
         {
-            Id = 1, Name = "NY", Description = "Salmon Palta", CategoryId = 1, Quantity = 10, Price = 500
+            Id = 1, Name = "Squirtle ", Description = "Pokémon inicial de tipo agua de la primera generación (Kanto, #0007), caracterizado por ser una tortuga celeste de 0,5 m y 9 kg.", CategoryId = 1, Quantity = 1, Price = 500
         },
         new Product
         {
-            Id = 2, Name = "Phila", Description = "Salmon Queso", CategoryId = 1, Quantity = 10, Price = 500
-        },
-        new Product
-        {
-            Id = 3, Name = "NY Phila", Description = "Salmon Palta Queso", CategoryId = 1, Quantity = 10, Price = 500
-        },
-        new Product
-        {
-            Id = 4, Name = "All Fish Roll", Description = "Salmon Palta Queso", CategoryId = 2, Quantity = 10, Price = 600
-        },
-        new Product
-        {
-            Id = 5, Name = "NY Cocido", Description = "Salmon cocido y Palta", CategoryId = 3, Quantity = 10, Price = 550
+            Id = 2, Name = "Cubone", Description = "Pokémon Solitario de tipo Tierra, es conocido por llevar el cráneo de su madre fallecida en la cabeza.", CategoryId = 2, Quantity = 1, Price = 800
         }
     };
 
