@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Contexts;
 using WebAppMVC.Domain.Repositories;
+using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;
+using WebAppMVC.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ var connectionString = builder.Configuration.GetConnectionString("SqliteConnecti
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
 
 // Add services to the container.
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();

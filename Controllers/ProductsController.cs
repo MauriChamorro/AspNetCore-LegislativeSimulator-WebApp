@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models;
+using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Repositories.StaticRepositories;
 using WebAppMVC.ViewModels;
 
@@ -7,6 +8,13 @@ namespace WebAppMVC.Controllers;
 
 public class ProductsController : Controller
 {
+    private readonly IProductService _productService;
+
+    public ProductsController(IProductService productService)
+    {
+        _productService = productService;
+    }
+    
     // GET
     public IActionResult Index()
     {
@@ -32,12 +40,12 @@ public class ProductsController : Controller
     {
         if (ModelState.IsValid)
         {
-            StaticProductRepository.UpdateProduct(productVm.Product);
+            _productService.UpdateProduct(productVm);
             return RedirectToAction(nameof(Index));
         }
         
         ViewBag.Action = "Edit";
-        productVm.Categories = StaticCategoriesRepositories.GetCategories();
+        _productService.UpdateCategories(productVm);
         return View(productVm);
     }
     
