@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebAppMVC.Models.Validations;
+namespace WebAppMVC.Domain.Models.Validations;
 
 public class PersonGraterThan17ValidationAttribute : ValidationAttribute
 {

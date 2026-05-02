@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using WebAppMVC.Domain.Models;
 using WebAppMVC.Infrastructure.Repositories.StaticRepositories;
-using WebAppMVC.Models;
 using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;

@@ -1,4 +1,4 @@
-using WebAppMVC.Models;
+using WebAppMVC.Domain.Models;
 
 namespace WebAppMVC.ViewModels;
 

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using WebAppMVC.Domain.Models;
 using WebAppMVC.Infrastructure.Repositories.StaticRepositories;
-using WebAppMVC.Models;
 
 namespace WebAppMVC.Filters.ExceptionFilters;
 

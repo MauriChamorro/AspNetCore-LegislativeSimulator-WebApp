@@ -1,5 +1,5 @@
+using WebAppMVC.Domain.Models;
 using WebAppMVC.Domain.Repositories;
-using WebAppMVC.Models;
 
 namespace WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;
 

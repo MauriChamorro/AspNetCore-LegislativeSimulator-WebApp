@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using WebAppMVC.Domain.Models;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Filters.ExceptionFilters;
-using WebAppMVC.Models;
 
 namespace WebAppMVC.Controllers;
 

@@ -1,15 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using WebAppMVC.Infrastructure.Repositories.StaticRepositories;
-using WebAppMVC.Models;
+using WebAppMVC.Domain.Models;
+using WebAppMVC.Domain.Repositories;
 
 namespace WebAppMVC.Filters.ActionFilters;
 
 public class CategoryAddFilter: ActionFilterAttribute
 {
+
     public override void OnActionExecuting(ActionExecutingContext context)
     {
         base.OnActionExecuting(context);
+        var categoryRepository = context.HttpContext.RequestServices.GetService<ICategoryRepository>();
 
         var newCategory = (Category)context.ActionArguments["category"]!;
         if (newCategory == null)
@@ -21,7 +23,7 @@ public class CategoryAddFilter: ActionFilterAttribute
             };
             context.Result = new BadRequestObjectResult(problemDetails);
         }
-        else if (StaticCategoriesRepositories.Exist(newCategory))
+        else if (categoryRepository.Exist(newCategory))
         {
             context.ModelState.AddModelError("category", "Category already exists");
             var problemDetails = new ValidationProblemDetails(context.ModelState)

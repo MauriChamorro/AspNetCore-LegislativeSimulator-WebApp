@@ -1,6 +1,6 @@
-using WebAppMVC.Models.Validations;
+using WebAppMVC.Domain.Models.Validations;
 
-namespace WebAppMVC.Models;
+namespace WebAppMVC.Domain.Models;
 
 public class Person
 {
