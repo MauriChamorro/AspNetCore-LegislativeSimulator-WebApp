@@ -1,4 +1,5 @@
 using WebAppMVC.Domain.Models;
+using WebAppMVC.Domain.Models.Products;
 using WebAppMVC.Domain.Repositories;
 
 namespace WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;

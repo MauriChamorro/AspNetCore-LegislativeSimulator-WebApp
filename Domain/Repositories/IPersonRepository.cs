@@ -1,4 +1,5 @@
 using WebAppMVC.Domain.Models;
+using WebAppMVC.Domain.Models.Persons;
 
 namespace WebAppMVC.Domain.Repositories;
 

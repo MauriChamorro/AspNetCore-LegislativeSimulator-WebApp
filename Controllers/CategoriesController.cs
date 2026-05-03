@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models;
+using WebAppMVC.Domain.Models.Products;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Filters.ExceptionFilters;

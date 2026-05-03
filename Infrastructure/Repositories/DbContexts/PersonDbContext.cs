@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Contexts;
 using WebAppMVC.Domain.Models;
+using WebAppMVC.Domain.Models.Persons;
 using WebAppMVC.Domain.Repositories;
 
 namespace WebAppMVC.Infrastructure.Repositories.DbContexts;

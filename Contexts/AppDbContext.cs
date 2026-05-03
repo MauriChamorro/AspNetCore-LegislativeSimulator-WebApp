@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Domain.Models;
+using WebAppMVC.Domain.Models.Persons;
 
 namespace WebAppMVC.Contexts;
 
