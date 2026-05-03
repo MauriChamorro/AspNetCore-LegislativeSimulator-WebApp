@@ -66,10 +66,17 @@ public class PersonController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Person>> PostPerson(Person person)
     {
-        _context.Persons.Add(person);
-        await _context.SaveChangesAsync();
+        try
+        {
+            _context.Persons.Add(person);
+            await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetPerson", new { id = person.PersonId }, person);
+            return CreatedAtAction("GetPerson", new { id = person.PersonId }, person);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
     // DELETE: api/Person/5
