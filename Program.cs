@@ -7,17 +7,42 @@ using WebAppMVC.Infrastructure.Repositories.DbContexts;
 using WebAppMVC.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+//System.IO.File.WriteAllText("identificador_arranque.txt", "builder");
 
+// Crear un logger manual usando la configuración del builder
+using var loggerFactory = LoggerFactory.Create(loggingBuilder => {
+    loggingBuilder.AddConfiguration(builder.Configuration.GetSection("Logging"));
+    loggingBuilder.AddConsole();
+    loggingBuilder.AddDebug();
+});
 
-var connectionString = builder.Configuration.GetConnectionString("SqliteConnection");
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
+ILogger logger = loggerFactory.CreateLogger("Startup");
+try 
+{
+logger.LogInformation("Configurando servicios...");
+logger.LogInformation("GetConnectionString");
+//system.IO.File.WriteAllText("identificador_arranque.txt", "GetConnectionString");
+var connectionString = builder.Configuration.GetConnectionString("DbConnection");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
+logger.LogInformation("InMemoryCategoryRepository");
+//System.IO.File.WriteAllText("identificador_arranque.txt", "InMemoryCategoryRepository");
+
 builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -37,6 +62,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAllOrigins");
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -48,3 +74,11 @@ app.MapControllerRoute(
     "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+}
+catch (Exception ex)
+{
+    // ESTO ES LO QUE NECESITAS EN MONSTERASP
+    logger.LogCritical(ex, "La aplicación falló al arrancar.");
+    throw; // Re-lanzar para que el servidor sepa que falló
+}
