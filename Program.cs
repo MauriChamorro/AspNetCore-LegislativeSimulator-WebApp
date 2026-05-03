@@ -10,71 +10,69 @@ var builder = WebApplication.CreateBuilder(args);
 //System.IO.File.WriteAllText("identificador_arranque.txt", "builder");
 
 // Crear un logger manual usando la configuración del builder
-using var loggerFactory = LoggerFactory.Create(loggingBuilder => {
+using var loggerFactory = LoggerFactory.Create(loggingBuilder =>
+{
     loggingBuilder.AddConfiguration(builder.Configuration.GetSection("Logging"));
     loggingBuilder.AddConsole();
     loggingBuilder.AddDebug();
 });
 
 ILogger logger = loggerFactory.CreateLogger("Startup");
-try 
+try
 {
-logger.LogInformation("Configurando servicios...");
-logger.LogInformation("GetConnectionString");
+    logger.LogInformation("Configurando servicios...");
+    logger.LogInformation("GetConnectionString");
 //system.IO.File.WriteAllText("identificador_arranque.txt", "GetConnectionString");
-var connectionString = builder.Configuration.GetConnectionString("DbConnection");
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
-
 // Add services to the container.
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
-logger.LogInformation("InMemoryCategoryRepository");
-//System.IO.File.WriteAllText("identificador_arranque.txt", "InMemoryCategoryRepository");
 
-builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
-builder.Services.AddControllersWithViews();
-builder.Services.AddSwaggerGen();
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAllOrigins", policy =>
+    var connectionString = builder.Configuration.GetConnectionString("DbConnection");
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+    builder.Services.AddSingleton<IProjectRepository, InMemoryProjectRepository>();
+    builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
+    builder.Services.AddScoped<IProductService, ProductService>();
+    builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
+    builder.Services.AddControllersWithViews();
+    builder.Services.AddSwaggerGen();
+    builder.Services.AddCors(options =>
     {
-        policy.AllowAnyOrigin();
-        policy.AllowAnyHeader();
-        policy.AllowAnyMethod();
+        options.AddPolicy("AllowAllOrigins", policy =>
+        {
+            policy.AllowAnyOrigin();
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
+        });
     });
-});
 
-var app = builder.Build();
+    var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(); // Esto habilita la interfaz gráfica
-}
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI(); // Esto habilita la interfaz gráfica
+    }
 
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseExceptionHandler("/Home/Error");
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+    }
 
-app.UseHttpsRedirection();
-app.UseCors("AllowAllOrigins");
-app.UseStaticFiles();
+    app.UseHttpsRedirection();
+    app.UseCors("AllowAllOrigins");
+    app.UseStaticFiles();
 
-app.UseRouting();
+    app.UseRouting();
 
-app.UseAuthorization();
+    app.UseAuthorization();
 
-app.MapControllerRoute(
-    "default",
-    "{controller=Home}/{action=Index}/{id?}");
+    app.MapControllerRoute(
+        "default",
+        "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
-
+    app.Run();
 }
 catch (Exception ex)
 {
