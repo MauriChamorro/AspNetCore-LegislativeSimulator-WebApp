@@ -2,15 +2,30 @@
 @model List<Project>
 
 @section title {
-    <h1 class="display-4">Proyectos</h1>
+    <h1 class="display-4">Mis Proyectos</h1>
 }
 
 @{
-    foreach (var project in Model)
-    {
-        <ul>
-            <li>@project.Title</li>
-        </ul>
-    }
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Nro Expediente</th>
+            <th scope="col">Título</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Fecha Estado</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var @project in Model)
+        {
+            <tr>
+                <th scope="row">@project.Id</th>
+                <td>@project.Title</td>
+                <td>@project.State.ProjectStateName</td>
+                <td>@project.State.ChangeDate.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
 <a class="btn btn-primary" asp-controller="Projects" asp-action="Add" role="button">Agregar</a>
