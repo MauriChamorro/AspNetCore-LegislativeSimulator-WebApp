@@ -21,14 +21,14 @@ public class ProjectsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Add(int id)
+    public IActionResult Edit(int id)
     {
         var project = _projectRepository.GerProjectById(id);
         return View(project);
     }
     
     [HttpPost]
-    public IActionResult Add(Project project)
+    public IActionResult Edit(Project project)
     {
         if (!ModelState.IsValid)
         {

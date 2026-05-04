@@ -6,7 +6,7 @@
     <h2>@Model.Title [@Model.State.ProjectStateName]</h2>
 }
 
-<form method="post" asp-controller="Projects" asp-action="Add">
+<form method="post" asp-controller="Projects" asp-action="Edit">
     <input type="hidden" asp-for="ProjectStateId"/>
     <input type="hidden" asp-for="State.Id"/>
     <input type="hidden" asp-for="State.ProjectStateName"/>

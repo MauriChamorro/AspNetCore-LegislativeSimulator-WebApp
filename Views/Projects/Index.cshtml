@@ -24,11 +24,11 @@
                 <td>@project.State.ProjectStateName</td>
                 <td>@project.State.ChangeDate.ToString("dd/MM/yyyy")</td>
                 <td>
-                    <a class="btn btn-success" asp-controller="Projects" asp-action="Add" asp-route-id="@project.Id">Ver</a>
+                    <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@project.Id">Ver</a>
                 </td>
             </tr>
         }
         </tbody>
     </table>
 }
-<a class="btn btn-primary" asp-controller="Projects" asp-action="Add" role="button">Agregar</a>
+<a class="btn btn-primary" asp-controller="Projects" asp-action="Edit" role="button">Agregar</a>
