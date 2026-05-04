@@ -48,7 +48,8 @@ public class ProjectsController : Controller
             }
             return View(project);
         }
-
-        return Index();
+        
+        _projectRepository.Update(project);
+        return RedirectToAction(nameof(Index));
     }
 }

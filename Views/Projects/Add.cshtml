@@ -7,6 +7,10 @@
 }
 
 <form method="post" asp-controller="Projects" asp-action="Add">
+    <input type="hidden" asp-for="ProjectStateId"/>
+    <input type="hidden" asp-for="State.Id"/>
+    <input type="hidden" asp-for="State.ProjectStateName"/>
+    <input type="hidden" asp-for="State.ChangeDate"/>
     <div class="row mb-3">
         <div class="col-2">
             <label class="col-form-label">Nro Expediente</label>
@@ -52,7 +56,7 @@
             <span class="text-danger" asp-validation-for="Summary"></span>
         </div>
     </div>
-    
+
     <!-- Confirm Button -->
     <div class="row mb-3">
         <div class="col-2">

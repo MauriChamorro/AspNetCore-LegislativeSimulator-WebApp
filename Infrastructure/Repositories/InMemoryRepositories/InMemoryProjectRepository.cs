@@ -16,7 +16,7 @@ public class InMemoryProjectRepository : IProjectRepository
                 Id = 1,
                 Title = "Ley de Glaciares",
                 Articles = "Art.2 ... Art.2 ...",
-                State = ProjectState.Scratch
+                State = new ProjectState { Id = 1, ProjectStateName = "Borrador", ChangeDate = DateTime.Now }
             });
         _projects.Add(
             new Project
@@ -24,7 +24,10 @@ public class InMemoryProjectRepository : IProjectRepository
                 Id = 2,
                 Title = "Ley de Libertad Educativa",
                 Articles = "Art.2 ... Art.2 ...",
-                State = ProjectState.InCommission
+                State = new ProjectState
+                {
+                    Id = 2, ProjectStateName = "En Comisión", ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(10))
+                }
             });
     }
 
@@ -35,6 +38,16 @@ public class InMemoryProjectRepository : IProjectRepository
 
     public Project GerProjectById(int id)
     {
-       return _projects.First(p => p.Id == id);
+        return _projects.First(p => p.Id == id);
+    }
+
+    public void Update(Project project)
+    {
+        var oldProject = GerProjectById(project.Id);
+        oldProject.Title = project.Title;
+        oldProject.Articles = project.Articles;
+        oldProject.Fundaments = project.Fundaments;
+        oldProject.Summary = project.Summary;
+        oldProject.State = project.State;
     }
 }

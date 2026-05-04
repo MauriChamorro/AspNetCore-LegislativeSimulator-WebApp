@@ -6,4 +6,5 @@ public interface IProjectRepository
 {
     List<Project> GetProjects();
     Project GerProjectById(int id);
+    void Update(Project project);
 }
