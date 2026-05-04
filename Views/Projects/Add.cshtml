@@ -1,11 +1,12 @@
-@model WebAppMVC.Domain.Models.Projects.Project
+@using WebAppMVC.Domain.Models.Projects
+@model Project
 
 @section title
 {
     <h2>@Model.Title [@Model.State.ProjectStateName]</h2>
 }
 
-<form>
+<form method="post" asp-controller="Projects" asp-action="Add">
     <div class="row mb-3">
         <div class="col-2">
             <label class="col-form-label">Nro Expediente</label>
@@ -19,30 +20,45 @@
             <label class="col-form-label">Título</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="@Model.Title" class="form-control"/>
+            <input type="text" asp-for="Title" class="form-control"/>
         </div>
         <div class="col">
-            <span class="text-danger" asp-validation-for="@Model.Title"></span>
+            <span class="text-danger" asp-validation-for="Title"></span>
         </div>
     </div>
     <div>
-        <label asp-for="@Model.Articles" class="form-label mt-4">Artículos</label>
-        <textarea class="form-control" id="articles" rows="5" ></textarea>
+        <label asp-for="Articles" class="form-label mt-4">Artículos</label>
+        <textarea class="form-control" id="articles" rows="5" asp-for="Articles"></textarea>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Articles"></span>
+        </div>
     </div>
     <div>
-        <label asp-for="@Model.Fundaments" class="form-label mt-4">Fundamentos</label>
-        <textarea class="form-control" id="fundaments" rows="5" ></textarea>
+        <label asp-for="Fundaments" class="form-label mt-4">Fundamentos</label>
+        <textarea class="form-control" id="fundaments" rows="5" asp-for="Fundaments"></textarea>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Fundaments"></span>
+        </div>
     </div>
     <br/>
     <div id="summary" class="row mb-3">
         <div class="col-2">
-            <label class="col-form-label">Resúmen</label>
+            <label class="col-form-label">Resumen</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="@Model.Summary" class="form-control"/>
+            <input type="text" asp-for="Summary" class="form-control"/>
         </div>
         <div class="col">
-            <span class="text-danger" asp-validation-for="@Model.Title"></span>
+            <span class="text-danger" asp-validation-for="Summary"></span>
+        </div>
+    </div>
+    
+    <!-- Confirm Button -->
+    <div class="row mb-3">
+        <div class="col-2">
+            <input type="submit" class="btn btn-primary" value="Actualizar"/>
+        </div>
+        <div class="col-6">
         </div>
     </div>
 </form>

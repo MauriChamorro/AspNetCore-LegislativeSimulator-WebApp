@@ -16,7 +16,6 @@ public class InMemoryProjectRepository : IProjectRepository
                 Id = 1,
                 Title = "Ley de Glaciares",
                 Articles = "Art.2 ... Art.2 ...",
-                Tags = new List<ProjectTag> { ProjectTag.PublicBuildings, ProjectTag.Emvironment },
                 State = ProjectState.Scratch
             });
         _projects.Add(
@@ -25,7 +24,6 @@ public class InMemoryProjectRepository : IProjectRepository
                 Id = 2,
                 Title = "Ley de Libertad Educativa",
                 Articles = "Art.2 ... Art.2 ...",
-                Tags = new List<ProjectTag> { ProjectTag.Education },
                 State = ProjectState.InCommission
             });
     }

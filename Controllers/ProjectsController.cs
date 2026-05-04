@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
 
 namespace WebAppMVC.Controllers;
@@ -23,5 +24,17 @@ public class ProjectsController : Controller
     {
         var project = _projectRepository.GerProjectById(id);
         return View(project);
+    }
+    
+    [HttpPost]
+    public IActionResult Add(Project project)
+    {
+        if (!ModelState.IsValid)
+        {
+            var auxProject = _projectRepository.GerProjectById(project.Id);
+            return View(auxProject);
+        }
+
+        return Index();
     }
 }
