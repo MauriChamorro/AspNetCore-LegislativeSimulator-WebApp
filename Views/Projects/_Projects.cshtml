@@ -1,0 +1,73 @@
+@model Project
+
+@{
+    string action = ViewBag.Action ?? string.Empty;
+}
+
+<form method="post" asp-controller="Projects" asp-action=@action>
+
+    @if (action.ToLower() != "add")
+    {
+        <input type="hidden" asp-for="State.Id"/>
+        <input type="hidden" asp-for="State.ProjectStateName"/>
+        <input type="hidden" asp-for="State.ChangeDate"/>
+    }
+    @if (action.ToLower() != "add")
+    {
+        <div class="row mb-3">
+            <div class="col-2">
+                <label class="col-form-label">Nro Expediente</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" readonly="" class="form-control-plaintext fw-bold" value="@Model.Id">
+            </div>
+        </div>
+    }
+    
+    <div id="title" class="row mb-3">
+        <div class="col-2">
+            <label class="col-form-label">Título</label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="Title" class="form-control"/>
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Title"></span>
+        </div>
+    </div>
+    <div>
+        <label asp-for="Articles" class="form-label mt-4">Artículos</label>
+        <textarea class="form-control" id="articles" rows="5" asp-for="Articles"></textarea>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Articles"></span>
+        </div>
+    </div>
+    <div>
+        <label asp-for="Fundaments" class="form-label mt-4">Fundamentos</label>
+        <textarea class="form-control" id="fundaments" rows="5" asp-for="Fundaments"></textarea>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Fundaments"></span>
+        </div>
+    </div>
+    <br/>
+    <div id="summary" class="row mb-3">
+        <div class="col-2">
+            <label class="col-form-label">Resumen</label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="Summary" class="form-control"/>
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Summary"></span>
+        </div>
+    </div>
+
+    <!-- Confirm Button -->
+    <div class="row mb-3">
+        <div class="col-2">
+            <input type="submit" class="btn btn-primary" value="Actualizar"/>
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+</form>

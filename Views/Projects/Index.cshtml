@@ -1,4 +1,3 @@
-@using WebAppMVC.Domain.Models.Projects
 @model List<Project>
 
 @section title {
@@ -23,7 +22,7 @@
                 <td>@project.Title</td>
                 <td>@project.State.ProjectStateName</td>
                 <td>@project.State.ChangeDate.ToString("dd/MM/yyyy")</td>
-                <td>
+                <td><!-- TODO: Segun el estado, mostrar ciertos botones -->
                     <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@project.Id">Ver</a>
                 </td>
             </tr>
@@ -31,4 +30,5 @@
         </tbody>
     </table>
 }
-<a class="btn btn-primary" asp-controller="Projects" asp-action="Edit" role="button">Agregar</a>
+<br/>
+<a class="btn btn-primary" asp-controller="Projects" asp-action="Add" role="button">Nuevo Proyecto</a>

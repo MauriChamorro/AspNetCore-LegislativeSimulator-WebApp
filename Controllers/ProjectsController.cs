@@ -21,8 +21,23 @@ public class ProjectsController : Controller
     }
 
     [HttpGet]
+    public IActionResult Add()
+    {
+        ViewBag.Action = "add";
+        var newProject = new Project
+        {
+            State = new ProjectState
+            {
+                Id = 2, ProjectStateName = "Borrador", ChangeDate = DateTime.Now
+            }
+        };
+        return View(newProject);
+    }
+    
+    [HttpGet]
     public IActionResult Edit(int id)
     {
+        ViewBag.Action = "edit";
         var project = _projectRepository.GerProjectById(id);
         return View(project);
     }
@@ -30,6 +45,7 @@ public class ProjectsController : Controller
     [HttpPost]
     public IActionResult Edit(Project project)
     {
+        ViewBag.Action = "edit";
         if (!ModelState.IsValid)
         {
             var auxProject = _projectRepository.GerProjectById(project.Id);
@@ -43,7 +59,6 @@ public class ProjectsController : Controller
                 project.Summary = auxProject.Summary;
             if (project.State == null)
             {
-                project.ProjectStateId = auxProject.ProjectStateId;
                 project.State = auxProject.State;
             }
             return View(project);

@@ -17,7 +17,6 @@ public class Project
     public string Fundaments { get; set; } = string.Empty;
     [Required(ErrorMessage = "El campo Resumen es obligatorio")] [Display(Name = "Resumen")]
     public string Summary { get; set; } = string.Empty;
-    public int ProjectStateId { get; set; }
     [Required]
     public ProjectState State { get; set; }
 }
