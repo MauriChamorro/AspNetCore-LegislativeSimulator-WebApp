@@ -21,6 +21,7 @@ public class ProjectsController : Controller
     [HttpGet]
     public IActionResult Add(int id)
     {
-        return View();
+        var project = _projectRepository.GerProjectById(id);
+        return View(project);
     }
 }

@@ -34,4 +34,9 @@ public class InMemoryProjectRepository : IProjectRepository
     {
         return _projects.ToList();
     }
+
+    public Project GerProjectById(int id)
+    {
+       return _projects.First(p => p.Id == id);
+    }
 }

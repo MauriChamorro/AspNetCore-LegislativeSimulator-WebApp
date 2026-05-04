@@ -5,4 +5,5 @@ namespace WebAppMVC.Domain.Repositories;
 public interface IProjectRepository
 {
     List<Project> GetProjects();
+    Project GerProjectById(int id);
 }

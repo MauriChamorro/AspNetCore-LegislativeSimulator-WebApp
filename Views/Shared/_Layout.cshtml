@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - ExpedientesAr</title>
     <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true"/>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header>
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container-fluid">
@@ -35,11 +35,12 @@
 <div class="text-center">
     @RenderSection("title")
 </div>
-<div class="container">
-    @RenderBody()
-</div>
-
-<footer class="border-b footer text-muted" >
+<main class="flex-grow-1">
+    <div class="container py-4"> 
+        @RenderBody()
+    </div>
+</main>
+<footer class="py-3 border-b footer text-muted" >
     <div class="container">
         &copy; 2026 - ExpedientesAr - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
     </div>
