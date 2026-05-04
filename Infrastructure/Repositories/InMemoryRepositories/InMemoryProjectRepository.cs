@@ -50,4 +50,10 @@ public class InMemoryProjectRepository : IProjectRepository
         oldProject.Summary = project.Summary;
         oldProject.State = project.State;
     }
+
+    public void AddNewProject(Project project)
+    {
+        project.Id = _projects.Max(p => p.Id) + 1;
+        _projects.Add(project);
+    }
 }

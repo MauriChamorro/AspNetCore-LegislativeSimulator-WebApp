@@ -6,11 +6,12 @@
 
 <form method="post" asp-controller="Projects" asp-action=@action>
 
+    <input type="hidden" asp-for="State.ProjectStateName"/>
+    <input type="hidden" asp-for="State.ChangeDate"/>
+    
     @if (action.ToLower() != "add")
     {
         <input type="hidden" asp-for="State.Id"/>
-        <input type="hidden" asp-for="State.ProjectStateName"/>
-        <input type="hidden" asp-for="State.ChangeDate"/>
     }
     @if (action.ToLower() != "add")
     {

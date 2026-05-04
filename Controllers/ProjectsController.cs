@@ -34,6 +34,26 @@ public class ProjectsController : Controller
         return View(newProject);
     }
     
+    [HttpPost]
+    public IActionResult Add(Project project)
+    {
+        ViewBag.Action = "add";
+        
+        if (!ModelState.IsValid)
+        {
+            var emptyProject = new Project
+            {
+                Articles = "Art.2 ... Art.2 ...",
+                State = new ProjectState { Id = 1, ProjectStateName = "Borrador", ChangeDate = DateTime.Now }
+            };
+            UpdateMissingValues(project, emptyProject);
+            return View(project);
+        }
+
+        _projectRepository.AddNewProject(project);
+        return RedirectToAction(nameof(Index));
+    }
+    
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -49,22 +69,28 @@ public class ProjectsController : Controller
         if (!ModelState.IsValid)
         {
             var auxProject = _projectRepository.GerProjectById(project.Id);
-            if (project.Title.IsNullOrEmpty())
-                project.Title = auxProject.Title;
-            if (project.Fundaments.IsNullOrEmpty())
-                project.Fundaments = auxProject.Fundaments;
-            if (project.Articles.IsNullOrEmpty())
-                project.Articles = auxProject.Articles;
-            if (project.Summary.IsNullOrEmpty())
-                project.Summary = auxProject.Summary;
-            if (project.State == null)
-            {
-                project.State = auxProject.State;
-            }
+            
+            UpdateMissingValues(project, auxProject);
             return View(project);
         }
         
         _projectRepository.Update(project);
         return RedirectToAction(nameof(Index));
+    }
+
+    private void UpdateMissingValues(Project project, Project auxProject)
+    {
+        if (project.Title.IsNullOrEmpty())
+            project.Title = auxProject.Title;
+        if (project.Fundaments.IsNullOrEmpty())
+            project.Fundaments = auxProject.Fundaments;
+        if (project.Articles.IsNullOrEmpty())
+            project.Articles = auxProject.Articles;
+        if (project.Summary.IsNullOrEmpty())
+            project.Summary = auxProject.Summary;
+        if (project.State == null)
+        {
+            project.State = auxProject.State;
+        }
     }
 }

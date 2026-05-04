@@ -7,4 +7,5 @@ public interface IProjectRepository
     List<Project> GetProjects();
     Project GerProjectById(int id);
     void Update(Project project);
+    void AddNewProject(Project project);
 }
