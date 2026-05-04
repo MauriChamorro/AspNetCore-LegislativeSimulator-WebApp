@@ -14,6 +14,7 @@ public class ProjectsController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var projects = _projectRepository.GetProjects();
+        return View(projects);
     }
 }

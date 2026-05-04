@@ -1,6 +1,16 @@
+@using WebAppMVC.Domain.Models.Projects
+@model List<Project>
+
 @section title {
     <h1 class="display-4">Proyectos</h1>
 }
 
-
+@{
+    foreach (var project in Model)
+    {
+        <ul>
+            <li>@project.Title</li>
+        </ul>
+    }
+}
 <a class="btn btn-primary" asp-controller="Projects" asp-action="Add" role="button">Agregar</a>

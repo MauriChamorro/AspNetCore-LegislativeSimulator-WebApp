@@ -10,6 +10,4 @@ public class Project
     public List<ProjectTag> Tags { get; set; }
     public int ProjectStateId { get; set; }
     public ProjectState State { get; set; }
-    public int LawmakerId { get; set; }
-    public Lawmaker Lawmaker { get; set; }
 }
