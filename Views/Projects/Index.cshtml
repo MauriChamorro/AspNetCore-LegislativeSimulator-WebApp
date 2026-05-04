@@ -22,9 +22,18 @@
                 <td>@project.Title</td>
                 <td>@project.State.ProjectStateName</td>
                 <td>@project.State.ChangeDate.ToString("dd/MM/yyyy")</td>
-                <td><!-- TODO: Segun el estado, mostrar ciertos botones -->
-                    <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@project.Id">Ver</a>
-                </td>
+                @if (project.State.Id == 1)
+                {
+                    <td><!-- TODO: Segun el estado, mostrar ciertos botones -->
+                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@project.Id">Editar</a>
+                    </td>
+                };
+                @if (project.State.Id == 2)
+                {
+                    <td><!-- TODO: Segun el estado, mostrar ciertos botones -->
+                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@project.Id">Ver</a>
+                    </td>
+                };
             </tr>
         }
         </tbody>

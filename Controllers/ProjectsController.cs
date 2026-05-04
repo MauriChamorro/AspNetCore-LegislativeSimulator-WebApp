@@ -89,8 +89,6 @@ public class ProjectsController : Controller
         if (project.Summary.IsNullOrEmpty())
             project.Summary = auxProject.Summary;
         if (project.State == null)
-        {
             project.State = auxProject.State;
-        }
     }
 }
