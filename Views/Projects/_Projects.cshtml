@@ -2,13 +2,14 @@
 
 @{
     string action = ViewBag.Action ?? string.Empty;
+    string callToAction = action.ToLower() != "edit" ? "Crear" : "Actualizar";
 }
 
 <form method="post" asp-controller="Projects" asp-action=@action>
 
     <input type="hidden" asp-for="State.ProjectStateName"/>
     <input type="hidden" asp-for="State.ChangeDate"/>
-    
+
     @if (action.ToLower() != "add")
     {
         <input type="hidden" asp-for="State.Id"/>
@@ -24,7 +25,7 @@
             </div>
         </div>
     }
-    
+
     <div id="title" class="row mb-3">
         <div class="col-2">
             <label class="col-form-label">Título</label>
@@ -63,10 +64,10 @@
         </div>
     </div>
 
-    <!-- Confirm Button -->
+    <!-- Actualizar Button -->
     <div class="row mb-3">
         <div class="col-2">
-            <input type="submit" class="btn btn-primary" value="Actualizar"/>
+            <input type="submit" class="btn btn-primary" value="@callToAction"/>
         </div>
         <div class="col-6">
         </div>
