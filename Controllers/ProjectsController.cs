@@ -17,4 +17,10 @@ public class ProjectsController : Controller
         var projects = _projectRepository.GetProjects();
         return View(projects);
     }
+
+    [HttpGet]
+    public IActionResult Add(int id)
+    {
+        return View();
+    }
 }
