@@ -5,6 +5,7 @@ using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;
 using WebAppMVC.Infrastructure.Repositories.DbContexts;
 using WebAppMVC.Infrastructure.Services;
+using WebAppMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 //System.IO.File.WriteAllText("identificador_arranque.txt", "builder");
@@ -30,6 +31,7 @@ try
     builder.Services.AddSingleton<IProjectRepository, InMemoryProjectRepository>();
     builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
     builder.Services.AddScoped<IProductService, ProductService>();
+    builder.Services.AddScoped<IProjectViewModelService, ProjectViewModelService>();
     builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
     builder.Services.AddControllersWithViews();
     builder.Services.AddSwaggerGen();

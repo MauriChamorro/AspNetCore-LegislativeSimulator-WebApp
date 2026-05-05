@@ -1,4 +1,4 @@
-@model List<Project>
+@model List<ProjectViewModel>
 
 @section title {
     <h1 class="display-4">Mis Proyectos</h1>
@@ -15,23 +15,24 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var @project in Model)
+        @foreach (var @projectVm in Model)
         {
             <tr>
-                <th scope="row">@project.Id</th>
-                <td>@project.Title</td>
-                <td>@project.State.ProjectStateName</td>
-                <td>@project.State.ChangeDate.ToString("dd/MM/yyyy")</td>
-                @if (project.State.Id == 1)
+                <th scope="row">@projectVm.ProjectId</th>
+                <td>@projectVm.Title</td>
+                <td>@projectVm.StateName</td>
+                <td>@projectVm.StateDate.ToString("dd/MM/yyyy")</td>
+                <!-- TODO: Centralizar el nombre de los estados para cambiar solo en un lugar -->
+                @if (projectVm.StateName == "Borrador")
                 {
-                    <td><!-- TODO: Segun el estado, mostrar ciertos botones -->
-                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@project.Id">Editar</a>
+                    <td>
+                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@@projectVm.Id">Editar</a>
                     </td>
                 };
-                @if (project.State.Id == 2)
+                @if (@projectVm.StateName == "En Comisión")
                 {
-                    <td><!-- TODO: Segun el estado, mostrar ciertos botones -->
-                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@project.Id">Ver</a>
+                    <td>
+                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@@projectVm.Id">Ver</a>
                     </td>
                 };
             </tr>

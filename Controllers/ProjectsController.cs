@@ -2,22 +2,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
+using WebAppMVC.Services;
 
 namespace WebAppMVC.Controllers;
 
 public class ProjectsController : Controller
 {
     private readonly IProjectRepository _projectRepository;
+    private readonly IProjectViewModelService _projectViewModelService;
 
-    public ProjectsController(IProjectRepository projectRepository)
+    public ProjectsController(IProjectRepository projectRepository, IProjectViewModelService projectViewModelService)
     {
         _projectRepository = projectRepository;
+        _projectViewModelService = projectViewModelService;
     }
 
     public IActionResult Index()
     {
         var projects = _projectRepository.GetProjects();
-        return View(projects);
+        var projectVms = _projectViewModelService.ToProjectsVm(projects);
+        return View(projectVms);
     }
 
     [HttpGet]
