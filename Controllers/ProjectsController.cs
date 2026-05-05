@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Services;
+using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
 
@@ -28,18 +29,16 @@ public class ProjectsController : Controller
     public IActionResult Add()
     {
         ViewBag.Action = "add";
-        var newProject = new Project
+        var newProject = new ProjectViewModel
         {
-            State = new ProjectState
-            {
-                Id = 2, ProjectStateName = "Borrador", ChangeDate = DateTime.Now
-            }
+            StateName = "Borrador",
+            StateDate = DateTime.Now
         };
         return View(newProject);
     }
     
     [HttpPost]
-    public IActionResult Add(Project project)
+    public IActionResult Add(ProjectViewModel projectVm)
     {
         ViewBag.Action = "add";
         
@@ -50,49 +49,52 @@ public class ProjectsController : Controller
                 Articles = "Art.2 ... Art.2 ...",
                 State = new ProjectState { Id = 1, ProjectStateName = "Borrador", ChangeDate = DateTime.Now }
             };
-            UpdateMissingValues(project, emptyProject);
-            return View(project);
+            UpdateMissingValues(projectVm, emptyProject);
+            return View(projectVm);
         }
 
-        _projectRepository.AddNewProject(project);
+        var newProject = _projectViewModelService.ToProject(projectVm);
+        _projectRepository.AddNewProject(newProject);
         return RedirectToAction(nameof(Index));
     }
     
     [HttpGet]
-    public IActionResult Edit(int id)
+    public IActionResult Edit(int projectId)
     {
         ViewBag.Action = "edit";
-        var project = _projectRepository.GerProjectById(id);
-        return View(project);
+        var project = _projectRepository.GerProjectById(projectId);
+        return View(_projectViewModelService.ToProjectVm(project));
     }
     
     [HttpPost]
-    public IActionResult Edit(Project project)
+    public IActionResult Edit(ProjectViewModel projectVm)
     {
         ViewBag.Action = "edit";
         if (!ModelState.IsValid)
         {
-            var auxProject = _projectRepository.GerProjectById(project.Id);
-            
-            UpdateMissingValues(project, auxProject);
-            return View(project);
+            var auxProject = _projectRepository.GerProjectById(projectVm.ProjectId);
+            UpdateMissingValues(projectVm, auxProject);
+            return View(projectVm);
         }
-        
-        _projectRepository.Update(project);
+        var editedProject = _projectViewModelService.ToProject(projectVm);
+        _projectRepository.Update(editedProject);
         return RedirectToAction(nameof(Index));
     }
 
-    private void UpdateMissingValues(Project project, Project auxProject)
+    private void UpdateMissingValues(ProjectViewModel projectVm, Project auxProject)
     {
-        if (project.Title.IsNullOrEmpty())
-            project.Title = auxProject.Title;
-        if (project.Fundaments.IsNullOrEmpty())
-            project.Fundaments = auxProject.Fundaments;
-        if (project.Articles.IsNullOrEmpty())
-            project.Articles = auxProject.Articles;
-        if (project.Summary.IsNullOrEmpty())
-            project.Summary = auxProject.Summary;
-        if (project.State == null)
-            project.State = auxProject.State;
+        if (projectVm.Title.IsNullOrEmpty())
+            projectVm.Title = auxProject.Title;
+        if (projectVm.Fundaments.IsNullOrEmpty())
+            projectVm.Fundaments = auxProject.Fundaments;
+        if (projectVm.Articles.IsNullOrEmpty())
+            projectVm.Articles = auxProject.Articles;
+        if (projectVm.Summary.IsNullOrEmpty())
+            projectVm.Summary = auxProject.Summary;
+        if (projectVm.StateName.IsNullOrEmpty())
+        {
+            projectVm.StateName = auxProject.State.ProjectStateName;
+            projectVm.StateDate = auxProject.State.ChangeDate;
+        }
     }
 }

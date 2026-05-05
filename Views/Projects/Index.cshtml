@@ -26,13 +26,13 @@
                 @if (projectVm.StateName == "Borrador")
                 {
                     <td>
-                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@@projectVm.Id">Editar</a>
+                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-projectId="@projectVm.ProjectId">Editar</a>
                     </td>
                 };
                 @if (@projectVm.StateName == "En Comisión")
                 {
                     <td>
-                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-id="@@projectVm.Id">Ver</a>
+                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-projectId="@projectVm.ProjectId">Ver</a>
                     </td>
                 };
             </tr>
