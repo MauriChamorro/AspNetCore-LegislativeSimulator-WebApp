@@ -2,11 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Contexts;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;
 using WebAppMVC.Infrastructure.Repositories.DbContexts;
 using WebAppMVC.Infrastructure.Services;
-using WebAppMVC.Services;
-using WebAppMVC.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.ViewModels;
 
-namespace WebAppMVC.Services.Interfaces;
+namespace WebAppMVC.Infrastructure.Interfaces;
 
 public interface IProjectViewModelService
 {
@@ -10,4 +10,5 @@ public interface IProjectViewModelService
     void UpdateMissingValues(ProjectViewModel projectVm, Project auxProject);
     Project ToProject(ProjectViewModel projectVm);
     ProjectViewModel ToProjectVm(Project project);
+    void SetCommissions(ProjectViewModel projectViewModel, AssignedCommissions assignedCommissions);
 }

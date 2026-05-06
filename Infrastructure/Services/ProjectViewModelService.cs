@@ -1,9 +1,9 @@
 using Microsoft.IdentityModel.Tokens;
 using WebAppMVC.Domain.Models.Projects;
-using WebAppMVC.Services.Interfaces;
+using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.ViewModels;
 
-namespace WebAppMVC.Services;
+namespace WebAppMVC.Infrastructure.Services;
 
 public class ProjectViewModelService: IProjectViewModelService
 {
@@ -78,4 +78,19 @@ public class ProjectViewModelService: IProjectViewModelService
             StateDate = project.State.ChangeDate,
             CanEdit = _projectStateService.CanEdit(project.State)
         };
+
+    public void SetCommissions(ProjectViewModel projectViewModel, AssignedCommissions assignedCommissions)
+    {
+        projectViewModel.Commissions = new List<CommissionViewModel>();
+        foreach (var assignedCommission in assignedCommissions.Commissions)
+        {
+            projectViewModel.Commissions.Add(
+                new()
+                {
+                    Name = assignedCommission.Name,
+                    Color = "bg-info"
+                }
+            );
+        }
+    }
 }

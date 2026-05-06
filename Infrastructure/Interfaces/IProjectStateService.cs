@@ -1,6 +1,6 @@
 using WebAppMVC.Domain.Models.Projects;
 
-namespace WebAppMVC.Services.Interfaces;
+namespace WebAppMVC.Infrastructure.Interfaces;
 
 public interface IProjectStateService
 {
