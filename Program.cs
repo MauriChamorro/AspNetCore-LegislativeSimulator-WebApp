@@ -30,6 +30,7 @@ try
     builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
     builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<IProjectStateService, ProjectStateService>();
+    builder.Services.AddScoped<ICommissionService, CommissionService>();
     builder.Services.AddScoped<IProjectViewModelService, ProjectViewModelService>();
     builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
     builder.Services.AddControllersWithViews();

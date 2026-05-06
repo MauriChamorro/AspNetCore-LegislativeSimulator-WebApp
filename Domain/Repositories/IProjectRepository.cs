@@ -5,7 +5,7 @@ namespace WebAppMVC.Domain.Repositories;
 public interface IProjectRepository
 {
     List<Project> GetProjects();
-    Project GerProjectById(int id);
+    Project GetProjectById(int id);
     void Update(Project project);
     void AddNewProject(Project project);
 }

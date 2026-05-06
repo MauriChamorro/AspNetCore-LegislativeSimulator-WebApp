@@ -62,7 +62,7 @@ public class ProjectsController : Controller
     public IActionResult Edit(int projectId)
     {
         ViewBag.Action = "edit";
-        var project = _projectRepository.GerProjectById(projectId);
+        var project = _projectRepository.GetProjectById(projectId);
         return View(_projectViewModelService.ToProjectVm(project));
     }
     
@@ -72,7 +72,7 @@ public class ProjectsController : Controller
         ViewBag.Action = "edit";
         if (!ModelState.IsValid)
         {
-            var auxProject = _projectRepository.GerProjectById(projectVm.ProjectId);
+            var auxProject = _projectRepository.GetProjectById(projectVm.ProjectId);
             _projectViewModelService.UpdateMissingValues(projectVm, auxProject);
             return View(projectVm);
         }

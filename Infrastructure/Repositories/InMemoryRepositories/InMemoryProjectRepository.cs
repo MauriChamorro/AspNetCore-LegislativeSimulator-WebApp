@@ -15,7 +15,7 @@ public class InMemoryProjectRepository : IProjectRepository
             {
                 Id = 1,
                 Title = "Ley de Glaciares",
-                Articles = "Art.2 ... Art.2 ...",
+                Articles = "Art.1: Glaciares \n Art.2 ...",
                 State = new ProjectState
                 {
                     CurrentState = FileState.Scratch,
@@ -40,14 +40,14 @@ public class InMemoryProjectRepository : IProjectRepository
         return _projects.ToList();
     }
 
-    public Project GerProjectById(int id)
+    public Project GetProjectById(int id)
     {
         return _projects.First(p => p.Id == id);
     }
 
     public void Update(Project project)
     {
-        var oldProject = GerProjectById(project.Id);
+        var oldProject = GetProjectById(project.Id);
         oldProject.Title = project.Title;
         oldProject.Articles = project.Articles;
         oldProject.Fundaments = project.Fundaments;
