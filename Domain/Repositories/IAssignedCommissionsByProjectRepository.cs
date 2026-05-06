@@ -6,4 +6,5 @@ public interface IAssignedCommissionsByProjectRepository
 {
     void AddAssignedCommissions(AssignedCommissions assignedCommissions);
     AssignedCommissions GetCommissionsFor(int projectId);
+    bool ExistProjectId(int projectId);
 }

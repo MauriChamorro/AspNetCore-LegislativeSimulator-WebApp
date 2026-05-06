@@ -27,7 +27,8 @@ public class InMemoryProjectRepository : IProjectRepository
             {
                 Id = 2,
                 Title = "Ley de Libertad Educativa",
-                Articles = "Art.2 ... Art.2 ...",
+                Articles = "Educación en el Hogar (Homeschooling): La normativa permite que las familias capaciten a sus hijos en el hogar, ya sea por cuenta propia o contratando maestros particulares, con el fin de educar según sus valores." +
+                           "Autonomía Escolar: Las instituciones educativas tendrán mayor libertad para definir sus propios métodos de enseñanza, currículos y planes de estudio dentro de una base común.",
                 State = new ProjectState
                 {
                     CurrentState = FileState.InPendingCommissions, ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(10))
@@ -35,15 +36,11 @@ public class InMemoryProjectRepository : IProjectRepository
             });
     }
 
-    public List<Project> GetProjects()
-    {
-        return _projects.ToList();
-    }
+    public List<Project> GetProjects() => 
+        _projects.ToList();
 
-    public Project GetProjectById(int id)
-    {
-        return _projects.First(p => p.Id == id);
-    }
+    public Project GetProjectById(int id) => 
+        _projects.First(p => p.Id == id);
 
     public void Update(Project project)
     {

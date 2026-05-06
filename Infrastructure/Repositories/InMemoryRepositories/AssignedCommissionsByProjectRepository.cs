@@ -17,4 +17,7 @@ public class AssignedCommissionsByProjectRepository: IAssignedCommissionsByProje
 
     public AssignedCommissions GetCommissionsFor(int projectId) => 
         _assignedCommissions.First(ac => ac.ProjectId == projectId);
+
+    public bool ExistProjectId(int projectId) => 
+        _assignedCommissions.Any(ac => ac.ProjectId == projectId);
 }

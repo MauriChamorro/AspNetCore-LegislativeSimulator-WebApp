@@ -30,7 +30,16 @@ public class CommissionService: ICommissionService
                 Name = "Educación",
                 WordsForAssingment = new List<string>
                 {
-                    "escuela", "enseñanza", "maestros", "alumnos"
+                    "escuela", "enseñanza", "maestros", "alumnos", "educativa","escolar"
+                }
+            },
+            new()
+            {
+                CommissionId = 3,
+                Name = "Libertad",
+                WordsForAssingment = new List<string>
+                {
+                    "libertad", "libre"
                 }
             }
         };
@@ -64,8 +73,11 @@ public class CommissionService: ICommissionService
         return assignedCommissions;
     }
 
-    public AssignedCommissions GetAssignedCommissionsFor(int projectId)
+    public bool HasBeenAssigned(int projectId)
     {
-        return _assignedCommissionsByProjectRepository.GetCommissionsFor(projectId);
+        return _assignedCommissionsByProjectRepository.ExistProjectId(projectId);
     }
+    
+    public AssignedCommissions GetAssignedCommissionsFor(int projectId) => 
+        _assignedCommissionsByProjectRepository.GetCommissionsFor(projectId);
 }

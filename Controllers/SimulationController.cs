@@ -22,19 +22,26 @@ public class SimulationController : ControllerBase
     public IActionResult AssignCommissions([FromRoute] int projectId)
     {
         var project = _projectRepository.GetProjectById(projectId);
+        if (project.State.CurrentState != FileState.InPendingCommissions)
+            return BadRequest("No es posible para el estado en que se encuentra");
+        
         var commissions = _commissionService.EvaluateCommissionFor(project.Articles);
+        if (commissions.Count == 0)
+            return BadRequest("No se encontraron comisiones adecuadas");
+        
         var result = _commissionService.AssignCommissionTo(commissions, project.Id);
         project.State.CurrentState = FileState.InCommission;
         project.State.ChangeDate = DateTime.Now;
         _projectRepository.Update(project);
-        return Ok(result);;
+        return Ok(result);
     }
     
     [HttpGet("AssignedCommissions/{projectId}")]
     public IActionResult AssignedCommissions([FromRoute] int projectId)
     {
+        if (!_commissionService.HasBeenAssigned(projectId))
+            return BadRequest("El projecto no tiene commisiones asignadas");
         var result = _commissionService.GetAssignedCommissionsFor(projectId);
-        //change project state
         return Ok(result);;
     }
 }
