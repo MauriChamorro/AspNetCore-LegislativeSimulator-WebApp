@@ -16,7 +16,11 @@ public class InMemoryProjectRepository : IProjectRepository
                 Id = 1,
                 Title = "Ley de Glaciares",
                 Articles = "Art.2 ... Art.2 ...",
-                State = new ProjectState { Id = 1, ProjectStateName = "Borrador", ChangeDate = DateTime.Now }
+                State = new ProjectState
+                {
+                    CurrentState = FileState.Scratch,
+                    ChangeDate = DateTime.Now
+                }
             });
         _projects.Add(
             new Project
@@ -26,7 +30,7 @@ public class InMemoryProjectRepository : IProjectRepository
                 Articles = "Art.2 ... Art.2 ...",
                 State = new ProjectState
                 {
-                    Id = 2, ProjectStateName = "En Comisión", ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(10))
+                    CurrentState = FileState.InCommission, ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(10))
                 }
             });
     }

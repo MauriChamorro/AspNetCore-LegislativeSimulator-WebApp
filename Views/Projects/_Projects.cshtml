@@ -3,14 +3,13 @@
 @{
     string action = ViewBag.Action ?? string.Empty;
     string callToAction = action.ToLower() != "edit" ? "Crear" : "Actualizar";
-    bool isReadOnly = Model.StateName == "En Comisión";
 }
 
 <form method="post" asp-controller="Projects" asp-action=@action>
-
     <input type="hidden" asp-for="StateName"/>
     <input type="hidden" asp-for="StateDate"/>
-
+    <input type="hidden" asp-for="CanEdit"/>
+    
     @if (action.ToLower() != "add")
     {
         <input type="hidden" asp-for="ProjectId"/>
@@ -32,7 +31,7 @@
             <label class="col-form-label">Título</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Title" class="form-control" readonly="@(isReadOnly ? "readonly": null)"/>
+            <input type="text" asp-for="Title" class="form-control" readonly="@(Model.CanEdit ? null : "readonly")"/>
         </div>
         <div class="col">
             <span class="text-danger" asp-validation-for="Title"></span>
@@ -40,14 +39,14 @@
     </div>
     <div>
         <label asp-for="Articles" class="form-label mt-4">Artículos</label>
-        <textarea class="form-control" id="articles" rows="5" asp-for="Articles" readonly="@(isReadOnly ? "readonly": null)"></textarea>
+        <textarea class="form-control" id="articles" rows="5" asp-for="Articles" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
         <div class="col">
             <span class="text-danger" asp-validation-for="Articles"></span>
         </div>
     </div>
     <div>
         <label asp-for="Fundaments" class="form-label mt-4">Fundamentos</label>
-        <textarea class="form-control" id="fundaments" rows="5" asp-for="Fundaments" readonly="@(isReadOnly ? "readonly": null)"></textarea>
+        <textarea class="form-control" id="fundaments" rows="5" asp-for="Fundaments" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
         <div class="col">
             <span class="text-danger" asp-validation-for="Fundaments"></span>
         </div>
@@ -58,14 +57,14 @@
             <label class="col-form-label">Resumen</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Summary" class="form-control" readonly="@(isReadOnly ? "readonly": null)"/>
+            <input type="text" asp-for="Summary" class="form-control" readonly="@(Model.CanEdit ? null : "readonly")"/>
         </div>
         <div class="col">
             <span class="text-danger" asp-validation-for="Summary"></span>
         </div>
     </div>
 
-    @if (!isReadOnly)
+    @if (Model.CanEdit)
     {
         <!-- Actualizar Button -->
         <div class="row mb-3">

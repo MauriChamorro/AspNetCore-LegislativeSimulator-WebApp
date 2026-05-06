@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
-using WebAppMVC.Services;
+using WebAppMVC.Services.Interfaces;
 using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
@@ -29,12 +28,8 @@ public class ProjectsController : Controller
     public IActionResult Add()
     {
         ViewBag.Action = "add";
-        var newProject = new ProjectViewModel
-        {
-            StateName = "Borrador",
-            StateDate = DateTime.Now
-        };
-        return View(newProject);
+        var newProjectVm = _projectViewModelService.NewProjectViewModel();
+        return View(newProjectVm);
     }
     
     [HttpPost]
@@ -44,12 +39,17 @@ public class ProjectsController : Controller
         
         if (!ModelState.IsValid)
         {
+            // TODO: services empty project
             var emptyProject = new Project
             {
                 Articles = "Art.2 ... Art.2 ...",
-                State = new ProjectState { Id = 1, ProjectStateName = "Borrador", ChangeDate = DateTime.Now }
+                State = new()
+                {
+                    CurrentState = FileState.Scratch,
+                    ChangeDate = DateTime.Now
+                }
             };
-            UpdateMissingValues(projectVm, emptyProject);
+            _projectViewModelService.UpdateMissingValues(projectVm, emptyProject);
             return View(projectVm);
         }
 
@@ -73,28 +73,12 @@ public class ProjectsController : Controller
         if (!ModelState.IsValid)
         {
             var auxProject = _projectRepository.GerProjectById(projectVm.ProjectId);
-            UpdateMissingValues(projectVm, auxProject);
+            _projectViewModelService.UpdateMissingValues(projectVm, auxProject);
             return View(projectVm);
         }
         var editedProject = _projectViewModelService.ToProject(projectVm);
+        //add new state with validation
         _projectRepository.Update(editedProject);
         return RedirectToAction(nameof(Index));
-    }
-
-    private void UpdateMissingValues(ProjectViewModel projectVm, Project auxProject)
-    {
-        if (projectVm.Title.IsNullOrEmpty())
-            projectVm.Title = auxProject.Title;
-        if (projectVm.Fundaments.IsNullOrEmpty())
-            projectVm.Fundaments = auxProject.Fundaments;
-        if (projectVm.Articles.IsNullOrEmpty())
-            projectVm.Articles = auxProject.Articles;
-        if (projectVm.Summary.IsNullOrEmpty())
-            projectVm.Summary = auxProject.Summary;
-        if (projectVm.StateName.IsNullOrEmpty())
-        {
-            projectVm.StateName = auxProject.State.ProjectStateName;
-            projectVm.StateDate = auxProject.State.ChangeDate;
-        }
     }
 }
