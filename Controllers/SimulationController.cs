@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAppMVC.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class SimulationController : ControllerBase
 {
-    [HttpPost]
-    public JsonResult AssignCommissions()
+    [HttpPost("AssignCommissions/{projectId}")]
+    public IActionResult AssignCommissions([FromRoute] int projectId)
     {
-        return new JsonResult("Hi");
+        return Ok(new { id = projectId, mensaje = "ID recibido con éxito" });;
     }
 }
