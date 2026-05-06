@@ -22,19 +22,19 @@
                 <td>@projectVm.Title</td>
                 <td>@projectVm.StateName</td>
                 <td>@projectVm.StateDate.ToString("dd/MM/yyyy")</td>
-                <!-- TODO: Centralizar el nombre de los estados para cambiar solo en un lugar -->
-                @if (projectVm.StateName == "Borrador")
+                
+                @if (projectVm.CanEdit)
                 {
                     <td>
                         <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-projectId="@projectVm.ProjectId">Editar</a>
                     </td>
-                };
-                @if (@projectVm.StateName == "En Comisión")
+                }
+                else
                 {
                     <td>
                         <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-projectId="@projectVm.ProjectId">Ver</a>
                     </td>
-                };
+                }
             </tr>
         }
         </tbody>
