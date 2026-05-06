@@ -31,6 +31,8 @@ public class ProjectViewModel
     public string StateName { get; set; }
 
     public DateTime StateDate { get; set; }
+    
+    public List<CommissionViewModel>? Commissions { get; set; }
 
     public bool CanEdit { get; set; }
 }

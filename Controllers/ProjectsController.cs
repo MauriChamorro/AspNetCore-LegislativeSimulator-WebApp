@@ -53,6 +53,7 @@ public class ProjectsController : Controller
             return View(projectVm);
         }
 
+        //TODO: projectService.CreateProject()
         var newProject = _projectViewModelService.ToProject(projectVm);
         _projectRepository.AddNewProject(newProject);
         return RedirectToAction(nameof(Index));
@@ -63,7 +64,18 @@ public class ProjectsController : Controller
     {
         ViewBag.Action = "edit";
         var project = _projectRepository.GetProjectById(projectId);
-        return View(_projectViewModelService.ToProjectVm(project));
+        var projectViewModel = _projectViewModelService.ToProjectVm(project);
+        
+        //for test view
+        projectViewModel.Commissions = new List<CommissionViewModel>
+        {
+            new()
+            {
+                Name = "Medio Ambiente",
+                Color = "bg-info"
+            }
+        };
+        return View(projectViewModel);
     }
     
     [HttpPost]
@@ -78,7 +90,7 @@ public class ProjectsController : Controller
         }
         var editedProject = _projectViewModelService.ToProject(projectVm);
         //add new state with validation
-        _projectRepository.Update(editedProject);
+        _projectRepository.UpdateByEdit(editedProject);
         return RedirectToAction(nameof(Index));
     }
 }

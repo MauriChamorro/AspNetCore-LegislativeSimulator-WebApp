@@ -1,7 +1,16 @@
+@model ProjectViewModel
+
 @section title
 {
     <h1>@Model.Title</h1>
     <h2>[@Model.StateName]</h2>
+    @if (Model.Commissions != null && !Model.CanEdit)
+    {
+        foreach (var commissionVm in Model.Commissions)
+        {
+            <span class="badge @commissionVm.Color">@commissionVm.Name</span>
+        }
+    }
 }
 
 <partial name="_Projects" model="Model"/>

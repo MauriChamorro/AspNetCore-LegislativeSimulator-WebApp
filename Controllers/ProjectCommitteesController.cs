@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAppMVC.Controllers;
 
-public class ReferralCommitteesController: Controller
+public class ProjectCommitteesController: Controller
 {
     public IActionResult Index()
     {

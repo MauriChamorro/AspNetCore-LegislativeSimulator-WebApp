@@ -32,7 +32,7 @@ public class SimulationController : ControllerBase
         var result = _commissionService.AssignCommissionTo(commissions, project.Id);
         project.State.CurrentState = FileState.InCommission;
         project.State.ChangeDate = DateTime.Now;
-        _projectRepository.Update(project);
+        _projectRepository.UpdateByEdit(project);
         return Ok(result);
     }
     
