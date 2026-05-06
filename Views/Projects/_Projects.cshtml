@@ -2,7 +2,7 @@
 
 @{
     string action = ViewBag.Action ?? string.Empty;
-    string callToAction = action.ToLower() != "edit" ? "Crear" : "Actualizar";
+    string callToAction = action.ToLower() == "edit" ? "Actualizar" : "Crear";
 }
 
 <form method="post" asp-controller="Projects" asp-action=@action>
