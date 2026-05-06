@@ -30,7 +30,7 @@ public class InMemoryProjectRepository : IProjectRepository
                 Articles = "Art.2 ... Art.2 ...",
                 State = new ProjectState
                 {
-                    CurrentState = FileState.InCommission, ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(10))
+                    CurrentState = FileState.InPendingCommissions, ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(10))
                 }
             });
     }
