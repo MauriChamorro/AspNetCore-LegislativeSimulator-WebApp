@@ -1,18 +1,10 @@
-@model dynamic
-
-@{
-    Layout = null;
+@section title
+{
+    <h1>Simulaciones</h1>
+    
+    <form asp-controller="Simulation" asp-action="AssignCommissions" method="post">
+        <button type="submit" class="btn btn-warning">
+            <i class="bi bi-people-fill"></i> Asigar Comisiones
+        </button>
+    </form>
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>Simulaciones</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
