@@ -28,8 +28,10 @@ try
     builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
     builder.Services.AddSingleton<IProjectRepository, InMemoryProjectRepository>();
     builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
+    builder.Services.AddSingleton<IAssignedCommissionsByProjectRepository, AssignedCommissionsByProjectRepository>();
     builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<IProjectStateService, ProjectStateService>();
+    builder.Services.AddScoped<ICommissionService, CommissionService>();
     builder.Services.AddScoped<ICommissionService, CommissionService>();
     builder.Services.AddScoped<IProjectViewModelService, ProjectViewModelService>();
     builder.Services.AddScoped<IPersonRepository, PersonDbContext>();

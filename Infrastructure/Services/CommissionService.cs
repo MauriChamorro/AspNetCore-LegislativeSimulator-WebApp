@@ -1,14 +1,18 @@
 using WebAppMVC.Domain.Models.Projects;
+using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
 
 namespace WebAppMVC.Infrastructure.Services;
 
 public class CommissionService: ICommissionService
 {
-    private List<Commission> _commissions;
+    private readonly IAssignedCommissionsByProjectRepository _assignedCommissionsByProjectRepository;
+    
+    private List<Commission> _commissions; //this is a inmemory repo for now
 
-    public CommissionService()
+    public CommissionService(IAssignedCommissionsByProjectRepository assignedCommissionsByProjectRepository)
     {
+        _assignedCommissionsByProjectRepository = assignedCommissionsByProjectRepository;
         _commissions = new List<Commission>
         {
             new()
@@ -47,5 +51,21 @@ public class CommissionService: ICommissionService
             }
         }
         return assignedCommissions;
+    }
+
+    public AssignedCommissions AssignCommissionTo(List<Commission> commissions, int projectId)
+    {
+        AssignedCommissions assignedCommissions = new()
+        {
+            ProjectId = projectId,
+            Commissions = commissions
+        };
+        _assignedCommissionsByProjectRepository.AddAssignedCommissions(assignedCommissions);
+        return assignedCommissions;
+    }
+
+    public AssignedCommissions GetAssignedCommissionsFor(int projectId)
+    {
+        return _assignedCommissionsByProjectRepository.GetCommissionsFor(projectId);
     }
 }
