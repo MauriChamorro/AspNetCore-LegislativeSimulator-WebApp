@@ -2,17 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAppMVC.Controllers;
 
-public class SimulationController : Controller
+public class SimulationController : ControllerBase
 {
-    public IActionResult Index()
-    {
-        return View();
-    }
-
     [HttpPost]
-    [Route("/AssignCommissions")]
-    public IActionResult AssignCommissions()
+    public JsonResult AssignCommissions()
     {
-        return RedirectToAction("Index", "Home");
+        return new JsonResult("Hi");
     }
 }

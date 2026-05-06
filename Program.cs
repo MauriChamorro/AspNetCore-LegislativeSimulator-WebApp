@@ -22,7 +22,7 @@ try
 {
     logger.LogInformation("Configurando servicios...");
     logger.LogInformation("GetConnectionString");
-    
+
     // Add services.
     var connectionString = builder.Configuration.GetConnectionString("DbConnection");
     builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
