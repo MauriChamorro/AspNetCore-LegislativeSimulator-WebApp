@@ -83,6 +83,7 @@ public class CommissionService : ICommissionService
                 {
                     ProjectId = projectId,
                     CommissionId = commission.CommissionId,
+                    CommisionName = commission.Name,
                     State = ReferralCommissionState.Assigned,
                     ReferralDate = DateTime.Now
                 }

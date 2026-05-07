@@ -26,6 +26,7 @@ public class CommissionsVmService: ICommissionsVmService
             referralCommissionsVm.Add(
                 new ReferralCommissionViewModel
                 {
+                    CommissionName = referralCommission.CommisionName,
                     ReferralStateName  = GetReferralStateName(referralCommission.State),
                     ReferralDate =  referralCommission.ReferralDate
                 }    

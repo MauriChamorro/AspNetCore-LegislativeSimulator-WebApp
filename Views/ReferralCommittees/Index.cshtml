@@ -4,3 +4,23 @@
     <h1>@Model.ProjectId - @Model.ProjectTitle</h1>
     <h2>Comisiones evaluando</h2>
 }
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Nombre de Comisión</th>
+        <th scope="col">Estado de Giro</th>
+        <th scope="col">Fecha de Giro</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var commission in Model.ReferralCommissions)
+    {
+        <tr>
+            <th scope="row">@commission.CommissionName</th>
+            <td>@commission.ReferralStateName</td>
+            <td>@commission.ReferralDate.ToString("dd/MM/yyyy")</td>
+        </tr>
+    }
+    </tbody>
+</table>
