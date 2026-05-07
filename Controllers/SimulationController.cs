@@ -80,6 +80,12 @@ public class SimulationController : ControllerBase
         
         // TODO: service ... check update method needed
         var project = _projectRepository.GetProjectById(projectId);
+
+        //One validation alternative
+        if (project.State.CurrentState != FileState.InCommission && 
+            !_commissionService.AcceptedByAllCommission(projectId))
+            return BadRequest("No es posible enviar a Sesión.");
+
         project.State.CurrentState = FileState.InSession;
         project.State.ChangeDate = DateTime.Now;
         
