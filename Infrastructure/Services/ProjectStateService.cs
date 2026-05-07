@@ -14,6 +14,7 @@ public class ProjectStateService: IProjectStateService
             FileState.PendingForAssignCommissions => "Asignando de Comisiones",
             FileState.InCommission => "En Comisiones",
             FileState.RejectedByCommissions => "Rechazado por Comisiones",
+            FileState.InSession => "En Sesión",
             _ => ""
         };
 

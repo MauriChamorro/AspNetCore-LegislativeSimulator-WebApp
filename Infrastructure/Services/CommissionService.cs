@@ -138,6 +138,10 @@ public class CommissionService : ICommissionService
     public bool ReferralIsRejected(ReferralCommission actualReferral) =>
         actualReferral.State == ReferralCommissionState.Rejected;
 
+    public bool AcceptedByAllCommission(int projectId) =>
+        _referralCommissionRepository.GetFor(projectId)
+            .TrueForAll(rc  => rc.State == ReferralCommissionState.Accepted);
+
     public AssignedCommissions GetAssignedCommissionsFor(int projectId) =>
         _assignedCommissionsByProjectRepository.GetCommissionsFor(projectId);
 }

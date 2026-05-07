@@ -18,16 +18,16 @@ public class SimulationController : ControllerBase
         _commissionService = commissionService;
     }
     
-    [HttpPost("AssignCommissions/{projectId}")]
+    [HttpPost("assignCommissions/{projectId}")]
     public IActionResult AssignCommissions([FromRoute] int projectId)
     {
         var project = _projectRepository.GetProjectById(projectId);
         if (project.State.CurrentState != FileState.PendingForAssignCommissions)
-            return BadRequest("No es posible para el estado en que se encuentra");
+            return BadRequest("No es posible para el estado en que se encuentra.");
         
         var commissions = _commissionService.EvaluateCommissionFor(project.Articles);
         if (commissions.Count == 0)
-            return BadRequest("No se encontraron comisiones adecuadas");
+            return BadRequest("No se encontraron comisiones adecuadas.");
         
         var result = _commissionService.AssignCommissionTo(commissions, project.Id);
         project.State.CurrentState = FileState.InCommission;
@@ -36,23 +36,23 @@ public class SimulationController : ControllerBase
         return Ok(result);
     }
     
-    [HttpGet("AssignedCommissions/{projectId}")]
+    [HttpGet("assignedCommissions/{projectId}")]
     public IActionResult AssignedCommissions([FromRoute] int projectId)
     {
         if (!_commissionService.HasBeenAssigned(projectId))
-            return BadRequest("El projecto no tiene commisiones asignadas");
+            return BadRequest("El projecto no tiene comisiones asignadas.");
         var result = _commissionService.GetAssignedCommissionsFor(projectId);
         return Ok(result);
     }
 
-    [HttpPost("DoReferring/{projectId}")]
+    [HttpPost("doReferring/{projectId}")]
     public IActionResult DoReferring(int projectId)
     {
         if (!_commissionService.HasBeenAssigned(projectId))
-            return BadRequest("El projecto no tiene commisiones asignadas");
+            return BadRequest("El projecto no tiene comisiones asignadas.");
         var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
         if (_commissionService.ThereAreNotPendingReferral(referralCommissions))
-            return BadRequest("Todas la comisiones ya evaluaron");
+            return BadRequest("Todas la comisiones ya evaluaron.");
         var actualReferral = _commissionService.GetActualReferral(referralCommissions);
         _commissionService.DoNextReferralPhase(actualReferral);
         if (_commissionService.ReferralIsRejected(actualReferral))
@@ -63,5 +63,26 @@ public class SimulationController : ControllerBase
             project.State.ChangeDate = DateTime.Now;
         }
         return Ok(actualReferral);
-    } 
+    }
+
+    [HttpPost("sendToSession/{projectId}")]
+    public IActionResult SendToSession(int projectId)
+    {
+        if (!_commissionService.HasBeenAssigned(projectId))
+            return BadRequest("El projecto no tiene comisiones asignadas.");
+        var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
+        
+        if (!_commissionService.ThereAreNotPendingReferral(referralCommissions))
+            return BadRequest("Todas las comisiones deben terminar de evaluar.");
+
+        if (!_commissionService.AcceptedByAllCommission(projectId))
+            return BadRequest("El projecto debe ser aprobado por todas las commisiones.");
+        
+        // TODO: service ... check update method needed
+        var project = _projectRepository.GetProjectById(projectId);
+        project.State.CurrentState = FileState.InSession;
+        project.State.ChangeDate = DateTime.Now;
+        
+        return Ok();
+    }
 }
