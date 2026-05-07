@@ -63,16 +63,12 @@
             <span class="text-danger" asp-validation-for="Summary"></span>
         </div>
     </div>
-
-    @if (Model.CanEdit)
-    {
-        <!-- Actualizar Button -->
-        <div class="row mb-3">
-            <div class="col-2">
-                <input type="submit" class="btn btn-primary" value="@callToAction"/>
-            </div>
-            <div class="col-6">
-            </div>
-        </div>
-    }
+    
+    <div class="d-flex justify-content-between align-items-center">
+        <a class="btn btn-primary" asp-controller="Projects" asp-action="Index" role="button">Volver</a>
+        @if (Model.CanEdit)
+        { 
+            <input type="submit" class="btn btn-primary" value="@callToAction"/>
+        }
+    </div>
 </form>
