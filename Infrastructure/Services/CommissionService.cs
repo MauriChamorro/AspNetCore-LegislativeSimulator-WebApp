@@ -102,8 +102,16 @@ public class CommissionService : ICommissionService
        return  _referralCommissionRepository.GetFor(projectId);
     }
 
-    public ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions) => 
-        referralCommissions.First(rc => rc.State == ReferralCommissionState.Assigned);
+    public ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions)
+    {
+        if (referralCommissions.TrueForAll(rc => rc.State == ReferralCommissionState.Assigned))
+            return referralCommissions.First();
+        return referralCommissions.First(IsActual);
+    }
+    
+    //TODO: add more states that match Is Actual by Or operation
+    private bool IsActual(ReferralCommission referralCommission) => 
+        referralCommission.State == ReferralCommissionState.Evaluating;
 
     public void DoNextReferralPhase(ReferralCommission actualReferral)
     {
