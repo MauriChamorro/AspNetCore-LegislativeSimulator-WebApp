@@ -3,7 +3,7 @@ namespace WebAppMVC.Domain.Models.Projects;
 public enum FileState
 {
     Scratch,
-    InPendingCommissions,
+    PendingForAssignCommissions,
     InCommission,
     InSession,
     Approved,

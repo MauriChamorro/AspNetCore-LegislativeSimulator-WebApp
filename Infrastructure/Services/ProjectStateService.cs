@@ -11,8 +11,8 @@ public class ProjectStateService: IProjectStateService
         fileState switch
         {
             FileState.Scratch => "Borrador",
-            FileState.InPendingCommissions => "En Asignación de Comisiones",
-            FileState.InCommission => "Pendiente de Giros",
+            FileState.PendingForAssignCommissions => "Asignando de Comisiones",
+            FileState.InCommission => "En Comisiones",
             _ => ""
         };
 

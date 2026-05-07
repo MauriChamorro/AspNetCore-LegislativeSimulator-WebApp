@@ -31,7 +31,7 @@ public class InMemoryProjectRepository : IProjectRepository
                            "Autonomía Escolar: Las instituciones educativas tendrán mayor libertad para definir sus propios métodos de enseñanza, currículos y planes de estudio dentro de una base común.",
                 State = new ProjectState
                 {
-                    CurrentState = FileState.InPendingCommissions, ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(10))
+                    CurrentState = FileState.PendingForAssignCommissions, ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(10))
                 }
             });
     }

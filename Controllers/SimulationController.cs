@@ -22,7 +22,7 @@ public class SimulationController : ControllerBase
     public IActionResult AssignCommissions([FromRoute] int projectId)
     {
         var project = _projectRepository.GetProjectById(projectId);
-        if (project.State.CurrentState != FileState.InPendingCommissions)
+        if (project.State.CurrentState != FileState.PendingForAssignCommissions)
             return BadRequest("No es posible para el estado en que se encuentra");
         
         var commissions = _commissionService.EvaluateCommissionFor(project.Articles);
