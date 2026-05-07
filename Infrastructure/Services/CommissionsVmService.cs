@@ -41,6 +41,8 @@ public class CommissionsVmService: ICommissionsVmService
         {
             case ReferralCommissionState.Assigned:
                 return "Asignado";
+            case ReferralCommissionState.Evaluating:
+                return "Evaluando";
             default:
                 return "none";
         }

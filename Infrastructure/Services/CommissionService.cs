@@ -102,6 +102,15 @@ public class CommissionService : ICommissionService
        return  _referralCommissionRepository.GetFor(projectId);
     }
 
+    public ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions) => 
+        referralCommissions.First(rc => rc.State == ReferralCommissionState.Assigned);
+
+    public void DoNextReferralPhase(ReferralCommission actualReferral)
+    {
+        actualReferral.State = ReferralCommissionState.Evaluating;
+        actualReferral.ReferralDate = DateTime.Now;
+    }
+
     public AssignedCommissions GetAssignedCommissionsFor(int projectId) =>
         _assignedCommissionsByProjectRepository.GetCommissionsFor(projectId);
 }

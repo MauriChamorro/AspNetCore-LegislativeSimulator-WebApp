@@ -9,4 +9,6 @@ public interface ICommissionService
     AssignedCommissions GetAssignedCommissionsFor(int projectId);
     bool HasBeenAssigned(int projectId);
     List<ReferralCommission> GetReferralCommissionsFor(int projectId);
+    ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions);
+    void DoNextReferralPhase(ReferralCommission actualReferral);
 }

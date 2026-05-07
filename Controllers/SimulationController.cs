@@ -42,6 +42,17 @@ public class SimulationController : ControllerBase
         if (!_commissionService.HasBeenAssigned(projectId))
             return BadRequest("El projecto no tiene commisiones asignadas");
         var result = _commissionService.GetAssignedCommissionsFor(projectId);
-        return Ok(result);;
+        return Ok(result);
     }
+
+    [HttpPost("StartReferring/{projectId}")]
+    public IActionResult StartReferring(int projectId)
+    {
+        if (!_commissionService.HasBeenAssigned(projectId))
+            return BadRequest("El projecto no tiene commisiones asignadas");
+        var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
+        var actualReferral = _commissionService.GetActualReferral(referralCommissions);
+        _commissionService.DoNextReferralPhase(actualReferral);
+        return Ok(actualReferral);
+    } 
 }
