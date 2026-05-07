@@ -25,15 +25,18 @@ try
     // Add services.
     var connectionString = builder.Configuration.GetConnectionString("DbConnection");
     builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+    
+    builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
     builder.Services.AddSingleton<IProjectRepository, InMemoryProjectRepository>();
     builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
     builder.Services.AddSingleton<IAssignedCommissionsByProjectRepository, AssignedCommissionsByProjectRepository>();
+    builder.Services.AddSingleton<IReferralCommissionRepository, ReferralCommissionRepository>();
+   
     builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<IProjectStateService, ProjectStateService>();
     builder.Services.AddScoped<ICommissionService, CommissionService>();
-    builder.Services.AddScoped<ICommissionService, CommissionService>();
+    builder.Services.AddScoped<ICommissionsVmService, CommissionsVmService>();
     builder.Services.AddScoped<IProjectViewModelService, ProjectViewModelService>();
-    builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
     builder.Services.AddControllersWithViews();
     builder.Services.AddSwaggerGen();
     builder.Services.AddCors(options =>

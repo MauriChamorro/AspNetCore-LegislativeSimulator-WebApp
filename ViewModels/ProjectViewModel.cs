@@ -35,4 +35,5 @@ public class ProjectViewModel
     public List<CommissionViewModel>? Commissions { get; set; }
 
     public bool CanEdit { get; set; }
+    public bool CommissionsAssigned { get; set; }
 }

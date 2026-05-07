@@ -76,7 +76,8 @@ public class ProjectViewModelService: IProjectViewModelService
             Summary = project.Summary,
             StateName = _projectStateService.GetNameState(project.State.CurrentState),
             StateDate = project.State.ChangeDate,
-            CanEdit = _projectStateService.CanEdit(project.State)
+            CanEdit = _projectStateService.CanEdit(project.State),
+            CommissionsAssigned = _projectStateService.CommissionsAssigned(project.State)
         };
 
     public void SetCommissions(ProjectViewModel projectViewModel, AssignedCommissions assignedCommissions)

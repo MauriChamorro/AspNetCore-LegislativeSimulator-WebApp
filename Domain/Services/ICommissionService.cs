@@ -8,4 +8,5 @@ public interface ICommissionService
     AssignedCommissions AssignCommissionTo(List<Commission> commissions, int projectId);
     AssignedCommissions GetAssignedCommissionsFor(int projectId);
     bool HasBeenAssigned(int projectId);
+    List<ReferralCommission> GetReferralCommissionsFor(int projectId);
 }

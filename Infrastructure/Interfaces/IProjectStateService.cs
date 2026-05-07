@@ -7,4 +7,5 @@ public interface IProjectStateService
     bool CanEdit(ProjectState state);
     string GetNameState(FileState projectVmCurrentState);
     ProjectState EmptyProject();
+    bool CommissionsAssigned(ProjectState projectState);
 }

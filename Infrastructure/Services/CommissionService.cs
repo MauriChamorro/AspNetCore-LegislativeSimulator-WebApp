@@ -4,15 +4,18 @@ using WebAppMVC.Domain.Services;
 
 namespace WebAppMVC.Infrastructure.Services;
 
-public class CommissionService: ICommissionService
+public class CommissionService : ICommissionService
 {
     private readonly IAssignedCommissionsByProjectRepository _assignedCommissionsByProjectRepository;
-    
+    private readonly IReferralCommissionRepository _referralCommissionRepository;
+
     private List<Commission> _commissions; //this is a inmemory repo for now
 
-    public CommissionService(IAssignedCommissionsByProjectRepository assignedCommissionsByProjectRepository)
+    public CommissionService(IAssignedCommissionsByProjectRepository assignedCommissionsByProjectRepository,
+        IReferralCommissionRepository referralCommissionRepository)
     {
         _assignedCommissionsByProjectRepository = assignedCommissionsByProjectRepository;
+        _referralCommissionRepository = referralCommissionRepository;
         _commissions = new List<Commission>
         {
             new()
@@ -30,7 +33,7 @@ public class CommissionService: ICommissionService
                 Name = "Educación",
                 WordsForAssingment = new List<string>
                 {
-                    "escuela", "enseñanza", "maestros", "alumnos", "educativa","escolar"
+                    "escuela", "enseñanza", "maestros", "alumnos", "educativa", "escolar"
                 }
             },
             new()
@@ -44,6 +47,7 @@ public class CommissionService: ICommissionService
             }
         };
     }
+
     public List<Commission> EvaluateCommissionFor(string projectArticles)
     {
         var assignedCommissions = new List<Commission>();
@@ -56,9 +60,10 @@ public class CommissionService: ICommissionService
                 {
                     assignedCommissions.Add(commission);
                     break;
-                } 
+                }
             }
         }
+
         return assignedCommissions;
     }
 
@@ -70,14 +75,32 @@ public class CommissionService: ICommissionService
             Commissions = commissions
         };
         _assignedCommissionsByProjectRepository.AddAssignedCommissions(assignedCommissions);
+        var referralCommissions = new List<ReferralCommission>();
+        foreach (var commission in commissions)
+        {
+            referralCommissions.Add(
+                new ReferralCommission
+                {
+                    ProjectId = projectId,
+                    CommissionId = commission.CommissionId,
+                    State = ReferralCommissionState.Assigned,
+                    ReferralDate = DateTime.Now
+                }
+            );
+        }
+
+        _referralCommissionRepository.AddRange(referralCommissions);
         return assignedCommissions;
     }
 
-    public bool HasBeenAssigned(int projectId)
+    public bool HasBeenAssigned(int projectId) =>
+        _assignedCommissionsByProjectRepository.ExistProjectId(projectId);
+
+    public List<ReferralCommission> GetReferralCommissionsFor(int projectId)
     {
-        return _assignedCommissionsByProjectRepository.ExistProjectId(projectId);
+       return  _referralCommissionRepository.GetFor(projectId);
     }
-    
-    public AssignedCommissions GetAssignedCommissionsFor(int projectId) => 
+
+    public AssignedCommissions GetAssignedCommissionsFor(int projectId) =>
         _assignedCommissionsByProjectRepository.GetCommissionsFor(projectId);
 }

@@ -5,8 +5,7 @@ namespace WebAppMVC.Infrastructure.Services;
 
 public class ProjectStateService: IProjectStateService
 {
-    public bool CanEdit(ProjectState state) => 
-        state.CurrentState ==  FileState.Scratch;
+   
 
     public string GetNameState(FileState fileState) =>
         fileState switch
@@ -23,4 +22,10 @@ public class ProjectStateService: IProjectStateService
             CurrentState = FileState.Scratch,
             ChangeDate = DateTime.Now
         };
+    
+    public bool CanEdit(ProjectState state) => 
+        state.CurrentState ==  FileState.Scratch;
+    
+    public bool CommissionsAssigned(ProjectState state) => 
+            state.CurrentState ==  FileState.InCommission;
 }
