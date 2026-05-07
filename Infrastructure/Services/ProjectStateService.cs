@@ -15,6 +15,8 @@ public class ProjectStateService: IProjectStateService
             FileState.InCommission => "En Comisiones",
             FileState.RejectedByCommissions => "Rechazado por Comisiones",
             FileState.InSession => "En Sesión",
+            FileState.ApprovedInSession => "Dictaminado",
+            FileState.RejectedInSession => "Recahzado en Sesión",
             _ => ""
         };
 
