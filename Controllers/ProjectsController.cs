@@ -91,7 +91,7 @@ public class ProjectsController : Controller
         }
         var editedProject = _projectViewModelService.ToProject(projectVm);
         //add new state with validation
-        _projectRepository.UpdateByEdit(editedProject);
+        _projectRepository.Edit(editedProject);
         return RedirectToAction(nameof(Index));
     }
 }

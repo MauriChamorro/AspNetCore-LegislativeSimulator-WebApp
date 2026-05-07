@@ -13,6 +13,7 @@ public class ProjectStateService: IProjectStateService
             FileState.Scratch => "Borrador",
             FileState.PendingForAssignCommissions => "Asignando de Comisiones",
             FileState.InCommission => "En Comisiones",
+            FileState.RejectedByCommissions => "Rechazado por Comisiones",
             _ => ""
         };
 

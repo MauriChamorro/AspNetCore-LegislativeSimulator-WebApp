@@ -135,6 +135,9 @@ public class CommissionService : ICommissionService
     public bool ThereAreNotPendingReferral(List<ReferralCommission> referralCommissions) => 
         referralCommissions.TrueForAll(rc => rc.State == ReferralCommissionState.Accepted ||  rc.State == ReferralCommissionState.Rejected);
 
+    public bool ReferralIsRejected(ReferralCommission actualReferral) =>
+        actualReferral.State == ReferralCommissionState.Rejected;
+
     public AssignedCommissions GetAssignedCommissionsFor(int projectId) =>
         _assignedCommissionsByProjectRepository.GetCommissionsFor(projectId);
 }

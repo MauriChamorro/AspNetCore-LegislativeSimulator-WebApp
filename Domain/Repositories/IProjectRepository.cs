@@ -6,6 +6,6 @@ public interface IProjectRepository
 {
     List<Project> GetProjects();
     Project GetProjectById(int id);
-    void UpdateByEdit(Project project);
+    void Edit(Project project);
     void AddNewProject(Project project);
 }

@@ -32,7 +32,7 @@ public class SimulationController : ControllerBase
         var result = _commissionService.AssignCommissionTo(commissions, project.Id);
         project.State.CurrentState = FileState.InCommission;
         project.State.ChangeDate = DateTime.Now;
-        _projectRepository.UpdateByEdit(project);
+        _projectRepository.Edit(project);
         return Ok(result);
     }
     
@@ -55,6 +55,13 @@ public class SimulationController : ControllerBase
             return BadRequest("Todas la comisiones ya evaluaron");
         var actualReferral = _commissionService.GetActualReferral(referralCommissions);
         _commissionService.DoNextReferralPhase(actualReferral);
+        if (_commissionService.ReferralIsRejected(actualReferral))
+        {
+            // TODO: service ... check update method needed
+            var project = _projectRepository.GetProjectById(projectId);
+            project.State.CurrentState = FileState.RejectedByCommissions;
+            project.State.ChangeDate = DateTime.Now;
+        }
         return Ok(actualReferral);
     } 
 }
