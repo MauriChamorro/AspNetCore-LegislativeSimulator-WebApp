@@ -11,4 +11,5 @@ public interface ICommissionService
     List<ReferralCommission> GetReferralCommissionsFor(int projectId);
     ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions);
     void DoNextReferralPhase(ReferralCommission actualReferral);
+    bool ThereAreNotPendingReferral(List<ReferralCommission> referralCommissions);
 }

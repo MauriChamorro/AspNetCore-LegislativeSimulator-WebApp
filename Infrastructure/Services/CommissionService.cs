@@ -104,20 +104,36 @@ public class CommissionService : ICommissionService
 
     public ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions)
     {
-        if (referralCommissions.TrueForAll(rc => rc.State == ReferralCommissionState.Assigned))
-            return referralCommissions.First();
-        return referralCommissions.First(IsActual);
+        if (referralCommissions.Any(rc => rc.State == ReferralCommissionState.Evaluating))
+            return referralCommissions.First(rc => rc.State == ReferralCommissionState.Evaluating);
+        return referralCommissions.First(rc => rc.State == ReferralCommissionState.Assigned);
     }
-    
-    //TODO: add more states that match Is Actual by Or operation
-    private bool IsActual(ReferralCommission referralCommission) => 
-        referralCommission.State == ReferralCommissionState.Evaluating;
 
     public void DoNextReferralPhase(ReferralCommission actualReferral)
     {
-        actualReferral.State = ReferralCommissionState.Evaluating;
-        actualReferral.ReferralDate = DateTime.Now;
+        if (actualReferral.State == ReferralCommissionState.Assigned)
+        {
+            actualReferral.State = ReferralCommissionState.Evaluating;
+            actualReferral.ReferralDate = DateTime.Now;
+        }
+        else if (actualReferral.State == ReferralCommissionState.Evaluating)
+        {
+            actualReferral.State = GetRandomResult();
+            actualReferral.ReferralDate = DateTime.Now;
+        }
     }
+
+    private static ReferralCommissionState GetRandomResult()
+    {
+        var rnd = new Random();
+        var success = rnd.Next(2) == 0;
+        if (success)
+            return ReferralCommissionState.Accepted;
+        return ReferralCommissionState.Rejected;
+    }
+
+    public bool ThereAreNotPendingReferral(List<ReferralCommission> referralCommissions) => 
+        referralCommissions.TrueForAll(rc => rc.State == ReferralCommissionState.Accepted ||  rc.State == ReferralCommissionState.Rejected);
 
     public AssignedCommissions GetAssignedCommissionsFor(int projectId) =>
         _assignedCommissionsByProjectRepository.GetCommissionsFor(projectId);

@@ -43,6 +43,10 @@ public class CommissionsVmService: ICommissionsVmService
                 return "Asignado";
             case ReferralCommissionState.Evaluating:
                 return "Evaluando";
+            case ReferralCommissionState.Accepted:
+                return "Aceptado";
+            case ReferralCommissionState.Rejected:
+                return "Rechazado";
             default:
                 return "none";
         }

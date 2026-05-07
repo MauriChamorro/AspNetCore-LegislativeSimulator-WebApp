@@ -45,12 +45,14 @@ public class SimulationController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("StartReferring/{projectId}")]
-    public IActionResult StartReferring(int projectId)
+    [HttpPost("DoReferring/{projectId}")]
+    public IActionResult DoReferring(int projectId)
     {
         if (!_commissionService.HasBeenAssigned(projectId))
             return BadRequest("El projecto no tiene commisiones asignadas");
         var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
+        if (_commissionService.ThereAreNotPendingReferral(referralCommissions))
+            return BadRequest("Todas la comisiones ya evaluaron");
         var actualReferral = _commissionService.GetActualReferral(referralCommissions);
         _commissionService.DoNextReferralPhase(actualReferral);
         return Ok(actualReferral);
