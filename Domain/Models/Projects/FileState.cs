@@ -5,8 +5,9 @@ public enum FileState
     Scratch,
     PendingForAssignCommissions,
     InCommission,
+    RejectedByCommissions,
     InSession,
-    Approved,
-    Rejected,
-    Deleted
+    ApprovedInSession,
+    RejectedInSession,
+    DeletedByLawmaker
 }
