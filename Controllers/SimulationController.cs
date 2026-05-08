@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models.Projects;
-using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
 
 namespace WebAppMVC.Controllers;
@@ -9,19 +8,20 @@ namespace WebAppMVC.Controllers;
 [Route("api/[controller]")]
 public class SimulationController : ControllerBase
 {
-    private readonly IProjectRepository _projectRepository;
+    private readonly IProjectService _projectService;
     private readonly ICommissionService _commissionService;
 
-    public SimulationController(IProjectRepository projectRepository, ICommissionService commissionService)
+    public SimulationController(IProjectService projectService,
+        ICommissionService commissionService)
     {
-        _projectRepository = projectRepository;
+        _projectService = projectService;
         _commissionService = commissionService;
     }
 
     [HttpPost("assignCommissions/{projectId}")]
     public IActionResult AssignCommissions([FromRoute] int projectId)
     {
-        var project = _projectRepository.GetProjectById(projectId);
+        var project = _projectService.GetProjectById(projectId);
         if (project.State.CurrentState != FileState.PendingForAssignCommissions)
             return BadRequest("No es posible para el estado en que se encuentra.");
 
@@ -32,7 +32,6 @@ public class SimulationController : ControllerBase
         var result = _commissionService.AssignCommissionTo(commissions, project.Id);
         project.State.CurrentState = FileState.InCommission;
         project.State.ChangeDate = DateTime.Now;
-        //_projectRepository.Edit(project);
         return Ok(result);
     }
 
@@ -58,7 +57,7 @@ public class SimulationController : ControllerBase
         if (_commissionService.ReferralIsRejected(actualReferral))
         {
             // TODO: service ... check update method needed
-            var project = _projectRepository.GetProjectById(projectId);
+            var project = _projectService.GetProjectById(projectId);
             project.State.CurrentState = FileState.RejectedByCommissions;
             project.State.ChangeDate = DateTime.Now;
         }
@@ -80,7 +79,7 @@ public class SimulationController : ControllerBase
             return BadRequest("El projecto debe ser aprobado por todas las commisiones.");
 
         // TODO: service ... check update method needed
-        var project = _projectRepository.GetProjectById(projectId);
+        var project = _projectService.GetProjectById(projectId);
 
         //One validation alternative
         if (project.State.CurrentState != FileState.InCommission &&
@@ -97,7 +96,7 @@ public class SimulationController : ControllerBase
     [HttpPost("DoSession/{projectId}")]
     public IActionResult DoSession(int projectId)
     {
-        var project = _projectRepository.GetProjectById(projectId);
+        var project = _projectService.GetProjectById(projectId);
         
         if (project.State.CurrentState != FileState.InSession)
             return BadRequest("No es posible finalizar el projecto.");
