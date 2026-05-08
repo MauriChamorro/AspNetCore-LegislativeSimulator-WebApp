@@ -75,24 +75,24 @@
     @if (Model.ProjectId != 0 && Model.CanEdit)
     {
         <div class="d-flex justify-content-end">
-            <a class="btn btn-danger" role="button" onclick="confirmSending('@Url.Action("Delete", "Projects")', @Model.ProjectId)">Borrar</a>
+            <a class="btn btn-danger" role="button" onclick="confirmSending('¿Estás seguro que desea borrar el projecto?','Borrar','@Url.Action("Delete", "Projects")', @Model.ProjectId)">Borrar</a>
         </div>
         <div class="d-flex justify-content-end">
-            <a class="btn btn-success" role="button" onclick="confirmSending('@Url.Action("SendToCommission", "Projects")', @Model.ProjectId)">Enviar</a>
+            <a class="btn btn-success" role="button" onclick="confirmSending('¿Enviar a Comisiones?','Enviar', '@Url.Action("SendToCommission", "Projects")', @Model.ProjectId)">Enviar</a>
         </div>
     }
 </form>
 
 <script>
-function confirmSending(url, projectId) {
+function confirmSending(modalTitle, actionTxt, url, projectId) {
     Swal.fire({
-        title: '¿Enviar a Comisiones?',
+        title: modalTitle,
         text: "Esta acción no podrá deshacerse.",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#198754', // Verde (Aceptar)
         cancelButtonColor: '#dc3545',  // Rojo (Rechazar)
-        confirmButtonText: 'Enviar',
+        confirmButtonText: actionTxt,
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         console.log(url,projectId);
