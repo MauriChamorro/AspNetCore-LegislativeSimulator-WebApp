@@ -40,13 +40,11 @@ public class ProjectViewModelService: IProjectViewModelService
             projectVm.Articles = auxProject.Articles;
         if (projectVm.Summary.IsNullOrEmpty())
             projectVm.Summary = auxProject.Summary;
-        if (projectVm.StateName.IsNullOrEmpty())
-        {
-            projectVm.StateName = auxProject.State.GetNameState(auxProject.State.CurrentState);
-            projectVm.CurrentState = auxProject.State.CurrentState;
-            projectVm.StateDate = auxProject.State.ChangeDate;
-            projectVm.CanEdit = auxProject.CanEdit();
-        }
+        
+        projectVm.StateName = auxProject.State.GetNameState(auxProject.State.CurrentState);
+        projectVm.CurrentState = auxProject.State.CurrentState;
+        projectVm.StateDate = auxProject.State.ChangeDate;
+        projectVm.CanEdit = auxProject.CanEdit();
     }
 
     public void SetVmCommissions(ProjectViewModel projectVm, List<ReferralCommission> referralCommissions)

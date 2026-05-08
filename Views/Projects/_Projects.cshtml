@@ -5,6 +5,12 @@
     string callToAction = action.ToLower() == "edit" ? "Actualizar" : "Crear";
 }
 
+@if (Model.ProjectId != 0 && Model.CanEdit)
+{
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-danger" role="button" onclick="confirmSending('¿Estás seguro que desea borrar el projecto?','Borrar','@Url.Action("Delete", "Projects")', @Model.ProjectId)">Borrar</a>
+    </div>
+}
 <form method="post" asp-controller="Projects" asp-action=@action id="formExpediente">
     <input type="hidden" asp-for="StateName"/>
     <input type="hidden" asp-for="StateDate"/>
@@ -68,17 +74,18 @@
         <a class="btn btn-primary" asp-controller="Projects" asp-action="Index" role="button">Volver</a>
         @if (Model.CanEdit)
         { 
-            <input type="submit" class="btn btn-secondary" value="@callToAction"/>
+            <input type="submit" class="btn btn-info" value="@callToAction"/>
         }
     </div>
     <br/>
     @if (Model.ProjectId != 0 && Model.CanEdit)
     {
         <div class="d-flex justify-content-end">
-            <a class="btn btn-danger" role="button" onclick="confirmSending('¿Estás seguro que desea borrar el projecto?','Borrar','@Url.Action("Delete", "Projects")', @Model.ProjectId)">Borrar</a>
-        </div>
-        <div class="d-flex justify-content-end">
-            <a class="btn btn-success" role="button" onclick="confirmSending('¿Enviar a Comisiones?','Enviar', '@Url.Action("SendToCommission", "Projects")', @Model.ProjectId)">Enviar</a>
+            <a class="btn btn-success"
+               role="button"
+               onclick="confirmSending('¿Enviar a Comisiones?','Enviar', '@Url.Action("SendToCommission", "Projects",new { id = Model.ProjectId })')">
+                Enviar
+            </a>
         </div>
     }
 </form>
@@ -97,13 +104,8 @@ function confirmSending(modalTitle, actionTxt, url, projectId) {
     }).then((result) => {
         console.log(url,projectId);
         if (result.isConfirmed) {
-            // 1. Obtenemos el formulario
             const form = document.getElementById('formExpediente');
-
-            // 2. Le asignamos la URL del botón que tocamos
-            form.action = url+"/"+projectId;
-
-            // 3. Lo enviamos manualmente
+            form.action = url;
             form.submit();
         }
     });

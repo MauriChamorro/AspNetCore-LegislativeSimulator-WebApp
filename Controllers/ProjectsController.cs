@@ -114,6 +114,7 @@ public class ProjectsController : Controller
         if (!ModelState.IsValid)
         {
             _projectViewModelService.UpdateMissingValues(projectVm, savedProject);
+            ViewBag.Action = "edit";
             return View("Edit", projectVm); //doesnt clear data for on back validation
         }
 
