@@ -8,4 +8,5 @@ public interface IProjectRepository
     Project GetProjectById(int id);
     void Add(Project project);
     int GetLastId();
+    void Delete(int projectId);
 }

@@ -15,4 +15,6 @@ public interface IProjectService
     void SimulateSessionResult(Project project);
     bool CanSendToCommission(Project project);
     void SendToCommissions(Project project);
+    void DeleteProject(int projectId);
+    bool CanDelete(int projectId);
 }

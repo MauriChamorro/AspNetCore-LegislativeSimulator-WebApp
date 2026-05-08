@@ -98,4 +98,10 @@ public class ProjectService : IProjectService
         project.State.CurrentState = FileState.PendingForAssignCommissions;
         project.State.ChangeDate = DateTime.Now;
     }
+
+    public void DeleteProject(int projectId) => 
+        _projectRepository.Delete(projectId);
+
+    public bool CanDelete(int projectId) => 
+        _projectRepository.GetProjectById(projectId).State.CurrentState == FileState.Scratch;
 }

@@ -45,4 +45,8 @@ public class InMemoryProjectRepository : IProjectRepository
     public void Add(Project project) => _projects.Add(project);
 
     public int GetLastId() => _projects.Last().Id;
+    public void Delete(int projectId)
+    {
+        _projects.Remove(_projects.First(p => p.Id == projectId));
+    }
 }

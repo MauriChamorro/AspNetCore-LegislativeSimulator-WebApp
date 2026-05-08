@@ -119,5 +119,16 @@ public class ProjectsController : Controller
         return RedirectToAction(nameof(Index));
     }
     
-    //todo: IActionResult Delete
+    [HttpPost]
+    public IActionResult Delete(int projectId)
+    {
+        if (!_projectService.ExistProject(projectId))
+            return RedirectToAction(nameof(Index));
+
+        if (!_projectService.CanDelete(projectId))
+            return RedirectToAction(nameof(Index));
+
+        _projectService.DeleteProject(projectId);
+        return RedirectToAction(nameof(Index));
+    }
 }
