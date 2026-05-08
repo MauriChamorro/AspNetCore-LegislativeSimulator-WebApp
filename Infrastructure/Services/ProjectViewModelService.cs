@@ -8,22 +8,27 @@ namespace WebAppMVC.Infrastructure.Services;
 public class ProjectViewModelService: IProjectViewModelService
 {
 
-    public ProjectViewModel CreateEmptyProjectVm(Project emptyProject) =>
-        new()
-        {
-            CurrentState = FileState.Scratch,
-            StateName = emptyProject.State.GetNameState(FileState.Scratch),
-            StateDate = DateTime.Now,
-            CanEdit =  emptyProject.CanEdit()
-        };
-
-    public List<ProjectViewModel> ToProjectsVm(List<Project> projects)
+   public List<ProjectViewModel> ToProjectsVm(List<Project> projects)
     {
         var projectsVm = new List<ProjectViewModel>();
         foreach (var project in projects)
             projectsVm.Add(ToProjectVm(project));
         return projectsVm;
     }
+    
+    public ProjectViewModel ToProjectVm(Project project) =>
+        new()
+        {
+            ProjectId = project.Id,
+            Title = project.Title,
+            Articles = project.Articles,
+            Fundaments = project.Fundaments,
+            Summary = project.Summary,
+            StateName = project.State.GetNameState(project.State.CurrentState),
+            StateDate = project.State.ChangeDate,
+            CanEdit = project.CanEdit(),
+            CommissionsAssigned = project.AreCommissionsAssigned()
+        };
     
     public void UpdateMissingValues(ProjectViewModel projectVm, Project auxProject)
     {
@@ -44,21 +49,7 @@ public class ProjectViewModelService: IProjectViewModelService
         }
     }
 
-    public ProjectViewModel ToProjectVm(Project project) =>
-        new()
-        {
-            ProjectId = project.Id,
-            Title = project.Title,
-            Articles = project.Articles,
-            Fundaments = project.Fundaments,
-            Summary = project.Summary,
-            StateName = project.State.GetNameState(project.State.CurrentState),
-            StateDate = project.State.ChangeDate,
-            CanEdit = project.CanEdit(),
-            CommissionsAssigned = project.AreCommissionsAssigned()
-        };
-
-    public void SetCommissions(ProjectViewModel projectVm, List<ReferralCommission> referralCommissions)
+    public void SetVmCommissions(ProjectViewModel projectVm, List<ReferralCommission> referralCommissions)
     {
         projectVm.Commissions = new List<CommissionViewModel>();
         foreach (var referralCommission in referralCommissions)

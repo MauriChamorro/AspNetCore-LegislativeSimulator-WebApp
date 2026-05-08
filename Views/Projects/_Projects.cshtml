@@ -72,7 +72,7 @@
         }
     </div>
     <br/>
-    @if (Model.CanEdit)
+    @if (Model.ProjectId != 0 && Model.CanEdit)
     {
         <div class="d-flex justify-content-end">
             <input type="submit" class="btn btn-danger" value="Borrar" asp-controller="Projects" asp-action="Delete" asp-for="@Model.ProjectId"/>

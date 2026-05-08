@@ -32,7 +32,7 @@ public class ProjectsController : Controller
     {
         ViewBag.Action = "add";
         var emptyProject = _projectService.CreatEmptyProject();
-        var newProjectVm = _projectViewModelService.CreateEmptyProjectVm(emptyProject);
+        var newProjectVm = _projectViewModelService.ToProjectVm(emptyProject);
         return View(newProjectVm);
     }
     
@@ -41,6 +41,7 @@ public class ProjectsController : Controller
     {
         ViewBag.Action = "add";
         
+        //TODO: check if only title is required for this phase
         if (!ModelState.IsValid)
         {
             var emptyProject = _projectService.CreatEmptyProject();
@@ -56,13 +57,16 @@ public class ProjectsController : Controller
     public IActionResult Edit(int projectId)
     {
         ViewBag.Action = "edit";
+        if (!_projectService.ExistProject(projectId))
+            return BadRequest("El proyecto no existe");
+        
         var project = _projectService.GetProjectById(projectId);
         
         var projectVm = _projectViewModelService.ToProjectVm(project);
         if (_commissionService.HasBeenAssigned(projectId))
         {
             var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
-            _projectViewModelService.SetCommissions(projectVm, referralCommissions);
+            _projectViewModelService.SetVmCommissions(projectVm, referralCommissions);
         }
         return View(projectVm);
     }
@@ -70,19 +74,17 @@ public class ProjectsController : Controller
     [HttpPost]
     public IActionResult Edit(ProjectViewModel projectVm)
     {
-        ViewBag.Action = "edit";
         //TODO: id exist validation
         //TODO: Validation: cannot edit in different to scratch
+        if (!_projectService.ExistProject(projectVm.ProjectId))
+            return BadRequest("El proyecto no existe");
+        
+        ViewBag.Action = "edit";
         var savedProject = _projectService.GetProjectById(projectVm.ProjectId);
         
         if (!ModelState.IsValid)
         {
-            if (!_projectService.ExistProject(projectVm.ProjectId))
-            {
-                ViewBag.ErrorMessage = "El proyecto no existe";
-                return View("Error");
-            }
-
+            //re fill fields
             _projectViewModelService.UpdateMissingValues(projectVm, savedProject);
             return View(projectVm);
         }
@@ -101,19 +103,22 @@ public class ProjectsController : Controller
     public IActionResult SendToCommission(ProjectViewModel projectVm)
     {
         //validations
+        //no es error de usuario, es preventivo de api
+        if (!_projectService.ExistProject(projectVm.ProjectId))
+            return BadRequest("El proyecto no existe");
+        
         var savedProject = _projectService.GetProjectById(projectVm.ProjectId);
         
+        //validar que todos los campos estén llenos
+        //en el mundo real, habrían más validaciones
         if (!ModelState.IsValid)
         {
-            if (!_projectService.ExistProject(projectVm.ProjectId))
-                return RedirectToAction(nameof(Edit), projectVm);
-
             _projectViewModelService.UpdateMissingValues(projectVm, savedProject);
-            return RedirectToAction(nameof(Edit), projectVm);
+            return View("Edit", projectVm); //doesnt clear data for on back validation
         }
 
         if(!_projectService.CanSendToCommission(savedProject))
-            return RedirectToAction(nameof(Edit), projectVm);
+            return BadRequest("No es posible enviar a comisión");
 
         _projectService.SendToCommissions(savedProject);
         return RedirectToAction(nameof(Index));
@@ -123,10 +128,10 @@ public class ProjectsController : Controller
     public IActionResult Delete(int projectId)
     {
         if (!_projectService.ExistProject(projectId))
-            return RedirectToAction(nameof(Index));
+            return View("Error");
 
         if (!_projectService.CanDelete(projectId))
-            return RedirectToAction(nameof(Index));
+            return View("Error");
 
         _projectService.DeleteProject(projectId);
         return RedirectToAction(nameof(Index));
