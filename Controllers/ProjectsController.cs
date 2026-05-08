@@ -9,14 +9,17 @@ namespace WebAppMVC.Controllers;
 
 public class ProjectsController : Controller
 {
+    private readonly IProjectService _projectService;
     private readonly IProjectRepository _projectRepository;
     private readonly IProjectViewModelService _projectViewModelService;
     private readonly ICommissionService _commissionService;
 
-    public ProjectsController(IProjectRepository projectRepository,
+    public ProjectsController(IProjectService projectService,
+        IProjectRepository projectRepository,
         IProjectViewModelService projectViewModelService,
         ICommissionService commissionService)
     {
+        _projectService = projectService;
         _projectRepository = projectRepository;
         _projectViewModelService = projectViewModelService;
         _commissionService = commissionService;
@@ -24,7 +27,7 @@ public class ProjectsController : Controller
 
     public IActionResult Index()
     {
-        var projects = _projectRepository.GetProjects();
+        var projects = _projectService.GetProjects();
         var projectVms = _projectViewModelService.ToProjectsVm(projects);
         return View(projectVms);
     }

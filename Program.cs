@@ -31,7 +31,8 @@ try
     builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
     builder.Services.AddSingleton<IAssignedCommissionsByProjectRepository, AssignedCommissionsByProjectRepository>();
     builder.Services.AddSingleton<IReferralCommissionRepository, ReferralCommissionRepository>();
-   
+    
+    builder.Services.AddScoped<IProjectService, ProjectService>();
     builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<IProjectStateService, ProjectStateService>();
     builder.Services.AddScoped<ICommissionService, CommissionService>();
