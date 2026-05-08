@@ -9,8 +9,10 @@ public interface IProjectService
     void CreateNewProject(string title, string articles, string fundaments, string summary);
     Project GetProjectById(int projectId);
     bool ExistProject(int projectId);
-    void EditProject(int projectId, string title, string articles, string fundaments, string summary);
+    void EditProject(Project project, string title, string articles, string fundaments, string summary);
     void RejectProjectByCommissions(int projectId);
     void SendToSession(int projectId);
     void SimulateSessionResult(Project project);
+    bool CanSendToCommission(Project project);
+    void SendToCommissions(Project project);
 }

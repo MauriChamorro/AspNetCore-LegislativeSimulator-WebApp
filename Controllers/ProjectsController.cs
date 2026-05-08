@@ -73,6 +73,8 @@ public class ProjectsController : Controller
         ViewBag.Action = "edit";
         //TODO: id exist validation
         //TODO: Validation: cannot edit in different to scratch
+        var savedProject = _projectService.GetProjectById(projectVm.ProjectId);
+        
         if (!ModelState.IsValid)
         {
             if (!_projectService.ExistProject(projectVm.ProjectId))
@@ -81,13 +83,12 @@ public class ProjectsController : Controller
                 return View("Error");
             }
 
-            var auxProject = _projectService.GetProjectById(projectVm.ProjectId);
-            _projectViewModelService.UpdateMissingValues(projectVm, auxProject);
+            _projectViewModelService.UpdateMissingValues(projectVm, savedProject);
             return View(projectVm);
         }
 
         _projectService.EditProject(
-            projectVm.ProjectId,
+            savedProject,
             projectVm.Title, 
             projectVm.Articles,
             projectVm.Fundaments,
@@ -100,6 +101,21 @@ public class ProjectsController : Controller
     public IActionResult SendToCommission(ProjectViewModel projectVm)
     {
         //validations
+        var savedProject = _projectService.GetProjectById(projectVm.ProjectId);
+        
+        if (!ModelState.IsValid)
+        {
+            if (!_projectService.ExistProject(projectVm.ProjectId))
+                return RedirectToAction(nameof(Edit), projectVm);
+
+            _projectViewModelService.UpdateMissingValues(projectVm, savedProject);
+            return RedirectToAction(nameof(Edit), projectVm);
+        }
+
+        if(!_projectService.CanSendToCommission(savedProject))
+            return RedirectToAction(nameof(Edit), projectVm);
+
+        _projectService.SendToCommissions(savedProject);
         return RedirectToAction(nameof(Index));
     }
     

@@ -14,7 +14,7 @@ public class ProjectService : IProjectService
     }
 
     public List<Project> GetProjects() => _projectRepository.GetProjects();
-    
+
     public Project CreatEmptyProject()
     {
         return new Project
@@ -22,7 +22,7 @@ public class ProjectService : IProjectService
             State = new()
             {
                 CurrentState = FileState.Scratch,
-                ChangeDate =  DateTime.Now
+                ChangeDate = DateTime.Now
             }
         };
     }
@@ -36,29 +36,28 @@ public class ProjectService : IProjectService
             Title = title,
             Articles = articles,
             Fundaments = fundaments,
-            Summary =  summary,
+            Summary = summary,
             State = new()
             {
                 CurrentState = FileState.Scratch,
-                ChangeDate =  DateTime.Now
+                ChangeDate = DateTime.Now
             }
         };
         _projectRepository.Add(newProject);
     }
 
-    public Project GetProjectById(int projectId) => 
+    public Project GetProjectById(int projectId) =>
         _projectRepository.GetProjects().First(p => p.Id == projectId);
 
-    public bool ExistProject(int projectId) => 
+    public bool ExistProject(int projectId) =>
         _projectRepository.GetProjects().Exists(p => p.Id == projectId);
 
-    public void EditProject(int projectId, string title, string articles, string fundaments, string summary)
+    public void EditProject(Project project, string title, string articles, string fundaments, string summary)
     {
-        var savedProject = _projectRepository.GetProjectById(projectId);
-        savedProject.Title = title;
-        savedProject.Articles = articles;
-        savedProject.Fundaments = fundaments;
-        savedProject.Summary = summary;
+        project.Title = title;
+        project.Articles = articles;
+        project.Fundaments = fundaments;
+        project.Summary = summary;
     }
 
     public void RejectProjectByCommissions(int projectId)
@@ -89,5 +88,14 @@ public class ProjectService : IProjectService
             project.State.CurrentState = FileState.RejectedInSession;
             project.State.ChangeDate = DateTime.Now;
         }
+    }
+
+    public bool CanSendToCommission(Project project) =>
+        project.State.CurrentState == FileState.Scratch;
+
+    public void SendToCommissions(Project project)
+    {
+        project.State.CurrentState = FileState.PendingForAssignCommissions;
+        project.State.ChangeDate = DateTime.Now;
     }
 }
