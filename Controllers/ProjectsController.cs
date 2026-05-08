@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Interfaces;
@@ -10,17 +9,14 @@ namespace WebAppMVC.Controllers;
 public class ProjectsController : Controller
 {
     private readonly IProjectService _projectService;
-    private readonly IProjectRepository _projectRepository;
     private readonly IProjectViewModelService _projectViewModelService;
     private readonly ICommissionService _commissionService;
 
     public ProjectsController(IProjectService projectService,
-        IProjectRepository projectRepository,
         IProjectViewModelService projectViewModelService,
         ICommissionService commissionService)
     {
         _projectService = projectService;
-        _projectRepository = projectRepository;
         _projectViewModelService = projectViewModelService;
         _commissionService = commissionService;
     }
@@ -61,30 +57,43 @@ public class ProjectsController : Controller
     public IActionResult Edit(int projectId)
     {
         ViewBag.Action = "edit";
-        var project = _projectRepository.GetProjectById(projectId);
+        var project = _projectService.GetProjectById(projectId);
         
-        var projectViewModel = _projectViewModelService.ToProjectVm(project);
+        var projectVm = _projectViewModelService.ToProjectVm(project);
         if (_commissionService.HasBeenAssigned(projectId))
         {
-            var assignedCommissions = _commissionService.GetReferralCommissionsFor(projectId);
-            _projectViewModelService.SetCommissions(projectViewModel, assignedCommissions);
+            var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
+            _projectViewModelService.SetCommissions(projectVm, referralCommissions);
         }
-        return View(projectViewModel);
+        return View(projectVm);
     }
-    
+
     [HttpPost]
     public IActionResult Edit(ProjectViewModel projectVm)
     {
         ViewBag.Action = "edit";
+        //TODO: id exist validation
+        //TODO: Validation: cannot edit in different to scratch
         if (!ModelState.IsValid)
         {
-            var auxProject = _projectRepository.GetProjectById(projectVm.ProjectId);
+            if (!_projectService.ExistProject(projectVm.ProjectId))
+            {
+                ViewBag.ErrorMessage = "El proyecto no existe";
+                return View("Error");
+            }
+
+            var auxProject = _projectService.GetProjectById(projectVm.ProjectId);
             _projectViewModelService.UpdateMissingValues(projectVm, auxProject);
             return View(projectVm);
         }
-        var editedProject = _projectViewModelService.ToProject(projectVm);
-        //add new state with validation
-        _projectRepository.Edit(editedProject);
+
+        _projectService.EditProject(
+            projectVm.ProjectId,
+            projectVm.Title, 
+            projectVm.Articles,
+            projectVm.Fundaments,
+            projectVm.Summary);
+        
         return RedirectToAction(nameof(Index));
     }
 }

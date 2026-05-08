@@ -44,22 +44,6 @@ public class ProjectViewModelService: IProjectViewModelService
         }
     }
 
-    public Project ToProject(ProjectViewModel projectVm) =>
-        new()
-        {
-            Id =  projectVm.ProjectId,
-            Title = projectVm.Title,
-            Articles = projectVm.Articles,
-            Fundaments = projectVm.Fundaments,
-            Summary = projectVm.Summary,
-            //TODO: builder para State??
-            State = new ProjectState
-            {
-                CurrentState = projectVm.CurrentState,
-                ChangeDate =  projectVm.StateDate
-            }
-        };
-
     public ProjectViewModel ToProjectVm(Project project) =>
         new()
         {
@@ -74,12 +58,12 @@ public class ProjectViewModelService: IProjectViewModelService
             CommissionsAssigned = project.AreCommissionsAssigned()
         };
 
-    public void SetCommissions(ProjectViewModel projectViewModel, List<ReferralCommission> assignedCommissions)
+    public void SetCommissions(ProjectViewModel projectVm, List<ReferralCommission> referralCommissions)
     {
-        projectViewModel.Commissions = new List<CommissionViewModel>();
-        foreach (var referralCommission in assignedCommissions)
+        projectVm.Commissions = new List<CommissionViewModel>();
+        foreach (var referralCommission in referralCommissions)
         {
-            projectViewModel.Commissions.Add(
+            projectVm.Commissions.Add(
                 new()
                 {
                     Name = referralCommission.CommisionName,

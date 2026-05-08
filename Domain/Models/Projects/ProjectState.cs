@@ -9,13 +9,13 @@ public class ProjectState
         fileState switch
         {
             FileState.Scratch => "Borrador",
-            FileState.PendingForAssignCommissions => "Asignando de Comisiones",
+            FileState.PendingForAssignCommissions => "Asignando Comisiones",
             FileState.InCommission => "En Comisiones",
             FileState.RejectedByCommissions => "Rechazado por Comisiones",
             FileState.InSession => "En Sesión",
             FileState.ApprovedInSession => "Dictaminado",
             FileState.RejectedInSession => "Recahzado en Sesión",
-            _ => ""
+            _ => "none"
         };
 }
 

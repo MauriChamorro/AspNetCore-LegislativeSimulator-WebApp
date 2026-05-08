@@ -36,6 +36,7 @@ public class ProjectService : IProjectService
             Title = title,
             Articles = articles,
             Fundaments = fundaments,
+            Summary =  summary,
             State = new()
             {
                 CurrentState = FileState.Scratch,
@@ -43,5 +44,20 @@ public class ProjectService : IProjectService
             }
         };
         _projectRepository.Add(newProject);
+    }
+
+    public Project GetProjectById(int projectId) => 
+        _projectRepository.GetProjects().First(p => p.Id == projectId);
+
+    public bool ExistProject(int projectId) => 
+        _projectRepository.GetProjects().Exists(p => p.Id == projectId);
+
+    public void EditProject(int projectId, string title, string articles, string fundaments, string summary)
+    {
+        var savedProject = _projectRepository.GetProjectById(projectId);
+        savedProject.Title = title;
+        savedProject.Articles = articles;
+        savedProject.Fundaments = fundaments;
+        savedProject.Summary = summary;
     }
 }

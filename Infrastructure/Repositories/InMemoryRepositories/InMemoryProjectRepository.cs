@@ -42,15 +42,6 @@ public class InMemoryProjectRepository : IProjectRepository
     public Project GetProjectById(int id) => 
         _projects.First(p => p.Id == id);
 
-    public void Edit(Project project)
-    {
-        var savedProject = GetProjectById(project.Id);
-        savedProject.Title = project.Title;
-        savedProject.Articles = project.Articles;
-        savedProject.Fundaments = project.Fundaments;
-        savedProject.Summary = project.Summary;
-    }
-
     public void Add(Project project) => _projects.Add(project);
 
     public int GetLastId() => _projects.Last().Id;
