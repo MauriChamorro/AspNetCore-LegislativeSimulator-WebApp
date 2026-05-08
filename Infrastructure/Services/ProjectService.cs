@@ -60,4 +60,34 @@ public class ProjectService : IProjectService
         savedProject.Fundaments = fundaments;
         savedProject.Summary = summary;
     }
+
+    public void RejectProjectByCommissions(int projectId)
+    {
+        var project = _projectRepository.GetProjectById(projectId);
+        project.State.CurrentState = FileState.RejectedByCommissions;
+        project.State.ChangeDate = DateTime.Now;
+    }
+
+    public void SendToSession(int projectId)
+    {
+        var project = _projectRepository.GetProjectById(projectId);
+        project.State.CurrentState = FileState.InSession;
+        project.State.ChangeDate = DateTime.Now;
+    }
+
+    public void SimulateSessionResult(Project project)
+    {
+        var rnd = new Random();
+        var success = rnd.Next(2) == 0;
+        if (success)
+        {
+            project.State.CurrentState = FileState.ApprovedInSession;
+            project.State.ChangeDate = DateTime.Now;
+        }
+        else
+        {
+            project.State.CurrentState = FileState.RejectedInSession;
+            project.State.ChangeDate = DateTime.Now;
+        }
+    }
 }

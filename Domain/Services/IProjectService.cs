@@ -10,4 +10,7 @@ public interface IProjectService
     Project GetProjectById(int projectId);
     bool ExistProject(int projectId);
     void EditProject(int projectId, string title, string articles, string fundaments, string summary);
+    void RejectProjectByCommissions(int projectId);
+    void SendToSession(int projectId);
+    void SimulateSessionResult(Project project);
 }

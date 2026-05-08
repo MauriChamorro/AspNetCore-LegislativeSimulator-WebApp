@@ -49,18 +49,15 @@ public class SimulationController : ControllerBase
     {
         if (!_commissionService.HasBeenAssigned(projectId))
             return BadRequest("El projecto no tiene comisiones asignadas.");
+        
         var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
         if (_commissionService.ThereAreNotPendingReferral(referralCommissions))
             return BadRequest("Todas la comisiones ya evaluaron.");
         var actualReferral = _commissionService.GetActualReferral(referralCommissions);
         _commissionService.DoNextReferralPhase(actualReferral);
+        
         if (_commissionService.ReferralIsRejected(actualReferral))
-        {
-            // TODO: service ... check update method needed
-            var project = _projectService.GetProjectById(projectId);
-            project.State.CurrentState = FileState.RejectedByCommissions;
-            project.State.ChangeDate = DateTime.Now;
-        }
+            _projectService.RejectProjectByCommissions(projectId);
 
         return Ok(actualReferral);
     }
@@ -78,7 +75,6 @@ public class SimulationController : ControllerBase
         if (!_commissionService.AcceptedByAllCommission(projectId))
             return BadRequest("El projecto debe ser aprobado por todas las commisiones.");
 
-        // TODO: service ... check update method needed
         var project = _projectService.GetProjectById(projectId);
 
         //One validation alternative
@@ -86,9 +82,7 @@ public class SimulationController : ControllerBase
             !_commissionService.AcceptedByAllCommission(projectId))
             return BadRequest("No es posible enviar a Sesión.");
 
-        //TODO: do it in a service
-        project.State.CurrentState = FileState.InSession;
-        project.State.ChangeDate = DateTime.Now;
+        _projectService.SendToSession(projectId);
 
         return Ok("Projecto en Sesión");
     }
@@ -100,25 +94,8 @@ public class SimulationController : ControllerBase
         
         if (project.State.CurrentState != FileState.InSession)
             return BadRequest("No es posible finalizar el projecto.");
-        
-        GetRandomSessionResultFor(project);
-        return Ok($"The project has been finalized");
-    }
 
-    private void GetRandomSessionResultFor(Project project)
-    {
-        //todo: do it in a service
-        var rnd = new Random();
-        var success = rnd.Next(2) == 0;
-        if (success)
-        {
-            project.State.CurrentState = FileState.ApprovedInSession;
-            project.State.ChangeDate = DateTime.Now;
-        }
-        else
-        {
-            project.State.CurrentState = FileState.RejectedInSession;
-            project.State.ChangeDate = DateTime.Now;
-        }
+        _projectService.SimulateSessionResult(project);
+        return Ok($"Resultado de Sesión: {project.State.GetNameState(project.State.CurrentState)}");
     }
 }
