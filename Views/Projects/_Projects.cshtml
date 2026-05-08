@@ -5,7 +5,7 @@
     string callToAction = action.ToLower() == "edit" ? "Actualizar" : "Crear";
 }
 
-<form method="post" asp-controller="Projects" asp-action=@action>
+<form method="post" asp-controller="Projects" asp-action=@action id="formExpediente">
     <input type="hidden" asp-for="StateName"/>
     <input type="hidden" asp-for="StateDate"/>
     <input type="hidden" asp-for="CanEdit"/>
@@ -75,10 +75,37 @@
     @if (Model.ProjectId != 0 && Model.CanEdit)
     {
         <div class="d-flex justify-content-end">
-            <input type="submit" class="btn btn-danger" value="Borrar" asp-controller="Projects" asp-action="Delete" asp-for="@Model.ProjectId"/>
+            <a class="btn btn-danger" role="button" onclick="confirmSending('@Url.Action("Delete", "Projects")', @Model.ProjectId)">Borrar</a>
         </div>
         <div class="d-flex justify-content-end">
-            <input type="submit" class="btn btn-success" value="Enviar" asp-controller="Projects" asp-action="SendToCommission"/>
+            <a class="btn btn-success" role="button" onclick="confirmSending('@Url.Action("SendToCommission", "Projects")', @Model.ProjectId)">Enviar</a>
         </div>
     }
 </form>
+
+<script>
+function confirmSending(url, projectId) {
+    Swal.fire({
+        title: '¿Enviar a Comisiones?',
+        text: "Esta acción no podrá deshacerse.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#198754', // Verde (Aceptar)
+        cancelButtonColor: '#dc3545',  // Rojo (Rechazar)
+        confirmButtonText: 'Enviar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        console.log(url,projectId);
+        if (result.isConfirmed) {
+            // 1. Obtenemos el formulario
+            const form = document.getElementById('formExpediente');
+
+            // 2. Le asignamos la URL del botón que tocamos
+            form.action = url+"/"+projectId;
+
+            // 3. Lo enviamos manualmente
+            form.submit();
+        }
+    });
+}
+</script>
