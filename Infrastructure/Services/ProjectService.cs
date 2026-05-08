@@ -9,7 +9,7 @@ public class ProjectService : IProjectService
     private readonly IProjectRepository _projectRepository;
 
     public ProjectService(IProjectRepository projectRepository)
-    {s
+    {
         _projectRepository = projectRepository;
     }
 
