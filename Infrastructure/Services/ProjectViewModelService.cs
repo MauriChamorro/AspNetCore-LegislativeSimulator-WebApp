@@ -7,20 +7,14 @@ namespace WebAppMVC.Infrastructure.Services;
 
 public class ProjectViewModelService: IProjectViewModelService
 {
-    private readonly IProjectStateService _projectStateService;
 
-    public ProjectViewModelService(IProjectStateService projectStateService)
-    {
-        _projectStateService = projectStateService;
-    }
-
-    public ProjectViewModel NewProjectViewModel() =>
+    public ProjectViewModel CreateEmptyProjectVm(Project emptyProject) =>
         new()
         {
             CurrentState = FileState.Scratch,
-            StateName = _projectStateService.GetNameState(FileState.Scratch),
+            StateName = emptyProject.State.GetNameState(FileState.Scratch),
             StateDate = DateTime.Now,
-            CanEdit =  _projectStateService.CanEdit(_projectStateService.EmptyProject())
+            CanEdit =  emptyProject.CanEdit()
         };
 
     public List<ProjectViewModel> ToProjectsVm(List<Project> projects)
@@ -43,10 +37,10 @@ public class ProjectViewModelService: IProjectViewModelService
             projectVm.Summary = auxProject.Summary;
         if (projectVm.StateName.IsNullOrEmpty())
         {
-            projectVm.StateName = _projectStateService.GetNameState(auxProject.State.CurrentState);
+            projectVm.StateName = auxProject.State.GetNameState(auxProject.State.CurrentState);
             projectVm.CurrentState = auxProject.State.CurrentState;
             projectVm.StateDate = auxProject.State.ChangeDate;
-            projectVm.CanEdit = _projectStateService.CanEdit(auxProject.State);
+            projectVm.CanEdit = auxProject.CanEdit();
         }
     }
 
@@ -74,10 +68,10 @@ public class ProjectViewModelService: IProjectViewModelService
             Articles = project.Articles,
             Fundaments = project.Fundaments,
             Summary = project.Summary,
-            StateName = _projectStateService.GetNameState(project.State.CurrentState),
+            StateName = project.State.GetNameState(project.State.CurrentState),
             StateDate = project.State.ChangeDate,
-            CanEdit = _projectStateService.CanEdit(project.State),
-            CommissionsAssigned = _projectStateService.CommissionsAssigned(project.State)
+            CanEdit = project.CanEdit(),
+            CommissionsAssigned = project.AreCommissionsAssigned()
         };
 
     public void SetCommissions(ProjectViewModel projectViewModel, List<ReferralCommission> assignedCommissions)

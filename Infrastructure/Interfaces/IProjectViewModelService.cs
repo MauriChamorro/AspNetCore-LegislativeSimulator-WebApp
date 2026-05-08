@@ -5,7 +5,7 @@ namespace WebAppMVC.Infrastructure.Interfaces;
 
 public interface IProjectViewModelService
 {
-    ProjectViewModel NewProjectViewModel();
+    ProjectViewModel CreateEmptyProjectVm(Project emptyProject);
     List<ProjectViewModel> ToProjectsVm(List<Project> projects);
     void UpdateMissingValues(ProjectViewModel projectVm, Project auxProject);
     Project ToProject(ProjectViewModel projectVm);

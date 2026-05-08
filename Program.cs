@@ -33,7 +33,6 @@ try
     
     builder.Services.AddScoped<IProjectService, ProjectService>();
     builder.Services.AddScoped<IProductService, ProductService>();
-    builder.Services.AddScoped<IProjectStateService, ProjectStateService>();
     builder.Services.AddScoped<ICommissionService, CommissionService>();
     builder.Services.AddScoped<ICommissionsVmService, CommissionsVmService>();
     builder.Services.AddScoped<IProjectViewModelService, ProjectViewModelService>();

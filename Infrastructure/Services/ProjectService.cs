@@ -14,4 +14,8 @@ public class ProjectService : IProjectService
     }
 
     public List<Project> GetProjects() => _projectRepository.GetProjects();
+    public Project CreatEmptyProject()
+    {
+        return new Project();
+    }
 }

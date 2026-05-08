@@ -36,7 +36,8 @@ public class ProjectsController : Controller
     public IActionResult Add()
     {
         ViewBag.Action = "add";
-        var newProjectVm = _projectViewModelService.NewProjectViewModel();
+        var emptyProject = _projectService.CreatEmptyProject();
+        var newProjectVm = _projectViewModelService.CreateEmptyProjectVm(emptyProject);
         return View(newProjectVm);
     }
     
