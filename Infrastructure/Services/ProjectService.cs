@@ -14,8 +14,34 @@ public class ProjectService : IProjectService
     }
 
     public List<Project> GetProjects() => _projectRepository.GetProjects();
+    
     public Project CreatEmptyProject()
     {
-        return new Project();
+        return new Project
+        {
+            State = new()
+            {
+                CurrentState = FileState.Scratch,
+                ChangeDate =  DateTime.Now
+            }
+        };
+    }
+
+    public void CreateNewProject(string title, string articles, string fundaments, string summary)
+    {
+        var lastId = _projectRepository.GetLastId();
+        var newProject = new Project
+        {
+            Id = lastId + 1,
+            Title = title,
+            Articles = articles,
+            Fundaments = fundaments,
+            State = new()
+            {
+                CurrentState = FileState.Scratch,
+                ChangeDate =  DateTime.Now
+            }
+        };
+        _projectRepository.Add(newProject);
     }
 }

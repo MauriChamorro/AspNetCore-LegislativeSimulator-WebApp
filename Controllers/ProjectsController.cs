@@ -48,23 +48,12 @@ public class ProjectsController : Controller
         
         if (!ModelState.IsValid)
         {
-            // TODO: services empty project
-            var emptyProject = new Project
-            {
-                Articles = "Art.2 ... Art.2 ...",
-                State = new()
-                {
-                    CurrentState = FileState.Scratch,
-                    ChangeDate = DateTime.Now
-                }
-            };
+            var emptyProject = _projectService.CreatEmptyProject();
             _projectViewModelService.UpdateMissingValues(projectVm, emptyProject);
             return View(projectVm);
         }
 
-        //TODO: projectService.CreateProject()
-        var newProject = _projectViewModelService.ToProject(projectVm);
-        _projectRepository.AddNewProject(newProject);
+        _projectService.CreateNewProject(projectVm.Title, projectVm.Articles, projectVm.Fundaments,projectVm.Summary);
         return RedirectToAction(nameof(Index));
     }
     

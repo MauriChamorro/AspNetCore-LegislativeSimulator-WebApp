@@ -6,4 +6,5 @@ public interface IProjectService
 {
     List<Project> GetProjects();
     Project CreatEmptyProject();
+    void CreateNewProject(string title, string articles, string fundaments, string summary);
 }

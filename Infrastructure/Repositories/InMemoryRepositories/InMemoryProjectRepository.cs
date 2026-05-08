@@ -51,9 +51,7 @@ public class InMemoryProjectRepository : IProjectRepository
         savedProject.Summary = project.Summary;
     }
 
-    public void AddNewProject(Project project)
-    {
-        project.Id = _projects.Max(p => p.Id) + 1;
-        _projects.Add(project);
-    }
+    public void Add(Project project) => _projects.Add(project);
+
+    public int GetLastId() => _projects.Last().Id;
 }
