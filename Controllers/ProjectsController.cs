@@ -95,6 +95,13 @@ public class ProjectsController : Controller
         
         return RedirectToAction(nameof(Index));
     }
+
+    [HttpPost]
+    public IActionResult SendToCommission(ProjectViewModel projectVm)
+    {
+        //validations
+        return RedirectToAction(nameof(Index));
+    }
     
-    //TODO: Send To Commissions
+    //todo: IActionResult Delete
 }

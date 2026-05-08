@@ -68,7 +68,11 @@
         <a class="btn btn-primary" asp-controller="Projects" asp-action="Index" role="button">Volver</a>
         @if (Model.CanEdit)
         { 
-            <input type="submit" class="btn btn-success" value="@callToAction"/>
+            <input type="submit" class="btn btn-secondary" value="@callToAction"/>
         }
+    </div>
+    <br/>
+    <div class="d-flex justify-content-end">
+        <input type="submit" class="btn btn-success" value="Enviar" asp-controller="Projects" asp-action="SendToCommission"/>
     </div>
 </form>
