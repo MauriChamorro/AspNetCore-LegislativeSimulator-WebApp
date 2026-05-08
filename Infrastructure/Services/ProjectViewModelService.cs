@@ -80,15 +80,15 @@ public class ProjectViewModelService: IProjectViewModelService
             CommissionsAssigned = _projectStateService.CommissionsAssigned(project.State)
         };
 
-    public void SetCommissions(ProjectViewModel projectViewModel, AssignedCommissions assignedCommissions)
+    public void SetCommissions(ProjectViewModel projectViewModel, List<ReferralCommission> assignedCommissions)
     {
         projectViewModel.Commissions = new List<CommissionViewModel>();
-        foreach (var assignedCommission in assignedCommissions.Commissions)
+        foreach (var referralCommission in assignedCommissions)
         {
             projectViewModel.Commissions.Add(
                 new()
                 {
-                    Name = assignedCommission.Name,
+                    Name = referralCommission.CommisionName,
                     Color = "bg-info"
                 }
             );

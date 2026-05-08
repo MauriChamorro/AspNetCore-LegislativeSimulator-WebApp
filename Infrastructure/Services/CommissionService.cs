@@ -6,15 +6,12 @@ namespace WebAppMVC.Infrastructure.Services;
 
 public class CommissionService : ICommissionService
 {
-    private readonly IAssignedCommissionsByProjectRepository _assignedCommissionsByProjectRepository;
     private readonly IReferralCommissionRepository _referralCommissionRepository;
 
     private List<Commission> _commissions; //this is a inmemory repo for now
 
-    public CommissionService(IAssignedCommissionsByProjectRepository assignedCommissionsByProjectRepository,
-        IReferralCommissionRepository referralCommissionRepository)
+    public CommissionService(IReferralCommissionRepository referralCommissionRepository)
     {
-        _assignedCommissionsByProjectRepository = assignedCommissionsByProjectRepository;
         _referralCommissionRepository = referralCommissionRepository;
         _commissions = new List<Commission>
         {
@@ -67,14 +64,8 @@ public class CommissionService : ICommissionService
         return assignedCommissions;
     }
 
-    public AssignedCommissions AssignCommissionTo(List<Commission> commissions, int projectId)
+    public List<ReferralCommission> AssignCommissionTo(List<Commission> commissions, int projectId)
     {
-        AssignedCommissions assignedCommissions = new()
-        {
-            ProjectId = projectId,
-            Commissions = commissions
-        };
-        _assignedCommissionsByProjectRepository.AddAssignedCommissions(assignedCommissions);
         var referralCommissions = new List<ReferralCommission>();
         foreach (var commission in commissions)
         {
@@ -89,17 +80,16 @@ public class CommissionService : ICommissionService
                 }
             );
         }
-
         _referralCommissionRepository.AddRange(referralCommissions);
-        return assignedCommissions;
+        return referralCommissions;
     }
 
     public bool HasBeenAssigned(int projectId) =>
-        _assignedCommissionsByProjectRepository.ExistProjectId(projectId);
+        _referralCommissionRepository.ExistProjectId(projectId);
 
     public List<ReferralCommission> GetReferralCommissionsFor(int projectId)
     {
-       return  _referralCommissionRepository.GetFor(projectId);
+       return _referralCommissionRepository.GetFor(projectId);
     }
 
     public ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions)
@@ -141,7 +131,4 @@ public class CommissionService : ICommissionService
     public bool AcceptedByAllCommission(int projectId) =>
         _referralCommissionRepository.GetFor(projectId)
             .TrueForAll(rc  => rc.State == ReferralCommissionState.Accepted);
-
-    public AssignedCommissions GetAssignedCommissionsFor(int projectId) =>
-        _assignedCommissionsByProjectRepository.GetCommissionsFor(projectId);
 }

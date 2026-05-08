@@ -76,7 +76,7 @@ public class ProjectsController : Controller
         var projectViewModel = _projectViewModelService.ToProjectVm(project);
         if (_commissionService.HasBeenAssigned(projectId))
         {
-            var assignedCommissions = _commissionService.GetAssignedCommissionsFor(projectId);
+            var assignedCommissions = _commissionService.GetReferralCommissionsFor(projectId);
             _projectViewModelService.SetCommissions(projectViewModel, assignedCommissions);
         }
         return View(projectViewModel);

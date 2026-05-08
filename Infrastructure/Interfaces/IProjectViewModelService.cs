@@ -10,5 +10,5 @@ public interface IProjectViewModelService
     void UpdateMissingValues(ProjectViewModel projectVm, Project auxProject);
     Project ToProject(ProjectViewModel projectVm);
     ProjectViewModel ToProjectVm(Project project);
-    void SetCommissions(ProjectViewModel projectViewModel, AssignedCommissions assignedCommissions);
+    void SetCommissions(ProjectViewModel projectViewModel, List<ReferralCommission> assignedCommissions);
 }

@@ -5,8 +5,7 @@ namespace WebAppMVC.Domain.Services;
 public interface ICommissionService
 {
     List<Commission> EvaluateCommissionFor(string projectArticles);
-    AssignedCommissions AssignCommissionTo(List<Commission> commissions, int projectId);
-    AssignedCommissions GetAssignedCommissionsFor(int projectId);
+    List<ReferralCommission> AssignCommissionTo(List<Commission> commissions, int projectId);
     bool HasBeenAssigned(int projectId);
     List<ReferralCommission> GetReferralCommissionsFor(int projectId);
     ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions);

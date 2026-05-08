@@ -12,7 +12,10 @@ public class ReferralCommissionRepository: IReferralCommissionRepository
     
     public void AddRange(List<ReferralCommission> referralCommissions) => 
         _referrals.AddRange(referralCommissions);
-
+    
+    public bool ExistProjectId(int projectId) => 
+        _referrals.Any(ac => ac.ProjectId == projectId);
+    
     public List<ReferralCommission> GetFor(int projectId) => 
         _referrals.FindAll(referralCommission => referralCommission.ProjectId == projectId);
 }

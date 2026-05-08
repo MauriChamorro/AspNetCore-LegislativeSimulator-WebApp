@@ -29,7 +29,6 @@ try
     builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
     builder.Services.AddSingleton<IProjectRepository, InMemoryProjectRepository>();
     builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
-    builder.Services.AddSingleton<IAssignedCommissionsByProjectRepository, AssignedCommissionsByProjectRepository>();
     builder.Services.AddSingleton<IReferralCommissionRepository, ReferralCommissionRepository>();
     
     builder.Services.AddScoped<IProjectService, ProjectService>();

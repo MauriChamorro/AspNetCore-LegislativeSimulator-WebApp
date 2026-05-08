@@ -41,7 +41,7 @@ public class SimulationController : ControllerBase
     {
         if (!_commissionService.HasBeenAssigned(projectId))
             return BadRequest("El projecto no tiene comisiones asignadas.");
-        var result = _commissionService.GetAssignedCommissionsFor(projectId);
+        var result = _commissionService.GetReferralCommissionsFor(projectId);
         return Ok(result);
     }
 
@@ -100,7 +100,7 @@ public class SimulationController : ControllerBase
         var project = _projectRepository.GetProjectById(projectId);
         
         if (project.State.CurrentState != FileState.InSession)
-            return BadRequest("No es posible finalizar el projecto en sesión.");
+            return BadRequest("No es posible finalizar el projecto.");
         
         GetRandomSessionResultFor(project);
         return Ok($"The project has been finalized");
