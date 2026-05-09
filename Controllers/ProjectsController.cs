@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Filters.ExceptionFilters;
 using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
 
+[UnexpectedHandleException]
 public class ProjectsController : Controller
 {
     private readonly IProjectService _projectService;

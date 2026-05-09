@@ -52,15 +52,15 @@ try
 
     if (app.Environment.IsDevelopment())
     {
+        app.UseDeveloperExceptionPage();
         app.UseSwagger();
         app.UseSwaggerUI(); // Esto habilita la interfaz gráfica
     }
 
 
-    // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
     {
-        app.UseExceptionHandler("/Home/Error");
+        app.UseExceptionHandler("/Home/Error"); //testear en prod
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
@@ -75,7 +75,6 @@ try
 }
 catch (Exception ex)
 {
-    // ESTO ES LO QUE NECESITAS EN MONSTERASP
     logger.LogCritical(ex, "La aplicación falló al arrancar.");
-    throw; // Re-lanzar para que el servidor sepa que falló
+    throw; // para que el servidor sepa que falló
 }
