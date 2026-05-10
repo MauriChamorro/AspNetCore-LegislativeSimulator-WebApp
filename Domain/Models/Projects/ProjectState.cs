@@ -13,8 +13,9 @@ public class ProjectState
             FileState.InCommission => "En Comisiones",
             FileState.RejectedByCommissions => "Rechazado por Comisiones",
             FileState.InSession => "En Sesión",
-            FileState.ApprovedInSession => "Dictaminado",
+            FileState.ApprovedInSession => "Aprobado en Sesión",
             FileState.RejectedInSession => "Recahzado en Sesión",
+            FileState.DeletedByLawmaker => "Eliminado",
             _ => "none"
         };
 }

@@ -12,7 +12,7 @@ public interface IProjectService
     void EditProject(Project project, string title, string articles, string fundaments, string summary);
     void RejectProjectByCommissions(int projectId);
     void SendToSession(int projectId);
-    void SimulateSessionResult(Project project);
+    bool SimulateSessionResult(Project project);
     bool CanSendToCommission(Project project);
     void SendToCommissions(Project project);
     void DeleteProject(int projectId);

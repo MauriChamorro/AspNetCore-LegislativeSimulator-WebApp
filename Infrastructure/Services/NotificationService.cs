@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.ViewModels;
@@ -30,15 +31,51 @@ public class NotificationService: INotificationService
     
     public void AddCommissionAssignedNotification(int projectId)
     {
-        var project = _projectService.GetProjectById(projectId);
+        var project = GetProjectById(projectId);
         var notificationVm = new NotificationViewModel
         {
             Title = "Comisiones asignadas",
             Message = $"Se asignaron comisiones al proyecto: {project.Title}"
         };
-
-        _notificationRepository.Add(notificationVm);
+        AddNotification(notificationVm);
     }
+
+    public void AddChangedCurrentReferralStateNotification(int projectId)
+    {
+        var project = GetProjectById(projectId);
+        var notificationVm = new NotificationViewModel
+        {
+            Title = "Cambio en el Estado de Giro",
+            Message = $"El proyecto {project.Title} tuvo un cambio de estado en la comisión actual"
+        };
+        AddNotification(notificationVm);
+
+    }
+
+    public void AddSendToSessionNotification(int projectId)
+    {
+        var project = GetProjectById(projectId);
+        var notificationVm = new NotificationViewModel
+        {
+            Title = "Enviado a Sesión",
+            Message = $"El proyecto {project.Title} ha sido enviado a sesión"
+        };
+        AddNotification(notificationVm);
+    }
+
+    public void AddSessionResultNotification(int projectId, bool success)
+    {
+        var project = GetProjectById(projectId);
+        var notificationVm = new NotificationViewModel
+        {
+            Title = "Dictamen",
+            Message = $"El proyecto {project.Title} ha sido {GetSessionResultTxt(success)}"
+        };
+        AddNotification(notificationVm);
+    }
+
+    private string GetSessionResultTxt(bool success) => 
+        success ? "Aprovado" : "Rechazado";
 
     private bool ThereAreNotification() => 
         _notificationRepository.GetAll().Count > 0;
@@ -46,5 +83,9 @@ public class NotificationService: INotificationService
     private NotificationViewModel GetNextNotification() 
         => _notificationRepository.GetNext();
 
-    
+    private Project GetProjectById(int projectId) => 
+        _projectService.GetProjectById(projectId);
+
+    private void AddNotification(NotificationViewModel notificationVm) => 
+        _notificationRepository.Add(notificationVm);
 }

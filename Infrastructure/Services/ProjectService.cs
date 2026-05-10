@@ -74,7 +74,7 @@ public class ProjectService : IProjectService
         project.State.ChangeDate = DateTime.Now;
     }
 
-    public void SimulateSessionResult(Project project)
+    public bool SimulateSessionResult(Project project)
     {
         var rnd = new Random();
         var success = rnd.Next(2) == 0;
@@ -88,6 +88,8 @@ public class ProjectService : IProjectService
             project.State.CurrentState = FileState.RejectedInSession;
             project.State.ChangeDate = DateTime.Now;
         }
+
+        return project.State.CurrentState == FileState.ApprovedInSession;
     }
 
     public bool CanSendToCommission(Project project) =>
