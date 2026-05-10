@@ -9,4 +9,5 @@ public interface INotificationService
     void AddChangedCurrentReferralStateNotification(int projectId);
     void AddSendToSessionNotification(int projectId);
     void AddSessionResultNotification(int projectId, bool success);
+    void AddProjectCreatedNotification();
 }

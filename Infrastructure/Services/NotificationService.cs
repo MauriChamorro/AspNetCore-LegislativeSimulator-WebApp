@@ -74,6 +74,15 @@ public class NotificationService: INotificationService
         AddNotification(notificationVm);
     }
 
+    public void AddProjectCreatedNotification()
+    {
+        var notificationVm = new NotificationViewModel
+        {
+            Title = "Proyecto creado"
+        };
+        AddNotification(notificationVm);
+    }
+
     private string GetSessionResultTxt(bool success) => 
         success ? "Aprovado" : "Rechazado";
 

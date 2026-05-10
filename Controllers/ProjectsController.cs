@@ -57,6 +57,7 @@ public class ProjectsController : Controller
         }
 
         _projectService.CreateNewProject(projectVm.Title, projectVm.Articles, projectVm.Fundaments,projectVm.Summary);
+        _notificationService.AddProjectCreatedNotification();
         return RedirectToAction(nameof(Index));
     }
     
