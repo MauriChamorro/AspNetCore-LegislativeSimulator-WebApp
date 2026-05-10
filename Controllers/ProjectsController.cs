@@ -44,7 +44,6 @@ public class ProjectsController : Controller
     {
         ViewBag.Action = "add";
         
-        //TODO: check if only title is required for this phase
         if (!ModelState.IsValid)
         {
             var emptyProject = _projectService.CreatEmptyProject();
@@ -79,11 +78,6 @@ public class ProjectsController : Controller
     {
         ViewBag.Action = "edit";
         
-        //TODO: id exist validation
-        //TODO: Validation: cannot edit in different to scratch
-        if (!_projectService.ExistProject(projectVm.ProjectId))
-            return BadRequest("El proyecto no existe");
-        
         var savedProject = _projectService.GetProjectById(projectVm.ProjectId);
         
         if (!ModelState.IsValid)
@@ -104,16 +98,11 @@ public class ProjectsController : Controller
     }
 
     [HttpPost]
+    [ProjectVmFilter]
     public IActionResult SendToCommission(ProjectViewModel projectVm)
     {
-        //validations
-        //no es error de usuario, es preventivo de api
-        if (!_projectService.ExistProject(projectVm.ProjectId))
-            return BadRequest("El proyecto no existe");
-        
         var savedProject = _projectService.GetProjectById(projectVm.ProjectId);
         
-        //validar que todos los campos estén llenos
         //en el mundo real, habrían más validaciones
         if (!ModelState.IsValid)
         {
@@ -121,23 +110,16 @@ public class ProjectsController : Controller
             ViewBag.Action = "edit";
             return View("Edit", projectVm); //doesnt clear data for on back validation
         }
-
-        if(!_projectService.CanSendToCommission(savedProject))
-            return BadRequest("No es posible enviar a comisión");
-
+        
         _projectService.SendToCommissions(savedProject);
         return RedirectToAction(nameof(Index));
     }
     
-    [HttpPost]
+    [HttpPost("Projects/Delete/{projectId}")]
+    [ProjectIdNotFoundFilter]
+    [CanDeleteProjectFilter]
     public IActionResult Delete(int projectId)
     {
-        if (!_projectService.ExistProject(projectId))
-            return View("Error");
-
-        if (!_projectService.CanDelete(projectId))
-            return View("Error");
-
         _projectService.DeleteProject(projectId);
         return RedirectToAction(nameof(Index));
     }

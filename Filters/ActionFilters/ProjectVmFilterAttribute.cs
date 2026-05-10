@@ -20,6 +20,12 @@ public class ProjectVmFilterAttribute: ActionFilterAttribute
             {
                 context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "Projecto no econtrado" });
             }
+            else
+            {
+                var savedProject = projectService.GetProjectById(projectVm.ProjectId);
+                if(!projectService.CanSendToCommission(savedProject))
+                    context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "No es posible enviar a comisión" });
+            }
         }
     }
 }
