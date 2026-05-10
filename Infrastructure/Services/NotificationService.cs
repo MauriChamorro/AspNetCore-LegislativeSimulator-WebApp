@@ -11,7 +11,7 @@ public class NotificationService: INotificationService
     private readonly INotificationRepository _notificationRepository;
     private readonly IProjectService _projectService;
 
-    public void CheckNotifications(ITempDataDictionary tempData)
+    public void SendNotification(ITempDataDictionary tempData)
     {
         if (ThereAreNotification())
         {
@@ -79,6 +79,15 @@ public class NotificationService: INotificationService
         var notificationVm = new NotificationViewModel
         {
             Title = "Proyecto creado"
+        };
+        AddNotification(notificationVm);
+    }
+
+    public void AddProjectUpdateddNotification()
+    {
+        var notificationVm = new NotificationViewModel
+        {
+            Title = "Proyecto actualizado"
         };
         AddNotification(notificationVm);
     }

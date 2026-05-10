@@ -29,7 +29,7 @@ public class ProjectsController : Controller
 
     public IActionResult Index()
     {
-        _notificationService.CheckNotifications(TempData);
+        _notificationService.SendNotification(TempData);
         var projects = _projectService.GetProjects();
         var projectVms = _projectViewModelService.ToProjectsVm(projects);
         return View(projectVms);
@@ -94,8 +94,9 @@ public class ProjectsController : Controller
         }
 
         UpdateProject(projectVm, savedProject);
-        
-        return RedirectToAction(nameof(Index));
+        _notificationService.AddProjectUpdateddNotification();
+        _notificationService.SendNotification(TempData);
+        return View(projectVm);
     }
 
     [HttpPost]
