@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Controllers;
@@ -20,6 +20,9 @@ public class ReferralCommitteesController: Controller
         _commissionsVmService = commissionsVmService;
     }
     
+    [HttpGet("ReferralCommittees/{projectId}")]
+    [ProjectIdNotFoundFilter]
+    [ReferralCommitteesFilter]
     public IActionResult Index(int projectId)
     {
         var project = _projectService.GetProjectById(projectId);

@@ -8,6 +8,7 @@ public class UnexpectedHandleException: ExceptionFilterAttribute
     public override void OnException(ExceptionContext context)
     {
         context.Result = new RedirectToActionResult("Error", "Home", null);
+        //logger for production
         context.ExceptionHandled = true;
     }
 }
