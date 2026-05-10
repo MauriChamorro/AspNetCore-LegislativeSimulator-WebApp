@@ -112,6 +112,15 @@ public class NotificationService: INotificationService
         AddNotification(notificationVm);
     }
 
+    public void AddProjectDeletedNotification()
+    {
+        var notificationVm = new NotificationViewModel
+        {
+            Title = "Projecto eliminado",
+        };
+        AddNotification(notificationVm);
+    }
+
     private string GetSessionResultTxt(bool success) => 
         success ? "Aprovado" : "Rechazado";
 

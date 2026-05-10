@@ -13,4 +13,5 @@ public interface INotificationService
     void AddProjectUpdatedNotification();
     void AddSentToCommissionsNotification();
     void AddProjectStateChangedNotification(int projectId);
+    void AddProjectDeletedNotification();
 }

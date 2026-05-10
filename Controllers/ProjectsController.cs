@@ -126,6 +126,7 @@ public class ProjectsController : Controller
     public IActionResult Delete(int projectId)
     {
         _projectService.DeleteProject(projectId);
+        _notificationService.AddProjectDeletedNotification();
         return RedirectToAction(nameof(Index));
     }
     
