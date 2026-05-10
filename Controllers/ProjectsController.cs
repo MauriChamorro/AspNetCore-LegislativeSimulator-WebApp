@@ -39,6 +39,7 @@ public class ProjectsController : Controller
         if (_notificationService.ThereAreNotification())
         {
             var noti = _notificationService.GetNextNotification();
+            TempData["SwalTitle"] = noti.Title;
             TempData["SwalMessage"] = noti.Message;
             TempData["SwalIcon"] = "info"; // success, error, warning, info
         }
