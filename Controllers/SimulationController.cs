@@ -31,11 +31,14 @@ public class SimulationController : ControllerBase
 
         var commissions = _commissionService.EvaluateCommissionFor(project.Articles);
         if (commissions.Count == 0)
+        {
+            _projectService.RejectProjectByCommissions(projectId);
+            _notificationService.AddProjectStateChangedNotification(projectId);
             return BadRequest("No se encontraron comisiones adecuadas.");
-
+        }
+        
         var result = _commissionService.AssignCommissionTo(commissions, project.Id);
-        project.State.CurrentState = FileState.InCommission;
-        project.State.ChangeDate = DateTime.Now;
+        _projectService.SendToCommissions(projectId);
         _notificationService.AddCommissionAssignedNotification(projectId);
         return Ok(result);
     }

@@ -92,11 +92,22 @@ public class NotificationService: INotificationService
         AddNotification(notificationVm);
     }
 
-    public void AddSendToCommissionsNotification()
+    public void AddSentToCommissionsNotification()
     {
         var notificationVm = new NotificationViewModel
         {
             Title = "Proyecto enviado a Comisiones"
+        };
+        AddNotification(notificationVm);
+    }
+
+    public void AddProjectStateChangedNotification(int projectId)
+    {
+        var project = GetProjectById(projectId);
+        var notificationVm = new NotificationViewModel
+        {
+            Title = "Projecto rechazado",
+            Message = $"El proyecto {project.Title} ha sido recahzado porque no se han encontrado comisiones adecuadas"
         };
         AddNotification(notificationVm);
     }

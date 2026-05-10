@@ -115,8 +115,8 @@ public class ProjectsController : Controller
         
         UpdateProject(projectVm, savedProject);
         
-        _projectService.SendToCommissions(savedProject);
-        _notificationService.AddSendToCommissionsNotification();
+        _projectService.PendingForCommissions(savedProject);
+        _notificationService.AddSentToCommissionsNotification();
         return RedirectToAction(nameof(Index));
     }
     

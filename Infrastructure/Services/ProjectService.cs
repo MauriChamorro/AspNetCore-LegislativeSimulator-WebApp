@@ -95,7 +95,7 @@ public class ProjectService : IProjectService
     public bool CanSendToCommission(Project project) =>
         project.State.CurrentState == FileState.Scratch;
 
-    public void SendToCommissions(Project project)
+    public void PendingForCommissions(Project project)
     {
         project.State.CurrentState = FileState.PendingForAssignCommissions;
         project.State.ChangeDate = DateTime.Now;
@@ -106,4 +106,11 @@ public class ProjectService : IProjectService
 
     public bool CanDelete(int projectId) => 
         _projectRepository.GetProjectById(projectId).State.CurrentState == FileState.Scratch;
+
+    public void SendToCommissions(int projectId)
+    {
+        var project = _projectRepository.GetProjectById(projectId);
+        project.State.CurrentState = FileState.InCommission;
+        project.State.ChangeDate = DateTime.Now;
+    }
 }
