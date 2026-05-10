@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Filters.ExceptionFilters;
@@ -28,21 +29,10 @@ public class ProjectsController : Controller
 
     public IActionResult Index()
     {
-        CheckNotifications();
+        _notificationService.CheckNotifications(TempData);
         var projects = _projectService.GetProjects();
         var projectVms = _projectViewModelService.ToProjectsVm(projects);
         return View(projectVms);
-    }
-
-    private void CheckNotifications()
-    {
-        if (_notificationService.ThereAreNotification())
-        {
-            var noti = _notificationService.GetNextNotification();
-            TempData["SwalTitle"] = noti.Title;
-            TempData["SwalMessage"] = noti.Message;
-            TempData["SwalIcon"] = "info"; // success, error, warning, info
-        }
     }
 
     [HttpGet]
