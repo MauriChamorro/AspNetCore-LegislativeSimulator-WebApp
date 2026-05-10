@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Controllers;
@@ -23,6 +24,7 @@ public class SimulationController : ControllerBase
     }
 
     [HttpPost("assignCommissions/{projectId}")]
+    [ProjectIdNotFoundFilter]
     public IActionResult AssignCommissions([FromRoute] int projectId)
     {
         var project = _projectService.GetProjectById(projectId);
@@ -73,6 +75,7 @@ public class SimulationController : ControllerBase
     }
 
     [HttpPost("sendToSession/{projectId}")]
+    [ProjectIdNotFoundFilter]
     public IActionResult SendToSession(int projectId)
     {
         if (!_commissionService.HasBeenAssigned(projectId))
@@ -98,6 +101,7 @@ public class SimulationController : ControllerBase
     }
 
     [HttpPost("DoSession/{projectId}")]
+    [ProjectIdNotFoundFilter]
     public IActionResult DoSession(int projectId)
     {
         var project = _projectService.GetProjectById(projectId);
