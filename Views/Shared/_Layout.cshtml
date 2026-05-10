@@ -59,12 +59,16 @@
 
         if (message) {
             Swal.fire({
-                title: title,
+                title: title || 'Notificación',
                 text: message,
                 icon: type || 'info', // Si no hay icono, por defecto info
+                timer: null,
+                timerProgressBar: false,
+                showConfirmButton: true,
                 confirmButtonText: 'Aceptar',
-                timer: 5000, // Se cierra en 3 segundos
-                timerProgressBar: true
+                confirmButtonColor: '#3085d6',
+                allowOutsideClick: false,
+                allowEscapeKey: false
             });
         }
     });
