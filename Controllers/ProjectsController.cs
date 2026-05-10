@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Filters.ExceptionFilters;
 using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.ViewModels;
@@ -55,12 +56,11 @@ public class ProjectsController : Controller
         return RedirectToAction(nameof(Index));
     }
     
-    [HttpGet]
-    public IActionResult Edit(int projectId)
+    [HttpGet("Projects/Edit/{projectId}")]
+    [ProjectIdNotFoundFilter]
+    public IActionResult Edit([FromRoute]int projectId)
     {
         ViewBag.Action = "edit";
-        if (!_projectService.ExistProject(projectId))
-            return BadRequest("El proyecto no existe");
         
         var project = _projectService.GetProjectById(projectId);
         
@@ -76,12 +76,13 @@ public class ProjectsController : Controller
     [HttpPost]
     public IActionResult Edit(ProjectViewModel projectVm)
     {
+        ViewBag.Action = "edit";
+        
         //TODO: id exist validation
         //TODO: Validation: cannot edit in different to scratch
         if (!_projectService.ExistProject(projectVm.ProjectId))
             return BadRequest("El proyecto no existe");
         
-        ViewBag.Action = "edit";
         var savedProject = _projectService.GetProjectById(projectVm.ProjectId);
         
         if (!ModelState.IsValid)
