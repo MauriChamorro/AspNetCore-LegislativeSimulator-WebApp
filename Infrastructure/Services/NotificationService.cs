@@ -83,11 +83,20 @@ public class NotificationService: INotificationService
         AddNotification(notificationVm);
     }
 
-    public void AddProjectUpdateddNotification()
+    public void AddProjectUpdatedNotification()
     {
         var notificationVm = new NotificationViewModel
         {
             Title = "Proyecto actualizado"
+        };
+        AddNotification(notificationVm);
+    }
+
+    public void AddSendToCommissionsNotification()
+    {
+        var notificationVm = new NotificationViewModel
+        {
+            Title = "Proyecto enviado a Comisiones"
         };
         AddNotification(notificationVm);
     }

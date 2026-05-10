@@ -10,5 +10,6 @@ public interface INotificationService
     void AddSendToSessionNotification(int projectId);
     void AddSessionResultNotification(int projectId, bool success);
     void AddProjectCreatedNotification();
-    void AddProjectUpdateddNotification();
+    void AddProjectUpdatedNotification();
+    void AddSendToCommissionsNotification();
 }

@@ -94,7 +94,7 @@ public class ProjectsController : Controller
         }
 
         UpdateProject(projectVm, savedProject);
-        _notificationService.AddProjectUpdateddNotification();
+        _notificationService.AddProjectUpdatedNotification();
         _notificationService.SendNotification(TempData);
         return View(projectVm);
     }
@@ -116,6 +116,7 @@ public class ProjectsController : Controller
         UpdateProject(projectVm, savedProject);
         
         _projectService.SendToCommissions(savedProject);
+        _notificationService.AddSendToCommissionsNotification();
         return RedirectToAction(nameof(Index));
     }
     
