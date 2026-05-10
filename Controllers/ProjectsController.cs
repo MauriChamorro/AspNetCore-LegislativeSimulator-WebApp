@@ -58,7 +58,7 @@ public class ProjectsController : Controller
     
     [HttpGet("Projects/Edit/{projectId}")]
     [ProjectIdNotFoundFilter]
-    public IActionResult Edit([FromRoute]int projectId)
+    public IActionResult Edit([FromRoute] int projectId)
     {
         ViewBag.Action = "edit";
         
@@ -74,6 +74,7 @@ public class ProjectsController : Controller
     }
 
     [HttpPost]
+    [ProjectVmFilter]
     public IActionResult Edit(ProjectViewModel projectVm)
     {
         ViewBag.Action = "edit";
