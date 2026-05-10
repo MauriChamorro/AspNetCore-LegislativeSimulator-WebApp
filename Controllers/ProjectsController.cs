@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Filters.ExceptionFilters;
@@ -92,12 +93,7 @@ public class ProjectsController : Controller
             return View(projectVm);
         }
 
-        _projectService.EditProject(
-            savedProject,
-            projectVm.Title, 
-            projectVm.Articles,
-            projectVm.Fundaments,
-            projectVm.Summary);
+        UpdateProject(projectVm, savedProject);
         
         return RedirectToAction(nameof(Index));
     }
@@ -116,6 +112,8 @@ public class ProjectsController : Controller
             return View("Edit", projectVm); //doesnt clear data for on back validation
         }
         
+        UpdateProject(projectVm, savedProject);
+        
         _projectService.SendToCommissions(savedProject);
         return RedirectToAction(nameof(Index));
     }
@@ -127,5 +125,15 @@ public class ProjectsController : Controller
     {
         _projectService.DeleteProject(projectId);
         return RedirectToAction(nameof(Index));
+    }
+    
+    private void UpdateProject(ProjectViewModel projectVm, Project savedProject)
+    {
+        _projectService.EditProject(
+            savedProject,
+            projectVm.Title, 
+            projectVm.Articles,
+            projectVm.Fundaments,
+            projectVm.Summary);
     }
 }
