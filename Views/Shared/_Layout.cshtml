@@ -50,6 +50,24 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Obtenemos los valores de TempData desde C#
+        var message = '@TempData["SwalMessage"]';
+        var icon = '@TempData["SwalIcon"]';
+
+        if (message) {
+            Swal.fire({
+                title: 'Notificación',
+                text: message,
+                icon: icon || 'info', // Si no hay icono, por defecto info
+                confirmButtonText: 'Aceptar',
+                timer: 3000, // Se cierra solo en 3 segundos
+                timerProgressBar: true
+            });
+        }
+    });
+</script>
 @await RenderSectionAsync("Scripts", false)
 </body>
 </html>

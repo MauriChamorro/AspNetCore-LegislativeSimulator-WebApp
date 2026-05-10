@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Controllers;
 
@@ -10,12 +11,15 @@ public class SimulationController : ControllerBase
 {
     private readonly IProjectService _projectService;
     private readonly ICommissionService _commissionService;
+    private readonly INotificationService _notificationService;
 
     public SimulationController(IProjectService projectService,
-        ICommissionService commissionService)
+        ICommissionService commissionService,
+        INotificationService notificationService)
     {
         _projectService = projectService;
         _commissionService = commissionService;
+        _notificationService = notificationService;
     }
 
     [HttpPost("assignCommissions/{projectId}")]
@@ -32,6 +36,7 @@ public class SimulationController : ControllerBase
         var result = _commissionService.AssignCommissionTo(commissions, project.Id);
         project.State.CurrentState = FileState.InCommission;
         project.State.ChangeDate = DateTime.Now;
+        _notificationService.AddCommissionAssignedNotification(projectId);
         return Ok(result);
     }
 

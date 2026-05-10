@@ -13,21 +13,35 @@ public class ProjectsController : Controller
     private readonly IProjectService _projectService;
     private readonly IProjectViewModelService _projectViewModelService;
     private readonly ICommissionService _commissionService;
+    private readonly INotificationService _notificationService;
 
     public ProjectsController(IProjectService projectService,
         IProjectViewModelService projectViewModelService,
-        ICommissionService commissionService)
+        ICommissionService commissionService,
+        INotificationService notificationService)
     {
         _projectService = projectService;
         _projectViewModelService = projectViewModelService;
         _commissionService = commissionService;
+        _notificationService = notificationService;
     }
 
     public IActionResult Index()
     {
+        CheckNotifications();
         var projects = _projectService.GetProjects();
         var projectVms = _projectViewModelService.ToProjectsVm(projects);
         return View(projectVms);
+    }
+
+    private void CheckNotifications()
+    {
+        if (_notificationService.ThereAreNotification())
+        {
+            var noti = _notificationService.GetNextNotification();
+            TempData["SwalMessage"] = noti.Message;
+            TempData["SwalIcon"] = "info"; // success, error, warning, info
+        }
     }
 
     [HttpGet]
