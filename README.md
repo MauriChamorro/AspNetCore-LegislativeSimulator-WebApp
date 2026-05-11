@@ -111,7 +111,7 @@ _Ejemplo_: http://expedientesar.somee.com/api/Simulation/DoReferring/1
 
 **Requisitos:** El proyecto tiene que estar en _En Comisiones_.
 
-**Efectos:** Cambios en los _estados de Giro (Evaluando/Aprobado/Rechazado por Comisiones)_.  Luego, ver página de _Comisiones_.
+**Efectos:** Cambios en los _estados de Giro (Evaluando/Aprobado/Rechazado por Comisiones)_.  Los cambios de estado se pueden ver en la página de _Comisiones_.
 
 **Nota**: continuar enviado peticiones hasta que todos los giros finalicen en _Aprobado o Rechazado por Comisiones_. Ver _Estados de Giro_.
 
