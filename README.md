@@ -141,10 +141,10 @@ _Ejemplo_: http://expedientesar.somee.com/api/Simulation/DoSession/1
     * Listar todos los proyectos de todos los legisladores en la Home
         * Busqueda y Filtros
     * Login (Legislador)
-    * Sistema de Notificación cliente y servidor.
+    * Mejorar Sistema de Notificación (UI Notification y servidor).
 * **Tecnologías:**
-    * Aplicar Entity Framework + CodeFirst + SQL server para Proyectos (Servicios, Repositorios, Entidades).
-    * TestSuit para Proyectos.
+    * Aplicar Entity Framework + CodeFirst + SQL server para Proyectos.
+    * TestSuit para Proyectos (Servicios, Repositorios, Entidades).
     * ASP.Net Identity.
 # ✉️ Contacto
 ¡Gracias por visitar mi proyecto! Si estás interesado en colaborar, tienes alguna duda o simplemente quieres charlar sobre desarrollo en .NET, no dudes en contactarme.
