@@ -15,8 +15,6 @@ public class CommissionsVmService: ICommissionsVmService
             ProjectId =  project.Id,
             ProjectTitle = project.Title,
             ReferralCommissions = CreateReferralCommissions(referralCommissions),
-            BackgroundColor = "#6862de",
-            Color = "#6862de"
         };
     }
 
@@ -30,12 +28,48 @@ public class CommissionsVmService: ICommissionsVmService
                 {
                     CommissionName = referralCommission.CommisionName,
                     ReferralStateName  = GetReferralStateName(referralCommission.State),
-                    ReferralDate =  referralCommission.ReferralDate
+                    ReferralDate =  referralCommission.ReferralDate,
+                    BackgroundColor = GetBackgroundColorForCommission(referralCommission.CommissionId),
+                    Color = GetColorForCommission(referralCommission.CommissionId)
                 }    
             );
         }
         return referralCommissionsVm;
     }
+
+    private string GetColorForCommission(int commissionId)
+    {
+        switch (commissionId)
+        {
+            default:
+                return "#000000";
+        }
+    }
+        
+
+    private string GetBackgroundColorForCommission(int commissionId)
+    {
+        switch (commissionId)
+        {
+            case 1:
+                return "#9cbff7";
+            case 2:
+                return "#b0e8f5";
+            case 3:
+                return "#b0f5e1";
+            case 4:
+                return "#b0f5cd";
+            case 5:
+                return "#b0f5b6";
+            case 6:
+                return "#bcf5b0";
+            case 7:
+                return "#ddf5b0";
+            default:
+                return "none";
+        }
+    }
+        
 
     private string GetReferralStateName(ReferralCommissionState referralCommissionState)
     {

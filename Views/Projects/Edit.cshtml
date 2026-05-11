@@ -2,8 +2,8 @@
 
 @section title
 {
-    <h1>@Model.Title</h1>
-    <h2>[@Model.StateName]</h2>
+    <h2>@Model.Title</h2>
+    <h3>[@Model.StateName]</h3>
     @if (Model.Commissions != null && !Model.CanEdit)
     {
         foreach (var commissionVm in Model.Commissions)

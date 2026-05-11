@@ -7,7 +7,7 @@
 
 <table class="table">
     <thead>
-    <tr>
+    <tr class="fs-5">
         <th scope="col">Nombre de Comisión</th>
         <th scope="col">Estado de Giro</th>
         <th scope="col">Fecha de Giro</th>
@@ -16,10 +16,10 @@
     <tbody>
     @foreach (var commission in Model.ReferralCommissions)
     {
-        <tr style="background-color: @Model.BackgroundColor; color: @Model.Color;">
-            <th scope="row">@commission.CommissionName</th>
-            <td>@commission.ReferralStateName</td>
-            <td>@commission.ReferralDate.ToString("dd/MM/yyyy")</td>
+        <tr>
+            <th scope="row" style="background-color: @commission.BackgroundColor; color: @commission.Color;">@commission.CommissionName </th>
+            <td style="background-color: @commission.BackgroundColor; color: @commission.Color;">@commission.ReferralStateName</td>
+            <td style="background-color: @commission.BackgroundColor; color: @commission.Color;">@commission.ReferralDate.ToString("dd/MM/yyyy")</td>
         </tr>
     }
     </tbody>

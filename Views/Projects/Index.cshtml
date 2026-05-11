@@ -10,7 +10,7 @@
         <tr>
             <th scope="col">Nro Expediente</th>
             <th scope="col">Título</th>
-            <th scope="col">Estado</th>
+            <th scope="col" style="background-color: #fff7d9">Estado</th>
             <th scope="col">Fecha Estado</th>
         </tr>
         </thead>
@@ -20,7 +20,7 @@
             <tr>
                 <th scope="row">@projectVm.ProjectId</th>
                 <td>@projectVm.Title</td>
-                <td>@projectVm.StateName</td>
+                <td style="background-color: #fff7d9">@projectVm.StateName</td>
                 <td>@projectVm.StateDate.ToString("dd/MM/yyyy")</td>
                 
                 @if (projectVm.CanEdit)
