@@ -18,29 +18,79 @@ public class CommissionService : ICommissionService
             new()
             {
                 CommissionId = 1,
-                Name = "Medio ambiente",
-                WordsForAssingment = new List<string>
-                {
-                    "glaciar", "glaciares", "perito moreno", "litoral"
-                }
+                Name = "Comisión de Asuntos Constitucionales",
+                WordsForAssingment =
+                [
+                    "Constitución", "Reforma", "Electoral", "Intervención", "Privilegios", "Tratados", "Ciudadanía",
+                    "Federalismo", "Poderes", "Enmienda", "Protocolo", "Institucional", "Representación", "Sufragio",
+                    "Autonomía", "Competencia", "Tratado", "Decretos", "Reglamentación", "Ética"
+                ]
             },
             new()
             {
                 CommissionId = 2,
-                Name = "Educación",
-                WordsForAssingment = new List<string>
-                {
-                    "escuela", "enseñanza", "maestros", "alumnos", "educativa", "escolar"
-                }
+                Name = "Comisión de Presupuesto y Hacienda",
+                WordsForAssingment =
+                [
+                    "Gasto", "Tributo", "Impuesto", "Alícuota", "Financiamiento", "Crédito", "Deuda", "Coparticipación",
+                    "Déficit", "Inversión", "Partida", "Erario", "Fiscal", "Recaudación", "Bonos", "Aranceles",
+                    "Exención", "Devengado", "Tesoro", "Superávit"
+                ]
             },
             new()
             {
                 CommissionId = 3,
-                Name = "Libertad",
-                WordsForAssingment = new List<string>
-                {
-                    "libertad", "libre", "privatización"
-                }
+                Name = "Comisión de Legislación General",
+                WordsForAssingment =
+                [
+                    "Código", "Contrato", "Civil", "Propiedad", "Locación", "Sucesiones", "Personería", "Notarial",
+                    "Registro", "Alquiler", "Sociedades", "Normativa", "Capacidad", "Patrimonio", "Domicilio",
+                    "Arrendamiento", "Prescripción", "Obligaciones", "Comercial", "Fundaciones"
+                ]
+            },
+            new()
+            {
+                CommissionId = 4,
+                Name = "Comisión de Legislación del Trabajo",
+                WordsForAssingment =
+                [
+                    "Empleo", "Indemnización", "Gremio", "Sindicato", "Salario", "Jornada", "Patronal", "Cese",
+                    "Previsión", "Jubilación", "Paritaria", "Convenio", "Aporte", "Contribución", "Despido", "ART",
+                    "Riesgo", "Licencia", "Seguridad", "Obrero"
+                ]
+            },
+            new()
+            {
+                CommissionId = 5,
+                Name = "Comisión de Acción Social y Salúd Pública",
+                WordsForAssingment =
+                [
+                    "Sanitario", "Epidemiología", "Prevención", "Paciente", "Médico", "Farmacéutico", "Adicciones",
+                    "Hospital", "Clínica", "Tratamiento", "Discapacidad", "Infancia", "Vulnerabilidad",
+                    "Medicamento", "Bioética", "Asistencia", "Vacunación", "Mental", "Nutrición", "Prestación"
+                ]
+            },
+            new()
+            {
+                CommissionId = 6,
+                Name = "Comisión de Energía y Combustible",
+                WordsForAssingment =
+                [
+                    "Hidrocarburos", "Petróleo", "Gas", "Renovables", "Tarifas", "Eléctrica", "Minería", "Litio",
+                    "Sustentable", "Generación", "Transporte", "Distribución", "Regalías", "Refinería",
+                    "Biocombustible", "Eólica", "Solar", "Cuenca", "Reservas", "Yacimiento"
+                ]
+            },
+            new()
+            {
+                CommissionId = 7,
+                Name = "Comisión de Juicio Político",
+                WordsForAssingment =
+                [
+                    "Destitución", "Mal desempeño", "Acusación", "Denuncia", "Remoción", "Investigación", "Magistrado",
+                    "Funcionario", "Corte", "Proceso", "Causal", "Testimonio", "Probatorio", "Dictamen", "Fallo",
+                    "Inhabilidad", "Debido proceso", "Senado", "Cargo", "Defensa"
+                ]
             }
         };
     }
@@ -53,7 +103,7 @@ public class CommissionService : ICommissionService
         {
             foreach (var commissionWord in commission.WordsForAssingment)
             {
-                if (articles.Contains(commissionWord))
+                if (articles.Contains(commissionWord, StringComparison.OrdinalIgnoreCase))
                 {
                     assignedCommissions.Add(commission);
                     break;
@@ -80,6 +130,7 @@ public class CommissionService : ICommissionService
                 }
             );
         }
+
         _referralCommissionRepository.AddRange(referralCommissions);
         return referralCommissions;
     }
@@ -89,7 +140,7 @@ public class CommissionService : ICommissionService
 
     public List<ReferralCommission> GetReferralCommissionsFor(int projectId)
     {
-       return _referralCommissionRepository.GetFor(projectId);
+        return _referralCommissionRepository.GetFor(projectId);
     }
 
     public ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions)
@@ -122,13 +173,14 @@ public class CommissionService : ICommissionService
         return ReferralCommissionState.Rejected;
     }
 
-    public bool ThereAreNotPendingReferral(List<ReferralCommission> referralCommissions) => 
-        referralCommissions.TrueForAll(rc => rc.State == ReferralCommissionState.Accepted ||  rc.State == ReferralCommissionState.Rejected);
+    public bool ThereAreNotPendingReferral(List<ReferralCommission> referralCommissions) =>
+        referralCommissions.TrueForAll(rc =>
+            rc.State == ReferralCommissionState.Accepted || rc.State == ReferralCommissionState.Rejected);
 
     public bool ReferralIsRejected(ReferralCommission actualReferral) =>
         actualReferral.State == ReferralCommissionState.Rejected;
 
     public bool AcceptedByAllCommission(int projectId) =>
         _referralCommissionRepository.GetFor(projectId)
-            .TrueForAll(rc  => rc.State == ReferralCommissionState.Accepted);
+            .TrueForAll(rc => rc.State == ReferralCommissionState.Accepted);
 }
