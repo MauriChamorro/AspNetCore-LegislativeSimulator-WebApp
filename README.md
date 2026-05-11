@@ -4,7 +4,7 @@
 http://expedientesar.somee.com
 
 ## 📝 Descripción
-Prototipo que simula la gestión, clasificación y visualización del proceso legislativo sobre proyectos de ley para un Legislador en particular.
+Es un prototipo que simula la gestión, clasificación y visualización del proceso legislativo sobre proyectos de ley para un Legislador en particular.
 
 ## 🎯 Propósito
 El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor para la creación de aplicaciones web aplicando algunas prácticas de Ingeniería de Software.
@@ -39,7 +39,7 @@ El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor
 * Se deben **simular los resultados que no son por acciones del usuario** (Legislador). Para hacerlo, se usan métodos POST al endpoint http://expedientesar.somee.com/api/Simulation
 * **No hay login de usuario:** la aplicación supone que eres un Legislador y ya estas logueado.
 * **La persistencia de datos** complejos sucede en memoria (por motivos de tiempo de entrega).
-* Para comprobar **conección a una base de datos de prueba**: ir a http://expedientesar.somee.com/api/person
+* Para comprobar la **conección a la base de datos** sql: http://expedientesar.somee.com/api/person
 
  
 # Cómo usar
@@ -136,7 +136,16 @@ _Ejemplo_: http://expedientesar.somee.com/api/Simulation/DoSession/1
 **Lógica de Dictamen**: 50% de éxito o de fallo.
 
 **Efectos:** Cambio de estado del proyecto _Aprobado o Rechazado en Sesión_.
-
+# 🏁 To Do
+* **Features**
+    * Listar todos los proyectos de todos los legisladores en la Home
+        * Busqueda y Filtros
+    * Login (Legislador)
+    * Sistema de Notificación cliente y servidor.
+* **Tecnologías:**
+    * Aplicar Entity Framework + CodeFirst + SQL server para Proyectos (Servicios, Repositorios, Entidades).
+    * TestSuit para Proyectos.
+    * ASP.Net Identity.
 # ✉️ Contacto
 ¡Gracias por visitar mi proyecto! Si estás interesado en colaborar, tienes alguna duda o simplemente quieres charlar sobre desarrollo en .NET, no dudes en contactarme.
 
