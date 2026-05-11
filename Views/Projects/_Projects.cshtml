@@ -45,7 +45,7 @@
     </div>
     <div>
         <label asp-for="Articles" class="form-label mt-4">Artículos</label>
-        <textarea class="form-control" id="articles" rows="5" asp-for="Articles" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
+        <textarea class="form-control" id="articles" rows="15" asp-for="Articles" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
         <div class="col">
             <span class="text-danger" asp-validation-for="Articles"></span>
         </div>
@@ -58,18 +58,13 @@
         </div>
     </div>
     <br/>
-    <div id="summary" class="row mb-3">
-        <div class="col-2">
-            <label class="col-form-label">Resumen</label>
-        </div>
-        <div class="col-6">
-            <input type="text" asp-for="Summary" class="form-control" readonly="@(Model.CanEdit ? null : "readonly")"/>
-        </div>
-        <div class="col">
-            <span class="text-danger" asp-validation-for="Summary"></span>
-        </div>
+        
+    <label asp-for="Summary" class="form-label mt-4">Resumen</label>
+    <textarea class="form-control" id="summary" rows="3" asp-for="Summary" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
+    <div class="col">
+        <span class="text-danger" asp-validation-for="Summary"></span>
     </div>
-    
+    <br/>
     <div class="d-flex justify-content-between align-items-center">
         <a class="btn btn-primary" asp-controller="Projects" asp-action="Index" role="button">Volver</a>
         @if (Model.CanEdit)
