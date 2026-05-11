@@ -66,6 +66,20 @@ public class InMemoryProjectRepository : IProjectRepository
                     ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(15))
                 }
             });
+        _projects.Add(
+            new Project
+            {
+                Id = 5,
+                Title = "Ley de Medidas Fiscales Paliativas y Relevantes.",
+                Articles = "Art. 38°.- Establécese un Régimen de Regularización de Activos para sujetos residentes y no residentes, permitiendo la declaración de fondos sin el pago de impuestos por los primeros USD 100.000.\n\nArt. 73°.- Sustitúyese el impuesto a las Ganancias de la cuarta categoría por el \"Impuesto a los Ingresos Personales\", estableciendo nuevas escalas y deducciones que se actualizarán semestralmente por IPC.\n\nArt. 101°.- Modifícanse los importes del Régimen Simplificado para Pequeños Contribuyentes (Monotributo), incrementando los topes de facturación anual para todas las categorías.",
+                Fundaments = "Es imperativo mejorar la recaudación fiscal mediante tributos más equitativos y fomentar el ingreso de capitales al sistema formal mediante un blanqueo accesible.",
+                Summary = "Reforma impositiva que reintroduce el impuesto a los altos ingresos personales, actualiza el monotributo y crea un régimen de blanqueo de capitales.",
+                State = new ProjectState
+                {
+                    CurrentState = FileState.RejectedInSession, 
+                    ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(20))
+                }
+            });
     }
 
     public List<Project> GetProjects() => 
