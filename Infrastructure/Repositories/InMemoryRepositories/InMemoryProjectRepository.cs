@@ -21,7 +21,7 @@ public class InMemoryProjectRepository : IProjectRepository
                 State = new ProjectState
                 {
                     CurrentState = FileState.Scratch,
-                    ChangeDate = DateTime.Now
+                    ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(1))
                 }
             });
         _projects.Add(
@@ -35,7 +35,7 @@ public class InMemoryProjectRepository : IProjectRepository
                 State = new ProjectState
                 {
                     CurrentState = FileState.PendingForAssignCommissions, 
-                    ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(10))
+                    ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(5))
                 }
             });
         _projects.Add(
@@ -63,7 +63,7 @@ public class InMemoryProjectRepository : IProjectRepository
                 State = new ProjectState
                 {
                     CurrentState = FileState.InSession, 
-                    ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(25))
+                    ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(15))
                 }
             });
     }
