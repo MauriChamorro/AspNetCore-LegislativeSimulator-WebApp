@@ -4,7 +4,7 @@
 http://expedientesar.somee.com
 
 ## 📝 Descripción
-Es un prototipo que simula la gestión, clasificación y visualización del proceso legislativo sobre proyectos de ley para un Legislador en particular.
+Prototipo que simula la gestión, clasificación y visualización del proceso legislativo sobre proyectos de ley para un Legislador en particular.
 
 ## 🎯 Propósito
 El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor para la creación de aplicaciones web aplicando algunas prácticas de Ingeniería de Software.
@@ -39,7 +39,7 @@ El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor
 * Se deben **simular los resultados que no son por acciones del usuario** (Legislador). Para hacerlo, se usan métodos POST al endpoint http://expedientesar.somee.com/api/Simulation
 * **No hay login de usuario:** la aplicación supone que eres un Legislador y ya estas logueado.
 * **La persistencia de datos** complejos sucede en memoria (por motivos de tiempo de entrega).
-* Para comprobar la **conección a la base de datos** sql: http://expedientesar.somee.com/api/person
+* Para comprobar **conección a una base de datos de prueba**: ir a http://expedientesar.somee.com/api/person
 
  
 # Cómo usar
