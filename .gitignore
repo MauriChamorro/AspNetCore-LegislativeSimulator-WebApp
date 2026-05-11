@@ -5,4 +5,5 @@ riderModule.iml
 /_ReSharper.Caches/
 # JetBrains Rider
 .idea/
+.dotnet/
 *.sln.iml
