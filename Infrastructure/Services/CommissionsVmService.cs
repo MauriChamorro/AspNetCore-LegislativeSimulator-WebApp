@@ -14,7 +14,9 @@ public class CommissionsVmService: ICommissionsVmService
         {
             ProjectId =  project.Id,
             ProjectTitle = project.Title,
-            ReferralCommissions = CreateReferralCommissions(referralCommissions)
+            ReferralCommissions = CreateReferralCommissions(referralCommissions),
+            BackgroundColor = "#6862de",
+            Color = "#6862de"
         };
     }
 

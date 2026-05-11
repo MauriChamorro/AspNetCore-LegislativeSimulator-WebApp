@@ -39,7 +39,7 @@ public class CommissionService : ICommissionService
                 Name = "Libertad",
                 WordsForAssingment = new List<string>
                 {
-                    "libertad", "libre"
+                    "libertad", "libre", "privatización"
                 }
             }
         };
@@ -48,12 +48,12 @@ public class CommissionService : ICommissionService
     public List<Commission> EvaluateCommissionFor(string projectArticles)
     {
         var assignedCommissions = new List<Commission>();
-        var words = projectArticles.ToLower().Split();
+        var articles = projectArticles.ToLower();
         foreach (var commission in _commissions)
         {
-            foreach (var wordInArticles in words)
+            foreach (var commissionWord in commission.WordsForAssingment)
             {
-                if (commission.WordsForAssingment.Contains(wordInArticles))
+                if (articles.Contains(commissionWord))
                 {
                     assignedCommissions.Add(commission);
                     break;

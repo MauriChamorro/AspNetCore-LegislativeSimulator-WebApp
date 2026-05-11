@@ -16,7 +16,7 @@
     <tbody>
     @foreach (var commission in Model.ReferralCommissions)
     {
-        <tr>
+        <tr style="background-color: @Model.BackgroundColor; color: @Model.Color;">
             <th scope="row">@commission.CommissionName</th>
             <td>@commission.ReferralStateName</td>
             <td>@commission.ReferralDate.ToString("dd/MM/yyyy")</td>
