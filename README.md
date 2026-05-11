@@ -86,7 +86,7 @@ El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor
         * Aprobado: "Realizar siguiente Operación de Giro" con 50% de ser _aprobado_.
         * Rechazado: "Realizar siguiente Operación de Giro" con 50% de ser _rechazado_.
 
-* Realizar **simulaciones**.
+* Realizar **simulaciones:** Ver apartado _Simulaciones_. **Nota:** Cada vez que se realiza algún cambio en las entidades, se _genera_ una notificación. Para ver la notificación, refrescar o ir a http://expedientesar.somee.com/Projects .
 
 * Una vez que el proyecto llega al estado _Aprobado_ o _Rechazado en Sesión_, se da por **finalizado el flujo**.
 
