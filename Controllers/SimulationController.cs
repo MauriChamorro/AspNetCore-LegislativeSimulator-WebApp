@@ -10,9 +10,9 @@ namespace WebAppMVC.Controllers;
 [Route("api/[controller]")]
 public class SimulationController : ControllerBase
 {
-    private readonly IProjectService _projectService;
     private readonly ICommissionService _commissionService;
     private readonly INotificationService _notificationService;
+    private readonly IProjectService _projectService;
 
     public SimulationController(IProjectService projectService,
         ICommissionService commissionService,
@@ -38,7 +38,7 @@ public class SimulationController : ControllerBase
             _notificationService.AddProjectStateChangedNotification(projectId);
             return BadRequest("No se encontraron comisiones adecuadas.");
         }
-        
+
         var result = _commissionService.AssignCommissionTo(commissions, project.Id);
         _projectService.SendToCommissions(projectId);
         _notificationService.AddCommissionAssignedNotification(projectId);
@@ -59,7 +59,7 @@ public class SimulationController : ControllerBase
     {
         if (!_commissionService.HasBeenAssigned(projectId))
             return BadRequest("El proyecto no tiene comisiones asignadas.");
-        
+
         var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
         if (_commissionService.ThereAreNotPendingReferral(referralCommissions))
             return BadRequest("Todas la comisiones ya evaluaron.");
@@ -68,7 +68,7 @@ public class SimulationController : ControllerBase
 
         if (_commissionService.ReferralIsRejected(actualReferral))
             _projectService.RejectProjectByCommissions(projectId);
-        
+
         _notificationService.AddChangedCurrentReferralStateNotification(projectId);
 
         return Ok(actualReferral);
@@ -105,14 +105,14 @@ public class SimulationController : ControllerBase
     public IActionResult DoSession(int projectId)
     {
         var project = _projectService.GetProjectById(projectId);
-        
+
         if (project.State.CurrentState != FileState.InSession)
             return BadRequest("No es posible finalizar el proyecto.");
 
         var result = _projectService.SimulateSessionResult(project);
-        
+
         _notificationService.AddSessionResultNotification(projectId, result);
-        
+
         return Ok($"Resultado de Sesión: {project.State.GetNameState(project.State.CurrentState)}");
     }
 }
