@@ -28,12 +28,10 @@ try
     
     builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
     builder.Services.AddSingleton<IProjectRepository, InMemoryProjectRepository>();
-    builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
     builder.Services.AddSingleton<IReferralCommissionRepository, ReferralCommissionRepository>();
     builder.Services.AddSingleton<INotificationRepository, InMemoryNotificationRepository>();
     
     builder.Services.AddScoped<IProjectService, ProjectService>();
-    builder.Services.AddScoped<IProductService, ProductService>();
     builder.Services.AddScoped<ICommissionService, CommissionService>();
     builder.Services.AddScoped<ICommissionsVmService, CommissionsVmService>();
     builder.Services.AddScoped<IProjectViewModelService, ProjectViewModelService>();

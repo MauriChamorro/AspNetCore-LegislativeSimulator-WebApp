@@ -8,7 +8,7 @@
 @if (Model.ProjectId != 0 && Model.CanEdit)
 {
     <div class="d-flex justify-content-end">
-        <a class="btn btn-danger" role="button" onclick="confirmSending('¿Estás seguro que desea borrar el projecto?','Borrar','@Url.Action("Delete", "Projects", new { id = Model.ProjectId })')">Borrar</a>
+        <a class="btn btn-danger" role="button" onclick="confirmSending('¿Estás seguro que desea borrar el proyecto?','Borrar','@Url.Action("Delete", "Projects", new { id = Model.ProjectId })')">Borrar</a>
     </div>
 }
 <form method="post" asp-controller="Projects" asp-action=@action id="formExpediente">
