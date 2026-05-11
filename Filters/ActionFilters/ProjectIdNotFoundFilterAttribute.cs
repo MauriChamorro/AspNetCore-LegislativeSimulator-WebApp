@@ -16,7 +16,7 @@ public class ProjectIdNotFoundFilterAttribute: ActionFilterAttribute
         
         if (!projectService.ExistProject(projectId))
         {
-            context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "Projecto no econtrado" });
+            context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "Proyecto no econtrado" });
         }
     }
 }

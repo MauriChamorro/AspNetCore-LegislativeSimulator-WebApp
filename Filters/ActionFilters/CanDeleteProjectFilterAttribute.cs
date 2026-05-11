@@ -16,7 +16,7 @@ public class CanDeleteProjectFilterAttribute: ActionFilterAttribute
         if (!projectService.CanDelete(projectId)) 
             context.Result = new RedirectToActionResult("Error",
                 "Home", 
-                new { errorMessage = "No es posible borrar el projecto actual" });
+                new { errorMessage = "No es posible borrar el proyecto actual" });
 
     }
 }

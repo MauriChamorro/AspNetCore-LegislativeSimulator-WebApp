@@ -16,7 +16,7 @@ public class ReferralCommitteesFilterAttribute: ActionFilterAttribute
 
         if (!commissionService.HasBeenAssigned(projectId))
         {
-            context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "El projecto no tiene comisiones asignadas" });
+            context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "El proyecto no tiene comisiones asignadas" });
         }
             
     }

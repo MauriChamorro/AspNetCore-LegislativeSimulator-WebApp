@@ -18,7 +18,7 @@ public class ProjectVmFilterAttribute: ActionFilterAttribute
         {
             if(!projectService.ExistProject(projectVm.ProjectId))
             {
-                context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "Projecto no econtrado" });
+                context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "Proyecto no econtrado" });
             }
             else
             {
