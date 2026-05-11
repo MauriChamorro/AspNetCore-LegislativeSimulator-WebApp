@@ -109,7 +109,7 @@ public class NotificationService: INotificationService
         var project = GetProjectById(projectId);
         var notificationVm = new NotificationViewModel
         {
-            Title = "Projecto rechazado",
+            Title = "Proyecto rechazado",
             Message = $"El proyecto {project.Title} ha sido recahzado porque no se han encontrado comisiones adecuadas"
         };
         AddNotification(notificationVm);
@@ -119,13 +119,13 @@ public class NotificationService: INotificationService
     {
         var notificationVm = new NotificationViewModel
         {
-            Title = "Projecto eliminado",
+            Title = "Proyecto eliminado",
         };
         AddNotification(notificationVm);
     }
 
     private string GetSessionResultTxt(bool success) => 
-        success ? "Aprovado" : "Rechazado";
+        success ? "Aprobado" : "Rechazado";
 
     private bool ThereAreNotification() => 
         _notificationRepository.GetAll().Count > 0;
