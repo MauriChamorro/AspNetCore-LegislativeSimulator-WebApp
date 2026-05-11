@@ -7,4 +7,5 @@ public interface INotificationRepository
     void Add(NotificationViewModel notificationVm);
     List<NotificationViewModel> GetAll();
     NotificationViewModel GetNext();
+    void Clear();
 }

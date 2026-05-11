@@ -20,6 +20,9 @@ public class NotificationService: INotificationService
             tempData["SwalMessage"] = noti.Message;
             tempData["SwalIcon"] = "info"; // success, error, warning, info
         }
+
+        //todo: notification ui feature for old notifications
+        _notificationRepository.Clear();
     }
     
     public NotificationService(INotificationRepository notificationRepository,

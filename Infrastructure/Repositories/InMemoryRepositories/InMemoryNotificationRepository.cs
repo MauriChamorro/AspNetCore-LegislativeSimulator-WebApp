@@ -16,4 +16,5 @@ public class InMemoryNotificationRepository: INotificationRepository
     public List<NotificationViewModel> GetAll() => _notis.ToList();
     
     public NotificationViewModel GetNext() => _notis.Dequeue();
+    public void Clear() => _notis.Clear();
 }
