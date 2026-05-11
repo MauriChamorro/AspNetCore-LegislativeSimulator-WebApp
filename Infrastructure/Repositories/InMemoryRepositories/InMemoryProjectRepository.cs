@@ -62,7 +62,7 @@ public class InMemoryProjectRepository : IProjectRepository
                 Summary = "Desregulación total de los contratos de alquiler, permitiendo acuerdos libres en plazos, moneda (pesos o dólares) e índices de actualización.",
                 State = new ProjectState
                 {
-                    CurrentState = FileState.InSession, 
+                    CurrentState = FileState.ApprovedInSession, 
                     ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(15))
                 }
             });
@@ -77,7 +77,7 @@ public class InMemoryProjectRepository : IProjectRepository
                 State = new ProjectState
                 {
                     CurrentState = FileState.RejectedInSession, 
-                    ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(20))
+                    ChangeDate = DateTime.Now.Subtract(TimeSpan.FromDays(3))
                 }
             });
     }

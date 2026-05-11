@@ -138,10 +138,8 @@ public class CommissionService : ICommissionService
     public bool HasBeenAssigned(int projectId) =>
         _referralCommissionRepository.ExistProjectId(projectId);
 
-    public List<ReferralCommission> GetReferralCommissionsFor(int projectId)
-    {
-        return _referralCommissionRepository.GetFor(projectId);
-    }
+    public List<ReferralCommission> GetReferralCommissionsFor(int projectId) => 
+        _referralCommissionRepository.GetFor(projectId);
 
     public ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions)
     {
