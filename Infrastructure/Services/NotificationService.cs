@@ -49,7 +49,7 @@ public class NotificationService: INotificationService
         var notificationVm = new NotificationViewModel
         {
             Title = "Cambio de Giro",
-            Message = $"El proyecto {project.Title} tuvo un cambio de Giro"
+            Message = $"El proyecto {project.Title} tuvo un cambio en sus Giros"
         };
         AddNotification(notificationVm);
 
