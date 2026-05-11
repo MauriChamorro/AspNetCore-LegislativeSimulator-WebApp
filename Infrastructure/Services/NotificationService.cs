@@ -45,8 +45,8 @@ public class NotificationService: INotificationService
         var project = GetProjectById(projectId);
         var notificationVm = new NotificationViewModel
         {
-            Title = "Cambio en el Estado de Giro",
-            Message = $"El proyecto {project.Title} tuvo un cambio de estado en la comisión actual"
+            Title = "Cambio de Giro",
+            Message = $"El proyecto {project.Title} tuvo un cambio de Giro"
         };
         AddNotification(notificationVm);
 

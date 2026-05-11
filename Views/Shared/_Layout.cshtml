@@ -53,8 +53,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Obtenemos los valores de TempData desde C#
-        var title = '@TempData["SwalTitle"]';
-        var message = '@TempData["SwalMessage"]';
+        var title = '@Html.Raw(TempData["SwalTitle"])';
+        var message = '@Html.Raw(TempData["SwalMessage"])';
         var type = '@TempData["SwalIcon"]';
 
         if (title) {
