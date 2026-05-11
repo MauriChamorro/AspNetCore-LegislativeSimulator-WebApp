@@ -8,7 +8,7 @@ using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
 
-[UnexpectedHandleException]
+[UnexpectedExceptionHandler]
 public class ProjectsController : Controller
 {
     private readonly IProjectService _projectService;

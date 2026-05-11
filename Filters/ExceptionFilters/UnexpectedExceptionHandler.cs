@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace WebAppMVC.Filters.ExceptionFilters;
 
-public class UnexpectedHandleException: ExceptionFilterAttribute
+public class UnexpectedExceptionHandler: ExceptionFilterAttribute
 {
     public override void OnException(ExceptionContext context)
     {
