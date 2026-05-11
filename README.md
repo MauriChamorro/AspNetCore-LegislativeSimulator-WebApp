@@ -39,7 +39,7 @@ El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor
 * Se deben **simular los resultados que no son por acciones del usuario** (Legislador). Para hacerlo, se usan métodos POST al endpoint http://expedientesar.somee.com/api/Simulation
 * **No hay login de usuario:** la aplicación supone que eres un Legislador y ya estas logueado.
 * **La persistencia de datos** complejos sucede en memoria (por motivos de tiempo de entrega).
-* Para comprobar la **conección a la base de datos** sql: http://expedientesar.somee.com/api/person
+* Para comprobar una **conección a base de datos** sql: http://expedientesar.somee.com/api/person
 
  
 # Cómo usar
@@ -55,7 +55,7 @@ El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor
     * En Sesión
     * Aprobado
     * Rechazado en Sesión
-    * Elimado por Legislador
+    * Eliminado por Legislador
 * **Editar**: abre un proyecto en _estado Borrador_ para hacer modifiaciones.
     * **Borrar**: es el único momento en el que se puede _Eliminar_ un proyecto de ley.
     * **Actualizar**: guarda los cambios realizados.
