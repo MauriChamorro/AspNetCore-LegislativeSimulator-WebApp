@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Contexts;
+using WebAppMVC.DbFirstModels;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Interfaces;
@@ -22,15 +23,17 @@ try
     logger.LogInformation("Configurando servicios...");
     logger.LogInformation("GetConnectionString");
 
-    // Add services.
+    // inject db
     var connectionString = builder.Configuration.GetConnectionString("DbConnection");
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+    builder.Services.AddDbContext<ExpedientesDevContext>(options => options.UseSqlServer(connectionString));
     
-    builder.Services.AddScoped<IPersonRepository, PersonDbContext>();
+    // inject repositories
+    //.Services.AddScoped<IPersonRepository, PersonDbContext>();
     builder.Services.AddSingleton<IProjectRepository, InMemoryProjectRepository>();
     builder.Services.AddSingleton<IReferralCommissionRepository, ReferralCommissionRepository>();
     builder.Services.AddSingleton<INotificationRepository, InMemoryNotificationRepository>();
     
+    // inject services
     builder.Services.AddScoped<IProjectService, ProjectService>();
     builder.Services.AddScoped<ICommissionService, CommissionService>();
     builder.Services.AddScoped<ICommissionsVmService, CommissionsVmService>();
