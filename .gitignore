@@ -1,9 +1,13 @@
 bin/
 obj/
 /packages/
+
+# JetBrains Rider / ReSharper
 riderModule.iml
 /_ReSharper.Caches/
-# JetBrains Rider
 .idea/
+*.DotSettings.user
+
+
 .dotnet/
 *.sln.iml
