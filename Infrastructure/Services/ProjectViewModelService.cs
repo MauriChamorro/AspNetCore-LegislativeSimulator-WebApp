@@ -19,13 +19,13 @@ public class ProjectViewModelService: IProjectViewModelService
     public ProjectViewModel ToProjectVm(Project project) =>
         new()
         {
-            ProjectId = project.Id,
+            ProjectId = project.ProjectId,
             Title = project.Title,
             Articles = project.Articles,
             Fundaments = project.Fundaments,
             Summary = project.Summary,
-            StateName = project.State.GetNameState(project.State.CurrentState),
-            StateDate = project.State.ChangeDate,
+            StateName = project.State.GetNameState(project.State.State),
+            StateDate = project.State.Date,
             CanEdit = project.CanEdit(),
             CommissionsAssigned = project.AreCommissionsAssigned()
         };
@@ -41,13 +41,13 @@ public class ProjectViewModelService: IProjectViewModelService
         if (projectVm.Summary.IsNullOrEmpty())
             projectVm.Summary = auxProject.Summary;
         
-        projectVm.StateName = auxProject.State.GetNameState(auxProject.State.CurrentState);
-        projectVm.CurrentState = auxProject.State.CurrentState;
-        projectVm.StateDate = auxProject.State.ChangeDate;
+        projectVm.StateName = auxProject.State.GetNameState(auxProject.State.State);
+        projectVm.CurrentState = auxProject.State.State;
+        projectVm.StateDate = auxProject.State.Date;
         projectVm.CanEdit = auxProject.CanEdit();
     }
 
-    public void SetVmCommissions(ProjectViewModel projectVm, List<ReferralCommission> referralCommissions)
+    public void SetVmCommissions(ProjectViewModel projectVm, List<Referral> referralCommissions)
     {
         projectVm.Commissions = new List<CommissionViewModel>();
         foreach (var referralCommission in referralCommissions)
@@ -55,7 +55,7 @@ public class ProjectViewModelService: IProjectViewModelService
             projectVm.Commissions.Add(
                 new()
                 {
-                    Name = referralCommission.CommisionName,
+                    Name = referralCommission.CommissionName,
                     Color = "bg-info"
                 }
             );

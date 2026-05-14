@@ -6,5 +6,5 @@ namespace WebAppMVC.Infrastructure.Interfaces;
 public interface ICommissionsVmService
 {
     ProjectReferralCommissionsViewModel CreateReferralCommissionsVMs(Project project,
-        List<ReferralCommission> referralCommissions);
+        List<Referral> referralCommissions);
 }

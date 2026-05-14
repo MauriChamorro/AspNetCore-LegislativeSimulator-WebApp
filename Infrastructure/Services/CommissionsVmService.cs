@@ -8,17 +8,17 @@ public class CommissionsVmService: ICommissionsVmService
 {
     public ProjectReferralCommissionsViewModel CreateReferralCommissionsVMs(
         Project project,
-        List<ReferralCommission> referralCommissions)
+        List<Referral> referralCommissions)
     {
         return new ProjectReferralCommissionsViewModel
         {
-            ProjectId =  project.Id,
+            ProjectId =  project.ProjectId,
             ProjectTitle = project.Title,
             ReferralCommissions = CreateReferralCommissions(referralCommissions),
         };
     }
 
-    private List<ReferralCommissionViewModel> CreateReferralCommissions(List<ReferralCommission> referralCommissions)
+    private List<ReferralCommissionViewModel> CreateReferralCommissions(List<Referral> referralCommissions)
     {
         var referralCommissionsVm = new List<ReferralCommissionViewModel>();
         foreach (var referralCommission in referralCommissions)
@@ -26,9 +26,9 @@ public class CommissionsVmService: ICommissionsVmService
             referralCommissionsVm.Add(
                 new ReferralCommissionViewModel
                 {
-                    CommissionName = referralCommission.CommisionName,
+                    CommissionName = referralCommission.CommissionName,
                     ReferralStateName  = GetReferralStateName(referralCommission.State),
-                    ReferralDate =  referralCommission.ReferralDate,
+                    ReferralDate =  referralCommission.Date,
                     BackgroundColor = GetBackgroundColorForCommission(referralCommission.CommissionId),
                     Color = GetColorForCommission(referralCommission.CommissionId)
                 }    

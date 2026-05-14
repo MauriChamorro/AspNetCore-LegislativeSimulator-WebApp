@@ -1,9 +1,14 @@
 namespace WebAppMVC.Domain.Models.Projects;
 
-public class ProjectState
+public partial class ProjectState
 {
-    public FileState CurrentState { get; set; }
-    public DateTime ChangeDate { get; set; }
+    public int StateId { get; set; }
+
+    public string Name { get; set; } = null!;
+    public FileState State { get; set; }
+    public DateTime Date { get; set; }
+    
+    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
     
     public string GetNameState(FileState fileState) =>
         fileState switch

@@ -19,7 +19,7 @@ public class CommissionService : ICommissionService
             {
                 CommissionId = 1,
                 Name = "Comisión de Asuntos Constitucionales",
-                WordsForAssingment =
+                WordsForAssignment =
                 [
                     "Constitución", "Reforma", "Electoral", "Intervención", "Privilegios", "Tratados", "Ciudadanía",
                     "Federalismo", "Poderes", "Enmienda", "Protocolo", "Institucional", "Representación", "Sufragio",
@@ -30,7 +30,7 @@ public class CommissionService : ICommissionService
             {
                 CommissionId = 2,
                 Name = "Comisión de Presupuesto y Hacienda",
-                WordsForAssingment =
+                WordsForAssignment =
                 [
                     "Gasto", "Tributo", "Impuesto", "Alícuota", "Financiamiento", "Crédito", "Deuda", "Coparticipación",
                     "Déficit", "Inversión", "Partida", "Erario", "Fiscal", "Recaudación", "Bonos", "Aranceles",
@@ -41,7 +41,7 @@ public class CommissionService : ICommissionService
             {
                 CommissionId = 3,
                 Name = "Comisión de Legislación General",
-                WordsForAssingment =
+                WordsForAssignment =
                 [
                     "Código", "Contrato", "Civil", "Propiedad", "Locación", "Sucesiones", "Personería", "Notarial",
                     "Registro", "Alquiler", "Sociedades", "Normativa", "Capacidad", "Patrimonio", "Domicilio",
@@ -52,7 +52,7 @@ public class CommissionService : ICommissionService
             {
                 CommissionId = 4,
                 Name = "Comisión de Legislación del Trabajo",
-                WordsForAssingment =
+                WordsForAssignment =
                 [
                     "Empleo", "Indemnización", "Gremio", "Sindicato", "Salario", "Jornada", "Patronal", "Cese",
                     "Previsión", "Jubilación", "Paritaria", "Convenio", "Aporte", "Contribución", "Despido", "ART",
@@ -63,7 +63,7 @@ public class CommissionService : ICommissionService
             {
                 CommissionId = 5,
                 Name = "Comisión de Acción Social y Salúd Pública",
-                WordsForAssingment =
+                WordsForAssignment =
                 [
                     "Sanitario", "Epidemiología", "Prevención", "Paciente", "Médico", "Farmacéutico", "Adicciones",
                     "Hospital", "Clínica", "Tratamiento", "Discapacidad", "Infancia", "Vulnerabilidad",
@@ -74,7 +74,7 @@ public class CommissionService : ICommissionService
             {
                 CommissionId = 6,
                 Name = "Comisión de Energía y Combustible",
-                WordsForAssingment =
+                WordsForAssignment =
                 [
                     "Hidrocarburos", "Petróleo", "Gas", "Renovables", "Tarifas", "Eléctrica", "Minería", "Litio",
                     "Sustentable", "Generación", "Transporte", "Distribución", "Regalías", "Refinería",
@@ -85,7 +85,7 @@ public class CommissionService : ICommissionService
             {
                 CommissionId = 7,
                 Name = "Comisión de Juicio Político",
-                WordsForAssingment =
+                WordsForAssignment =
                 [
                     "Destitución", "Mal desempeño", "Acusación", "Denuncia", "Remoción", "Investigación", "Magistrado",
                     "Funcionario", "Corte", "Proceso", "Causal", "Testimonio", "Probatorio", "Dictamen", "Fallo",
@@ -101,7 +101,7 @@ public class CommissionService : ICommissionService
         var articles = projectArticles.ToLower();
         foreach (var commission in _commissions)
         {
-            foreach (var commissionWord in commission.WordsForAssingment)
+            foreach (var commissionWord in commission.WordsForAssignment)
             {
                 if (articles.Contains(commissionWord, StringComparison.OrdinalIgnoreCase))
                 {
@@ -114,19 +114,19 @@ public class CommissionService : ICommissionService
         return assignedCommissions;
     }
 
-    public List<ReferralCommission> AssignCommissionTo(List<Commission> commissions, int projectId)
+    public List<Referral> AssignCommissionTo(List<Commission> commissions, int projectId)
     {
-        var referralCommissions = new List<ReferralCommission>();
+        var referralCommissions = new List<Referral>();
         foreach (var commission in commissions)
         {
             referralCommissions.Add(
-                new ReferralCommission
+                new Referral
                 {
                     ProjectId = projectId,
                     CommissionId = commission.CommissionId,
-                    CommisionName = commission.Name,
+                    CommissionName = commission.Name,
                     State = ReferralCommissionState.Assigned,
-                    ReferralDate = DateTime.Now
+                    Date = DateTime.Now
                 }
             );
         }
@@ -138,27 +138,27 @@ public class CommissionService : ICommissionService
     public bool HasBeenAssigned(int projectId) =>
         _referralCommissionRepository.ExistProjectId(projectId);
 
-    public List<ReferralCommission> GetReferralCommissionsFor(int projectId) => 
+    public List<Referral> GetReferralCommissionsFor(int projectId) => 
         _referralCommissionRepository.GetFor(projectId);
 
-    public ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions)
+    public Referral GetActualReferral(List<Referral> referralCommissions)
     {
         if (referralCommissions.Any(rc => rc.State == ReferralCommissionState.Evaluating))
             return referralCommissions.First(rc => rc.State == ReferralCommissionState.Evaluating);
         return referralCommissions.First(rc => rc.State == ReferralCommissionState.Assigned);
     }
 
-    public void DoNextReferralPhase(ReferralCommission actualReferral)
+    public void DoNextReferralPhase(Referral actualReferral)
     {
         if (actualReferral.State == ReferralCommissionState.Assigned)
         {
             actualReferral.State = ReferralCommissionState.Evaluating;
-            actualReferral.ReferralDate = DateTime.Now;
+            actualReferral.Date = DateTime.Now;
         }
         else if (actualReferral.State == ReferralCommissionState.Evaluating)
         {
             actualReferral.State = GetRandomResult();
-            actualReferral.ReferralDate = DateTime.Now;
+            actualReferral.Date = DateTime.Now;
         }
     }
 
@@ -171,11 +171,11 @@ public class CommissionService : ICommissionService
         return ReferralCommissionState.Rejected;
     }
 
-    public bool ThereAreNotPendingReferral(List<ReferralCommission> referralCommissions) =>
+    public bool ThereAreNotPendingReferral(List<Referral> referralCommissions) =>
         referralCommissions.TrueForAll(rc =>
             rc.State == ReferralCommissionState.Accepted || rc.State == ReferralCommissionState.Rejected);
 
-    public bool ReferralIsRejected(ReferralCommission actualReferral) =>
+    public bool ReferralIsRejected(Referral actualReferral) =>
         actualReferral.State == ReferralCommissionState.Rejected;
 
     public bool AcceptedByAllCommission(int projectId) =>

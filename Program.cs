@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using WebAppMVC.Contexts;
 using WebAppMVC.DbFirstModels;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Interfaces;
-using WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;
 using WebAppMVC.Infrastructure.Repositories.DbContexts;
+using WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;
 using WebAppMVC.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,7 +28,7 @@ try
     
     // inject repositories
     //.Services.AddScoped<IPersonRepository, PersonDbContext>();
-    builder.Services.AddSingleton<IProjectRepository, InMemoryProjectRepository>();
+    builder.Services.AddScoped<IProjectRepository, DbContextProjectRepository>();
     builder.Services.AddSingleton<IReferralCommissionRepository, ReferralCommissionRepository>();
     builder.Services.AddSingleton<INotificationRepository, InMemoryNotificationRepository>();
     

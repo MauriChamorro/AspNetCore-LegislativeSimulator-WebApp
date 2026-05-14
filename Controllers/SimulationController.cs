@@ -28,7 +28,7 @@ public class SimulationController : ControllerBase
     public IActionResult AssignCommissions([FromRoute] int projectId)
     {
         var project = _projectService.GetProjectById(projectId);
-        if (project.State.CurrentState != FileState.PendingForAssignCommissions)
+        if (project.State.State != FileState.PendingForAssignCommissions)
             return BadRequest("No es posible para el estado en que se encuentra.");
 
         var commissions = _commissionService.EvaluateCommissionFor(project.Articles);
@@ -39,7 +39,7 @@ public class SimulationController : ControllerBase
             return BadRequest("No se encontraron comisiones adecuadas.");
         }
 
-        var result = _commissionService.AssignCommissionTo(commissions, project.Id);
+        var result = _commissionService.AssignCommissionTo(commissions, project.ProjectId);
         _projectService.SendToCommissions(projectId);
         _notificationService.AddCommissionAssignedNotification(projectId);
         return Ok(result);
@@ -91,7 +91,7 @@ public class SimulationController : ControllerBase
         var project = _projectService.GetProjectById(projectId);
 
         //One validation alternative
-        if (project.State.CurrentState != FileState.InCommission &&
+        if (project.State.State != FileState.InCommission &&
             !_commissionService.AcceptedByAllCommission(projectId))
             return BadRequest("No es posible enviar a Sesión.");
 
@@ -106,13 +106,13 @@ public class SimulationController : ControllerBase
     {
         var project = _projectService.GetProjectById(projectId);
 
-        if (project.State.CurrentState != FileState.InSession)
+        if (project.State.State != FileState.InSession)
             return BadRequest("No es posible finalizar el proyecto.");
 
         var result = _projectService.SimulateSessionResult(project);
 
         _notificationService.AddSessionResultNotification(projectId, result);
 
-        return Ok($"Resultado de Sesión: {project.State.GetNameState(project.State.CurrentState)}");
+        return Ok($"Resultado de Sesión: {project.State.GetNameState(project.State.State)}");
     }
 }

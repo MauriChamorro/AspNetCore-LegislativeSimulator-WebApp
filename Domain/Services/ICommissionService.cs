@@ -5,12 +5,12 @@ namespace WebAppMVC.Domain.Services;
 public interface ICommissionService
 {
     List<Commission> EvaluateCommissionFor(string projectArticles);
-    List<ReferralCommission> AssignCommissionTo(List<Commission> commissions, int projectId);
+    List<Referral> AssignCommissionTo(List<Commission> commissions, int projectId);
     bool HasBeenAssigned(int projectId);
-    List<ReferralCommission> GetReferralCommissionsFor(int projectId);
-    ReferralCommission GetActualReferral(List<ReferralCommission> referralCommissions);
-    void DoNextReferralPhase(ReferralCommission actualReferral);
-    bool ThereAreNotPendingReferral(List<ReferralCommission> referralCommissions);
-    bool ReferralIsRejected(ReferralCommission actualReferral);
+    List<Referral> GetReferralCommissionsFor(int projectId);
+    Referral GetActualReferral(List<Referral> referralCommissions);
+    void DoNextReferralPhase(Referral actualReferral);
+    bool ThereAreNotPendingReferral(List<Referral> referralCommissions);
+    bool ReferralIsRejected(Referral actualReferral);
     bool AcceptedByAllCommission(int projectId);
 }
