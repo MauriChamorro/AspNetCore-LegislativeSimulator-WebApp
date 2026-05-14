@@ -51,17 +51,17 @@ public partial class ExpedientesDevContext : DbContext
             entity.HasKey(e => e.ProjectId).HasName("PK_Project");
 
             entity.Property(e => e.ProjectId)
-                .HasMaxLength(30)
-                .IsFixedLength()
+                .ValueGeneratedNever()
                 .HasColumnName("projectId");
-            entity.Property(e => e.Articles)
-                .HasMaxLength(500)
-                .IsFixedLength()
-                .HasColumnName("articles");
+            entity.Property(e => e.Articles).HasColumnName("articles");
             entity.Property(e => e.Fundaments)
                 .HasMaxLength(500)
                 .IsFixedLength()
                 .HasColumnName("fundaments");
+            entity.Property(e => e.NumExpediente)
+                .HasMaxLength(30)
+                .IsFixedLength()
+                .HasColumnName("numExpediente");
             entity.Property(e => e.StateId).HasColumnName("stateId");
             entity.Property(e => e.Summary)
                 .HasMaxLength(200)
@@ -113,11 +113,6 @@ public partial class ExpedientesDevContext : DbContext
                 .HasForeignKey(d => d.CommissionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ProjectCommissions_Commission");
-
-            entity.HasOne(d => d.Project).WithMany(p => p.Referrals)
-                .HasForeignKey(d => d.ProjectId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProjectCommissions_Project");
         });
 
         OnModelCreatingPartial(modelBuilder);

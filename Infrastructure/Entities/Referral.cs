@@ -14,6 +14,4 @@ public partial class Referral
     public int State { get; set; }
 
     public virtual Commission Commission { get; set; } = null!;
-
-    public virtual Project Project { get; set; } = null!;
 }

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Model = WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Infrastructure.DbContexts;
@@ -19,11 +20,18 @@ public class DbContextProjectRepository: IProjectRepository
             .Select(p =>
                 new Model.Project
                 {
-                    ProjectId = int.Parse(p.ProjectId),
+                    ProjectId = p.ProjectId,
                     Title = p.Title,
                     Articles = p.Articles,
                     Fundaments = p.Fundaments,
-                    Summary = p.Summary
+                    Summary = p.Summary,
+                    State = new Model.ProjectState
+                    {
+                        StateId =  p.StateId,
+                        Name =  p.State.Name,
+                        Date =   p.State.Date.Value,
+                        State = (Model.FileState)p.State.State
+                    }
                 
             }).ToList();
     }
