@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Model = WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Infrastructure.DbContexts;
@@ -34,11 +33,6 @@ public class DbContextProjectRepository: IProjectRepository
                     }
                 
             }).ToList();
-    }
-
-    public Model.Project GetProjectById(int id)
-    {
-        throw new NotImplementedException();
     }
 
     public void Add(Model.Project project)

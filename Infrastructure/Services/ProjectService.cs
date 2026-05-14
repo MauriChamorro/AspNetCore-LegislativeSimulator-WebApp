@@ -62,14 +62,14 @@ public class ProjectService : IProjectService
 
     public void RejectProjectByCommissions(int projectId)
     {
-        var project = _projectRepository.GetProjectById(projectId);
+        var project = GetProjectById(projectId);
         project.State.State = FileState.RejectedByCommissions;
         project.State.Date = DateTime.Now;
     }
 
     public void SendToSession(int projectId)
     {
-        var project = _projectRepository.GetProjectById(projectId);
+        var project =  GetProjectById(projectId);
         project.State.State = FileState.InSession;
         project.State.Date = DateTime.Now;
     }
@@ -105,11 +105,11 @@ public class ProjectService : IProjectService
         _projectRepository.Delete(projectId);
 
     public bool CanDelete(int projectId) => 
-        _projectRepository.GetProjectById(projectId).State.State == FileState.Scratch;
+        GetProjectById(projectId).State.State == FileState.Scratch;
 
     public void SendToCommissions(int projectId)
     {
-        var project = _projectRepository.GetProjectById(projectId);
+        var project = GetProjectById(projectId);
         project.State.State = FileState.InCommission;
         project.State.Date = DateTime.Now;
     }
