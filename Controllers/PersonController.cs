@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebAppMVC.Contexts;
 using WebAppMVC.Domain.Models.Persons;
 using WebAppMVC.Domain.Repositories;
+using WebAppMVC.Infrastructure.DbContexts;
 
 namespace WebAppMVC.Controllers;
 
@@ -10,12 +9,12 @@ namespace WebAppMVC.Controllers;
 [ApiController]
 public class PersonController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly ExpedientesDevContext _ctx;
     private readonly IPersonRepository _personRepository;
 
-    public PersonController(AppDbContext context, IPersonRepository personRepository)
+    public PersonController(ExpedientesDevContext ctx, IPersonRepository personRepository)
     {
-        _context = context;
+        _ctx = ctx;
         _personRepository = personRepository;
     }
 
@@ -31,11 +30,12 @@ public class PersonController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Person>> GetPerson(int id)
     {
+        throw new NotImplementedException();
+        /*
         var person = await _context.Persons.FindAsync(id);
-
         if (person == null) return NotFound();
-
         return person;
+        */
     }
 
     // PUT: api/Person/5
@@ -43,6 +43,9 @@ public class PersonController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutPerson(int id, Person person)
     {
+        throw new NotImplementedException();
+
+        /*
         if (id != person.PersonId) return BadRequest();
 
         _context.Entry(person).State = EntityState.Modified;
@@ -58,7 +61,7 @@ public class PersonController : ControllerBase
             throw;
         }
 
-        return NoContent();
+        return NoContent();*/
     }
 
     // POST: api/Person
@@ -66,23 +69,30 @@ public class PersonController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Person>> PostPerson(Person person)
     {
-        try
-        {
-            _context.Persons.Add(person);
-            await _context.SaveChangesAsync();
+        throw new NotImplementedException();
 
-            return CreatedAtAction("GetPerson", new { id = person.PersonId }, person);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+/*
+try
+{
+   _context.Persons.Add(person);
+   await _context.SaveChangesAsync();
+
+   return CreatedAtAction("GetPerson", new { id = person.PersonId }, person);
+}
+catch (Exception e)
+{
+   return BadRequest(e.Message);
+}
+ */
     }
 
-    // DELETE: api/Person/5
+// DELETE: api/Person/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePerson(int id)
     {
+        throw new NotImplementedException();
+
+        /*
         var person = await _context.Persons.FindAsync(id);
         if (person == null) return NotFound();
 
@@ -90,10 +100,11 @@ public class PersonController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
-    }
+        }
 
-    private bool PersonExists(int id)
-    {
+        private bool PersonExists(int id)
+        {
         return _context.Persons.Any(e => e.PersonId == id);
+        }*/
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using WebAppMVC.Domain.Models.Projects;
+using WebAppMVC.Infrastructure.Entities;
 
-namespace WebAppMVC.DbFirstModels;
+namespace WebAppMVC.Infrastructure.DbContexts;
 
 public partial class ExpedientesDevContext : DbContext
 {
