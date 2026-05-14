@@ -7,7 +7,7 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea/
 *.DotSettings.user
-
+WebAppMVC.sln.DotSettings.user
 
 .dotnet/
 *.sln.iml
