@@ -7,10 +7,6 @@ namespace WebAppMVC.Infrastructure.DbContexts;
 
 public partial class ExpedientesDevContext : DbContext
 {
-    public ExpedientesDevContext()
-    {
-    }
-
     public ExpedientesDevContext(DbContextOptions<ExpedientesDevContext> options)
         : base(options)
     {
@@ -25,9 +21,6 @@ public partial class ExpedientesDevContext : DbContext
     public virtual DbSet<ProjectStateHistory> ProjectStateHistories { get; set; }
 
     public virtual DbSet<Referral> Referrals { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:DbConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

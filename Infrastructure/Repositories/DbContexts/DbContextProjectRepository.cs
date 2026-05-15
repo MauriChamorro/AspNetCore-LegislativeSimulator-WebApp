@@ -42,6 +42,7 @@ public class DbContextProjectRepository: IProjectRepository
     //todo: is name key?
     public Model.ProjectState GetScratchProjectStates() => 
         _context.ProjectStates
+            //todo: check out where works
             .Where(s => s.Name == "Borrador")
             .Select(e => new Model.ProjectState
             {
