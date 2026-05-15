@@ -1,6 +1,6 @@
 using Model = WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
-using WebAppMVC.Infrastructure.DbContextss;
+using WebAppMVC.Infrastructure.DbContexts;
 
 namespace WebAppMVC.Infrastructure.Repositories.DbContexts;
 

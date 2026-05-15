@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models.Persons;
 using WebAppMVC.Domain.Repositories;
-using WebAppMVC.Infrastructure.DbContextss;
+using WebAppMVC.Infrastructure.DbContexts;
 
 namespace WebAppMVC.Controllers;
 

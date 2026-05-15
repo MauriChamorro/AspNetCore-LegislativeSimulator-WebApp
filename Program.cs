@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
-using WebAppMVC.Infrastructure.DbContextss;
+using WebAppMVC.Infrastructure.DbContexts;
 using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.Infrastructure.Repositories.DbContexts;
 using WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;
