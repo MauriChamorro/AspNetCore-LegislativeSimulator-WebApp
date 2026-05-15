@@ -9,7 +9,7 @@ public partial class ProjectState
 
     public string Name { get; set; } = null!;
 
-    public int? IntState { get; set; }
+    public int IntState { get; set; }
 
     public virtual ICollection<ProjectStateHistory> ProjectStateHistories { get; set; } = new List<ProjectStateHistory>();
 }

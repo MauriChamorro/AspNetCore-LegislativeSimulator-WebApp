@@ -49,7 +49,7 @@ public class DbContextProjectRepository: IProjectRepository
                 Name = e.Name,
                 State = (Model.FileState)e.IntState
             })
-            .FirstOrDefault();
+            .First();
     
     public void Add(Model.Project project)
     {
