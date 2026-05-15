@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using WebAppMVC.Domain.Models;
+using Microsoft.IdentityModel.Tokens;
 using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
@@ -25,9 +25,13 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error(string errorMessage)
+    public IActionResult Error(string errorMessage = "", string bodyMessage = "")
     {
+        if (errorMessage.IsNullOrEmpty())
+            errorMessage = "Contáctese con el equipo de soporte";
+
         ViewBag.ErrorMessage = errorMessage;
+        ViewBag.bodyMessage = bodyMessage;
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
