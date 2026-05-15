@@ -18,7 +18,7 @@ public class ProjectState
             FileState.InSession => "En Sesión",
             FileState.ApprovedInSession => "Aprobado",
             FileState.RejectedInSession => "Rechazado en Sesión",
-            FileState.DeletedByLawmaker => "Elimado por Legislador",
+            FileState.DeletedByLawmaker => "Eliminado por Legislador",
             _ => "none"
         };
 }

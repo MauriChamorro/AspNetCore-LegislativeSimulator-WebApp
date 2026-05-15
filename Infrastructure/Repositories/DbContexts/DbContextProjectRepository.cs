@@ -61,7 +61,6 @@ public class DbContextProjectRepository: IProjectRepository
         
         var entityProject = new Project
         {
-            ProjectId = project.ProjectId,
             FileId = project.FileId,
             Title = project.Title,
             Articles = project.Articles,

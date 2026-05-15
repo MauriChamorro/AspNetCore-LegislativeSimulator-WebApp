@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Infrastructure.Entities;
 
 namespace WebAppMVC.Infrastructure.DbContexts;
@@ -50,9 +52,7 @@ public partial class ExpedientesDevContext : DbContext
         {
             entity.HasKey(e => e.ProjectId).HasName("PK_Project");
 
-            entity.Property(e => e.ProjectId)
-                .ValueGeneratedNever()
-                .HasColumnName("projectId");
+            entity.Property(e => e.ProjectId).HasColumnName("projectId");
             entity.Property(e => e.Articles).HasColumnName("articles");
             entity.Property(e => e.FileId)
                 .HasMaxLength(30)
@@ -99,7 +99,7 @@ public partial class ExpedientesDevContext : DbContext
             entity.HasOne(d => d.Project).WithMany(p => p.ProjectStateHistories)
                 .HasForeignKey(d => d.ProjectId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProjectStateHistories_Project");
+                .HasConstraintName("FK_ProjectStateHistory_Project");
 
             entity.HasOne(d => d.ProjectState).WithMany(p => p.ProjectStateHistories)
                 .HasForeignKey(d => d.ProjectStateId)
