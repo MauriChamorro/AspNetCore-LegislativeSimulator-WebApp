@@ -22,6 +22,8 @@ public partial class ExpedientesDevContext : DbContext
 
     public virtual DbSet<ProjectState> ProjectStates { get; set; }
 
+    public virtual DbSet<ProjectStateHistory> ProjectStateHistories { get; set; }
+
     public virtual DbSet<Referral> Referrals { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -58,11 +60,11 @@ public partial class ExpedientesDevContext : DbContext
                 .HasMaxLength(500)
                 .IsFixedLength()
                 .HasColumnName("fundaments");
+            entity.Property(e => e.HistoryId).HasColumnName("historyId");
             entity.Property(e => e.NumExpediente)
                 .HasMaxLength(30)
                 .IsFixedLength()
                 .HasColumnName("numExpediente");
-            entity.Property(e => e.StateId).HasColumnName("stateId");
             entity.Property(e => e.Summary)
                 .HasMaxLength(200)
                 .IsFixedLength()
@@ -72,27 +74,42 @@ public partial class ExpedientesDevContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("title");
 
-            entity.HasOne(d => d.State).WithMany(p => p.Projects)
-                .HasForeignKey(d => d.StateId)
+            entity.HasOne(d => d.History).WithMany(p => p.Projects)
+                .HasForeignKey(d => d.HistoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProjectState");
+                .HasConstraintName("FK_ProjectStateHistory");
         });
 
         modelBuilder.Entity<ProjectState>(entity =>
         {
-            entity.HasKey(e => e.StateId).HasName("PK_ProjectState");
+            entity.HasKey(e => e.ProjectStateId).HasName("PK_ProjectState");
 
-            entity.Property(e => e.StateId)
+            entity.Property(e => e.ProjectStateId)
                 .ValueGeneratedNever()
-                .HasColumnName("stateId");
+                .HasColumnName("projectStateId");
+            entity.Property(e => e.IntState).HasColumnName("intState");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsFixedLength()
+                .HasColumnName("name");
+        });
+
+        modelBuilder.Entity<ProjectStateHistory>(entity =>
+        {
+            entity.HasKey(e => e.HistoryId).HasName("PK_StateHistory");
+
+            entity.Property(e => e.HistoryId)
+                .ValueGeneratedNever()
+                .HasColumnName("historyId");
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
-            entity.Property(e => e.Name)
-                .HasMaxLength(30)
-                .IsFixedLength()
-                .HasColumnName("name");
-            entity.Property(e => e.State).HasColumnName("state");
+            entity.Property(e => e.ProjectStateId).HasColumnName("projectStateId");
+
+            entity.HasOne(d => d.ProjectState).WithMany(p => p.ProjectStateHistories)
+                .HasForeignKey(d => d.ProjectStateId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ProjectState");
         });
 
         modelBuilder.Entity<Referral>(entity =>

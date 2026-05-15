@@ -26,10 +26,10 @@ public class DbContextProjectRepository: IProjectRepository
                     Summary = p.Summary,
                     State = new Model.ProjectState
                     {
-                        StateId =  p.StateId,
-                        Name =  p.State.Name,
-                        Date =   p.State.Date.Value,
-                        State = (Model.FileState)p.State.State
+                        StateId =  p.History.HistoryId,
+                        Name =  p.History.ProjectState.Name,
+                        Date =   p.History.Date,
+                        State = (Model.FileState)p.History.ProjectState.IntState!.Value
                     }
                 
             }).ToList();

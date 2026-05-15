@@ -5,13 +5,11 @@ namespace WebAppMVC.Infrastructure.Entities;
 
 public partial class ProjectState
 {
-    public int StateId { get; set; }
+    public int ProjectStateId { get; set; }
 
     public string Name { get; set; } = null!;
 
-    public int State { get; set; }
+    public int? IntState { get; set; }
 
-    public DateTime? Date { get; set; }
-
-    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
+    public virtual ICollection<ProjectStateHistory> ProjectStateHistories { get; set; } = new List<ProjectStateHistory>();
 }

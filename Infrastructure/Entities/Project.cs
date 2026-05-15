@@ -17,7 +17,7 @@ public partial class Project
 
     public string Summary { get; set; } = null!;
 
-    public int StateId { get; set; }
+    public int HistoryId { get; set; }
 
-    public virtual ProjectState State { get; set; } = null!;
+    public virtual ProjectStateHistory History { get; set; } = null!;
 }
