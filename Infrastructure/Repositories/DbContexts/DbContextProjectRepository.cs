@@ -1,6 +1,6 @@
 using Model = WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
-using WebAppMVC.Infrastructure.DbContexts;
+using WebAppMVC.Infrastructure.DbContextss;
 
 namespace WebAppMVC.Infrastructure.Repositories.DbContexts;
 
@@ -24,19 +24,16 @@ public class DbContextProjectRepository: IProjectRepository
                     Articles = p.Articles,
                     Fundaments = p.Fundaments,
                     Summary = p.Summary,
-                    StateHistory = new Model.ProjectStateHistory
+                    StateHistory = p.ProjectStateHistories.Select( h=> new Model.ProjectStateHistory
                     {
-                        HistoryId =  p.History.HistoryId,
-                        Name =  p.History.ProjectState.Name,
-                        Date =   p.History.Date,
+                        Date = h.Date,
                         ProjectState = new Model.ProjectState
                         {
-                            Id = p.History.ProjectState.ProjectStateId,
-                            Name =  p.History.ProjectState.Name,
-                            State = (Model.FileState)p.History.ProjectState.IntState!.Value
+                            Id = h.ProjectState.ProjectStateId,
+                            Name = h.ProjectState.Name,
+                            State =  (Model.FileState)h.ProjectState.IntState
                         }
-                    }
-                
+                    }).ToList()
             }).ToList();
     }
 

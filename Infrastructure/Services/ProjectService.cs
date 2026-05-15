@@ -17,22 +17,38 @@ public class ProjectService : IProjectService
 
     public Project CreatEmptyProject()
     {
+        var history = new List<ProjectStateHistory>();
+        history.Add( new ProjectStateHistory
+        {
+            Date = DateTime.Now,
+            ProjectState = new ProjectState
+            {
+                Id = 1,// todo: get "Borrador" id
+                State =  FileState.Scratch
+            }
+        });
+        
         return new Project
         {
-            StateHistory = new()
-            {
-                ProjectState = new ProjectState
-                {
-                    State =  FileState.Scratch
-                },
-                Date = DateTime.Now
-            }
+            StateHistory = history
         };
     }
 
     public void CreateNewProject(string title, string articles, string fundaments, string summary)
     {
         var lastId = _projectRepository.GetLastId();
+
+        var history = new List<ProjectStateHistory>();
+        history.Add( new ProjectStateHistory
+            {
+                Date = DateTime.Now,
+                ProjectState = new ProjectState
+                {
+                    Id = 1,// todo: get "Borrador" id
+                    State =  FileState.Scratch
+                }
+            });
+            
         var newProject = new Project
         {
             ProjectId = lastId + 1,
@@ -40,15 +56,9 @@ public class ProjectService : IProjectService
             Articles = articles,
             Fundaments = fundaments,
             Summary = summary,
-            StateHistory = new()
-            {
-                ProjectState = new ProjectState
-                {
-                    State =  FileState.Scratch
-                },
-                Date = DateTime.Now
-            }
+            StateHistory = history
         };
+        
         _projectRepository.Add(newProject);
     }
 
@@ -69,15 +79,15 @@ public class ProjectService : IProjectService
     public void RejectProjectByCommissions(int projectId)
     {
         var project = GetProjectById(projectId);
-        project.StateHistory.ProjectState.State = FileState.RejectedByCommissions;
-        project.StateHistory.Date = DateTime.Now;
+        project.GetCurrentState().ProjectState.State = FileState.RejectedByCommissions;
+        project.GetCurrentState().Date = DateTime.Now;
     }
 
     public void SendToSession(int projectId)
     {
         var project =  GetProjectById(projectId);
-        project.StateHistory.ProjectState.State = FileState.InSession;
-        project.StateHistory.Date = DateTime.Now;
+        project.GetCurrentState().ProjectState.State = FileState.InSession;
+        project.GetCurrentState().Date = DateTime.Now;
     }
 
     public bool SimulateSessionResult(Project project)
@@ -86,37 +96,37 @@ public class ProjectService : IProjectService
         var success = rnd.Next(2) == 0;
         if (success)
         {
-            project.StateHistory.ProjectState.State = FileState.ApprovedInSession;
-            project.StateHistory.Date = DateTime.Now;
+            project.GetCurrentState().ProjectState.State = FileState.ApprovedInSession;
+            project.GetCurrentState().Date = DateTime.Now;
         }
         else
         {
-            project.StateHistory.ProjectState.State = FileState.RejectedInSession;
-            project.StateHistory.Date = DateTime.Now;
+            project.GetCurrentState().ProjectState.State = FileState.RejectedInSession;
+            project.GetCurrentState().Date = DateTime.Now;
         }
 
-        return project.StateHistory.ProjectState.State == FileState.ApprovedInSession;
+        return project.GetCurrentState().ProjectState.State == FileState.ApprovedInSession;
     }
 
     public bool CanSendToCommission(Project project) =>
-        project.StateHistory.ProjectState.State == FileState.Scratch;
+        project.GetCurrentState().ProjectState.State == FileState.Scratch;
 
     public void PendingForCommissions(Project project)
     {
-        project.StateHistory.ProjectState.State = FileState.PendingForAssignCommissions;
-        project.StateHistory.Date = DateTime.Now;
+        project.GetCurrentState().ProjectState.State = FileState.PendingForAssignCommissions;
+        project.GetCurrentState().Date = DateTime.Now;
     }
 
     public void DeleteProject(int projectId) => 
         _projectRepository.Delete(projectId);
 
     public bool CanDelete(int projectId) => 
-        GetProjectById(projectId).StateHistory.ProjectState.State == FileState.Scratch;
+        GetProjectById(projectId).GetCurrentState().ProjectState.State == FileState.Scratch;
 
     public void SendToCommissions(int projectId)
     {
         var project = GetProjectById(projectId);
-        project.StateHistory.ProjectState.State = FileState.InCommission;
-        project.StateHistory.Date = DateTime.Now;
+        project.GetCurrentState().ProjectState.State = FileState.InCommission;
+        project.GetCurrentState().Date = DateTime.Now;
     }
 }

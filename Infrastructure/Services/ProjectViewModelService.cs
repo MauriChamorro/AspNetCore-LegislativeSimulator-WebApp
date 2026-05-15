@@ -24,8 +24,8 @@ public class ProjectViewModelService: IProjectViewModelService
             Articles = project.Articles,
             Fundaments = project.Fundaments,
             Summary = project.Summary,
-            StateName = project.StateHistory.ProjectState.Name,
-            StateDate = project.StateHistory.Date,
+            StateName = project.GetCurrentState().ProjectState.Name,
+            StateDate = project.GetCurrentState().Date,
             CanEdit = project.CanEdit(),
             CommissionsAssigned = project.AreCommissionsAssigned()
         };
@@ -41,9 +41,9 @@ public class ProjectViewModelService: IProjectViewModelService
         if (projectVm.Summary.IsNullOrEmpty())
             projectVm.Summary = auxProject.Summary;
         
-        projectVm.StateName = auxProject.StateHistory.ProjectState.Name;
-        projectVm.CurrentState = auxProject.StateHistory.ProjectState.State;
-        projectVm.StateDate = auxProject.StateHistory.Date;
+        projectVm.StateName = auxProject.GetCurrentState().ProjectState.Name;
+        projectVm.CurrentState = auxProject.GetCurrentState().ProjectState.State;
+        projectVm.StateDate = auxProject.GetCurrentState().Date;
         projectVm.CanEdit = auxProject.CanEdit();
     }
 

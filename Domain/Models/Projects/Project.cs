@@ -8,10 +8,12 @@ public class Project
     public string Fundaments { get; set; } = string.Empty;
     public string Summary { get; set; } = string.Empty;
     public int StateId { get; set; }
-    public virtual ProjectStateHistory StateHistory { get; set; } = null!;
-    public virtual ICollection<Referral> Referrals { get; set; } = new List<Referral>();
+    public List<ProjectStateHistory> StateHistory { get; set; } = null!;
+    public ICollection<Referral> Referrals { get; set; } = new List<Referral>();
 
-    public bool CanEdit() => StateHistory.ProjectState.State == FileState.Scratch;
+    public ProjectStateHistory GetCurrentState() => StateHistory.Last();
 
-    public bool AreCommissionsAssigned() => StateHistory.ProjectState.State == FileState.InCommission;
+    public bool CanEdit() => GetCurrentState().ProjectState.State == FileState.Scratch;
+
+    public bool AreCommissionsAssigned() => GetCurrentState().ProjectState.State == FileState.InCommission;
 }

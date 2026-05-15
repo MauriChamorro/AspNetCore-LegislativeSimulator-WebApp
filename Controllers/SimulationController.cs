@@ -28,7 +28,8 @@ public class SimulationController : ControllerBase
     public IActionResult AssignCommissions([FromRoute] int projectId)
     {
         var project = _projectService.GetProjectById(projectId);
-        if (project.StateHistory.ProjectState.State != FileState.PendingForAssignCommissions)
+        //todo:service
+        if (project.GetCurrentState().ProjectState.State != FileState.PendingForAssignCommissions)
             return BadRequest("No es posible para el estado en que se encuentra.");
 
         var commissions = _commissionService.EvaluateCommissionFor(project.Articles);
@@ -91,7 +92,7 @@ public class SimulationController : ControllerBase
         var project = _projectService.GetProjectById(projectId);
 
         //One validation alternative
-        if (project.StateHistory.ProjectState.State != FileState.InCommission &&
+        if (project.GetCurrentState().ProjectState.State != FileState.InCommission &&
             !_commissionService.AcceptedByAllCommission(projectId))
             return BadRequest("No es posible enviar a Sesión.");
 
@@ -106,13 +107,13 @@ public class SimulationController : ControllerBase
     {
         var project = _projectService.GetProjectById(projectId);
 
-        if (project.StateHistory.ProjectState.State != FileState.InSession)
+        if (project.GetCurrentState().ProjectState.State != FileState.InSession)
             return BadRequest("No es posible finalizar el proyecto.");
 
         var result = _projectService.SimulateSessionResult(project);
 
         _notificationService.AddSessionResultNotification(projectId, result);
 
-        return Ok($"Resultado de Sesión: {project.StateHistory.ProjectState.Name}");
+        return Ok($"Resultado de Sesión: {project.GetCurrentState().ProjectState.Name}");
     }
 }
