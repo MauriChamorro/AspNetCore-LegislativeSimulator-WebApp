@@ -17,41 +17,37 @@ public class ProjectService : IProjectService
 
     public Project CreatEmptyProject()
     {
-        var history = new List<ProjectStateHistory>();
-        history.Add( new ProjectStateHistory
-        {
-            Date = DateTime.Now,
-            ProjectState = new ProjectState
-            {
-                Id = 1,// todo: get "Borrador" id
-                State =  FileState.Scratch
-            }
-        });
-        
         return new Project
         {
-            StateHistory = history
+            StateHistory =
+            [
+                new ProjectStateHistory
+                {
+                    Date = DateTime.Now,
+                    ProjectState = GetScratchProjectState()
+                }
+            ]
         };
     }
 
+    private ProjectState GetScratchProjectState() => 
+        _projectRepository.GetScratchProjectStates();
+
     public void CreateNewProject(string title, string articles, string fundaments, string summary)
     {
-        var lastId = _projectRepository.GetLastId();
+        var lastId = _projectRepository.GetProjects().Last().ProjectId;
 
         var history = new List<ProjectStateHistory>();
         history.Add( new ProjectStateHistory
             {
                 Date = DateTime.Now,
-                ProjectState = new ProjectState
-                {
-                    Id = 1,// todo: get "Borrador" id
-                    State =  FileState.Scratch
-                }
+                ProjectState = GetScratchProjectState()
             });
             
         var newProject = new Project
         {
             ProjectId = lastId + 1,
+            FileId = "asdasdasd",
             Title = title,
             Articles = articles,
             Fundaments = fundaments,

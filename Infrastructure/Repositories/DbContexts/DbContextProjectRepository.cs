@@ -1,6 +1,7 @@
 using Model = WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Infrastructure.DbContexts;
+using WebAppMVC.Infrastructure.Entities;
 
 namespace WebAppMVC.Infrastructure.Repositories.DbContexts;
 
@@ -20,6 +21,7 @@ public class DbContextProjectRepository: IProjectRepository
                 new Model.Project
                 {
                     ProjectId = p.ProjectId,
+                    FileId = p.FileId,
                     Title = p.Title,
                     Articles = p.Articles,
                     Fundaments = p.Fundaments,
@@ -36,19 +38,47 @@ public class DbContextProjectRepository: IProjectRepository
                     }).ToList()
             }).ToList();
     }
-
+    
+    //todo: is name key?
+    public Model.ProjectState GetScratchProjectStates() => 
+        _context.ProjectStates
+            .Where(s => s.Name == "Borrador")
+            .Select(e => new Model.ProjectState
+            {
+                Id = e.ProjectStateId,
+                Name = e.Name,
+                State = (Model.FileState)e.IntState
+            })
+            .FirstOrDefault();
+    
     public void Add(Model.Project project)
     {
-        throw new NotImplementedException();
+        var newHistory = new ProjectStateHistory
+        {
+            ProjectStateId = project.GetCurrentState().ProjectState.Id,
+            Date = DateTime.Now,
+        };
+        
+        var entityProject = new Project
+        {
+            ProjectId = project.ProjectId,
+            FileId = project.FileId,
+            Title = project.Title,
+            Articles = project.Articles,
+            Fundaments = project.Fundaments,
+            Summary = project.Summary,
+            ProjectStateHistories = new  List<ProjectStateHistory>{newHistory}
+        };
+        _context.Projects.Add(entityProject);
+        _context.SaveChanges();
     }
 
-    public int GetLastId()
-    {
-        throw new NotImplementedException();
-    }
+   
 
     public void Delete(int projectId)
     {
         throw new NotImplementedException();
     }
+
+   
 }

@@ -6,6 +6,6 @@ public interface IProjectRepository
 {
     List<Project> GetProjects();
     void Add(Project project);
-    int GetLastId();
     void Delete(int projectId);
+    ProjectState GetScratchProjectStates();
 }

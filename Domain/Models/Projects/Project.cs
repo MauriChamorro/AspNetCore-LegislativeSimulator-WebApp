@@ -3,6 +3,7 @@ namespace WebAppMVC.Domain.Models.Projects;
 public class Project
 {
     public int ProjectId { get; set; }
+    public string FileId { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Articles { get; set; } = string.Empty;
     public string Fundaments { get; set; } = string.Empty;
