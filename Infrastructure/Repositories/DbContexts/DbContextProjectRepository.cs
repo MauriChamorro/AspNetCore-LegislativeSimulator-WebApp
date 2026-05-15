@@ -77,7 +77,20 @@ public class DbContextProjectRepository: IProjectRepository
 
     public void Delete(int projectId)
     {
-        throw new NotImplementedException();
+        var entityProject = new Project
+        {
+            ProjectId = projectId
+        };
+        var history = _context.ProjectStateHistories
+            .Where(h => h.ProjectId == projectId);
+        
+        foreach (var stateHistory in history)
+        {
+            _context.Remove(stateHistory);
+        }
+        _context.Projects.Remove(entityProject);
+
+        _context.SaveChanges();
     }
 
    
