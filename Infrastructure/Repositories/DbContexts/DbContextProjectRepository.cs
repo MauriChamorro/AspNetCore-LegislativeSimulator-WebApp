@@ -24,12 +24,17 @@ public class DbContextProjectRepository: IProjectRepository
                     Articles = p.Articles,
                     Fundaments = p.Fundaments,
                     Summary = p.Summary,
-                    State = new Model.ProjectState
+                    StateHistory = new Model.ProjectStateHistory
                     {
-                        StateId =  p.History.HistoryId,
+                        HistoryId =  p.History.HistoryId,
                         Name =  p.History.ProjectState.Name,
                         Date =   p.History.Date,
-                        State = (Model.FileState)p.History.ProjectState.IntState!.Value
+                        ProjectState = new Model.ProjectState
+                        {
+                            Id = p.History.ProjectState.ProjectStateId,
+                            Name =  p.History.ProjectState.Name,
+                            State = (Model.FileState)p.History.ProjectState.IntState!.Value
+                        }
                     }
                 
             }).ToList();

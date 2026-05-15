@@ -1,6 +1,6 @@
 namespace WebAppMVC.Domain.Models.Projects;
 
-public partial class Referral
+public class Referral
 {
     public int ProjectId { get; set; }
     public int CommissionId { get; set; }

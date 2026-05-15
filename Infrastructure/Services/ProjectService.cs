@@ -19,9 +19,12 @@ public class ProjectService : IProjectService
     {
         return new Project
         {
-            State = new()
+            StateHistory = new()
             {
-                State = FileState.Scratch,
+                ProjectState = new ProjectState
+                {
+                    State =  FileState.Scratch
+                },
                 Date = DateTime.Now
             }
         };
@@ -37,9 +40,12 @@ public class ProjectService : IProjectService
             Articles = articles,
             Fundaments = fundaments,
             Summary = summary,
-            State = new()
+            StateHistory = new()
             {
-                State = FileState.Scratch,
+                ProjectState = new ProjectState
+                {
+                    State =  FileState.Scratch
+                },
                 Date = DateTime.Now
             }
         };
@@ -63,15 +69,15 @@ public class ProjectService : IProjectService
     public void RejectProjectByCommissions(int projectId)
     {
         var project = GetProjectById(projectId);
-        project.State.State = FileState.RejectedByCommissions;
-        project.State.Date = DateTime.Now;
+        project.StateHistory.ProjectState.State = FileState.RejectedByCommissions;
+        project.StateHistory.Date = DateTime.Now;
     }
 
     public void SendToSession(int projectId)
     {
         var project =  GetProjectById(projectId);
-        project.State.State = FileState.InSession;
-        project.State.Date = DateTime.Now;
+        project.StateHistory.ProjectState.State = FileState.InSession;
+        project.StateHistory.Date = DateTime.Now;
     }
 
     public bool SimulateSessionResult(Project project)
@@ -80,37 +86,37 @@ public class ProjectService : IProjectService
         var success = rnd.Next(2) == 0;
         if (success)
         {
-            project.State.State = FileState.ApprovedInSession;
-            project.State.Date = DateTime.Now;
+            project.StateHistory.ProjectState.State = FileState.ApprovedInSession;
+            project.StateHistory.Date = DateTime.Now;
         }
         else
         {
-            project.State.State = FileState.RejectedInSession;
-            project.State.Date = DateTime.Now;
+            project.StateHistory.ProjectState.State = FileState.RejectedInSession;
+            project.StateHistory.Date = DateTime.Now;
         }
 
-        return project.State.State == FileState.ApprovedInSession;
+        return project.StateHistory.ProjectState.State == FileState.ApprovedInSession;
     }
 
     public bool CanSendToCommission(Project project) =>
-        project.State.State == FileState.Scratch;
+        project.StateHistory.ProjectState.State == FileState.Scratch;
 
     public void PendingForCommissions(Project project)
     {
-        project.State.State = FileState.PendingForAssignCommissions;
-        project.State.Date = DateTime.Now;
+        project.StateHistory.ProjectState.State = FileState.PendingForAssignCommissions;
+        project.StateHistory.Date = DateTime.Now;
     }
 
     public void DeleteProject(int projectId) => 
         _projectRepository.Delete(projectId);
 
     public bool CanDelete(int projectId) => 
-        GetProjectById(projectId).State.State == FileState.Scratch;
+        GetProjectById(projectId).StateHistory.ProjectState.State == FileState.Scratch;
 
     public void SendToCommissions(int projectId)
     {
         var project = GetProjectById(projectId);
-        project.State.State = FileState.InCommission;
-        project.State.Date = DateTime.Now;
+        project.StateHistory.ProjectState.State = FileState.InCommission;
+        project.StateHistory.Date = DateTime.Now;
     }
 }
