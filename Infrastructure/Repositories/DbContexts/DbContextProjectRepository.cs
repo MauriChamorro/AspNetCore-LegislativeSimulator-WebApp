@@ -51,7 +51,46 @@ public class DbContextProjectRepository: IProjectRepository
                 State = (Model.FileState)e.IntState
             })
             .First();
-    
+
+    public void UpdateProject(Model.Project updatedProject)
+    {
+        /*
+        var entityProject = _context.Projects.Find(updatedProject.ProjectId);
+        entityProject.Title = updatedProject.Title;
+        entityProject.Articles = updatedProject.Articles;
+        entityProject.Fundaments = updatedProject.Fundaments;
+        entityProject.Summary = updatedProject.Summary;
+        _context.SaveChanges();*/
+        
+        var entityProject = new Project
+        {
+            ProjectId =  updatedProject.ProjectId,
+            FileId = updatedProject.FileId,
+            Title = updatedProject.Title,
+            Articles = updatedProject.Articles,
+            Fundaments = updatedProject.Fundaments,
+            Summary = updatedProject.Summary
+        };
+        _context.Update(entityProject);
+        _context.SaveChanges();
+        
+        /*
+        var entityProject = new Project
+        {
+            ProjectId =  updatedProject.ProjectId,
+        };
+        _context.Projects.Attach(entityProject);
+
+        entityProject.Title = updatedProject.Title;
+
+        _context.Entry(entityProject)
+            .Property(e => e.Title)
+            .IsModified = true;
+
+        _context.SaveChanges();
+        */
+    }
+
     public void Add(Model.Project project)
     {
         var newHistory = new ProjectStateHistory
@@ -59,7 +98,7 @@ public class DbContextProjectRepository: IProjectRepository
             ProjectStateId = project.GetCurrentState().ProjectState.Id,
             Date = DateTime.Now,
         };
-        
+
         var entityProject = new Project
         {
             FileId = project.FileId,
@@ -73,7 +112,7 @@ public class DbContextProjectRepository: IProjectRepository
         _context.SaveChanges();
     }
 
-   
+
 
     public void Delete(int projectId)
     {
@@ -83,7 +122,7 @@ public class DbContextProjectRepository: IProjectRepository
         };
         var history = _context.ProjectStateHistories
             .Where(h => h.ProjectId == projectId);
-        
+
         foreach (var stateHistory in history)
         {
             _context.Remove(stateHistory);
@@ -93,5 +132,5 @@ public class DbContextProjectRepository: IProjectRepository
         _context.SaveChanges();
     }
 
-   
+
 }

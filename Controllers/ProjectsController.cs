@@ -39,7 +39,7 @@ public class ProjectsController : Controller
     public IActionResult Add()
     {
         ViewBag.Action = "add";
-        var emptyProject = _projectService.CreatEmptyProject();
+        var emptyProject = _projectService.BuildEmptyProject();
         var newProjectVm = _projectViewModelService.ToProjectVm(emptyProject);
         return View(newProjectVm);
     }
@@ -51,7 +51,7 @@ public class ProjectsController : Controller
         
         if (!ModelState.IsValid)
         {
-            var emptyProject = _projectService.CreatEmptyProject();
+            var emptyProject = _projectService.BuildEmptyProject();
             _projectViewModelService.UpdateMissingValues(projectVm, emptyProject);
             return View(projectVm);
         }
@@ -132,7 +132,7 @@ public class ProjectsController : Controller
     
     private void UpdateProject(ProjectViewModel projectVm, Project savedProject)
     {
-        _projectService.EditProject(
+        _projectService.UpdateProject(
             savedProject,
             projectVm.Title, 
             projectVm.Articles,

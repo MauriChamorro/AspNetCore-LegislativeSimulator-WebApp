@@ -15,7 +15,7 @@ public class ProjectService : IProjectService
 
     public List<Project> GetProjects() => _projectRepository.GetProjects();
 
-    public Project CreatEmptyProject()
+    public Project BuildEmptyProject()
     {
         return new Project
         {
@@ -64,12 +64,14 @@ public class ProjectService : IProjectService
     public bool ExistProject(int projectId) =>
         _projectRepository.GetProjects().Exists(p => p.ProjectId == projectId);
 
-    public void EditProject(Project project, string title, string articles, string fundaments, string summary)
+    public void UpdateProject(Project project, string title, string articles, string fundaments, string summary)
     {
         project.Title = title;
         project.Articles = articles;
         project.Fundaments = fundaments;
         project.Summary = summary;
+
+        _projectRepository.UpdateProject(project);
     }
 
     public void RejectProjectByCommissions(int projectId)

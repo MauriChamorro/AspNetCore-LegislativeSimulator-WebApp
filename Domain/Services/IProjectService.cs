@@ -5,11 +5,11 @@ namespace WebAppMVC.Domain.Services;
 public interface IProjectService
 {
     List<Project> GetProjects();
-    Project CreatEmptyProject();
+    Project BuildEmptyProject();
     void CreateNewProject(string title, string articles, string fundaments, string summary);
     Project GetProjectById(int projectId);
     bool ExistProject(int projectId);
-    void EditProject(Project project, string title, string articles, string fundaments, string summary);
+    void UpdateProject(Project project, string title, string articles, string fundaments, string summary);
     void RejectProjectByCommissions(int projectId);
     void SendToSession(int projectId);
     bool SimulateSessionResult(Project project);

@@ -8,4 +8,5 @@ public interface IProjectRepository
     void Add(Project project);
     void Delete(int projectId);
     ProjectState GetScratchProjectStates();
+    void UpdateProject(Project updatedProject);
 }
