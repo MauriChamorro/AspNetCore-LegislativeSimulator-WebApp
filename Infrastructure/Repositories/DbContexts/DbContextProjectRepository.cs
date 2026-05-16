@@ -5,7 +5,7 @@ using WebAppMVC.Infrastructure.Entities;
 
 namespace WebAppMVC.Infrastructure.Repositories.DbContexts;
 
-public class DbContextProjectRepository: IProjectRepository
+public class DbContextProjectRepository : IProjectRepository
 {
     private readonly ExpedientesDevContext _context;
 
@@ -26,23 +26,23 @@ public class DbContextProjectRepository: IProjectRepository
                     Articles = p.Articles,
                     Fundaments = p.Fundaments,
                     Summary = p.Summary,
-                    StateHistory = p.ProjectStateHistories.Select( h=> new Model.ProjectStateHistory
-                    {
-                        Date = h.Date,
-                        ProjectState = new Model.ProjectState
+                    StateHistory = p.ProjectStateHistories.Select(h =>
+                        new Model.ProjectStateHistory
                         {
-                            Id = h.ProjectState.ProjectStateId,
-                            Name = h.ProjectState.Name,
-                            State =  (Model.FileState)h.ProjectState.IntState
-                        }
-                    }).ToList()
-            }).ToList();
+                            Date = h.Date,
+                            ProjectState = new Model.ProjectState
+                            {
+                                Id = h.ProjectState.ProjectStateId,
+                                Name = h.ProjectState.Name,
+                                State = (Model.FileState)h.ProjectState.IntState
+                            }
+                        }).ToList()
+                }).ToList();
     }
-    
-    //todo: is name key?
-    public Model.ProjectState GetScratchProjectStates() => 
+
+    public Model.ProjectState GetScratchProjectStates() =>
         _context.ProjectStates
-            //todo: check out where works
+            //todo: check out how .where works
             .Where(s => s.Name == "Borrador")
             .Select(e => new Model.ProjectState
             {
@@ -61,10 +61,10 @@ public class DbContextProjectRepository: IProjectRepository
         entityProject.Fundaments = updatedProject.Fundaments;
         entityProject.Summary = updatedProject.Summary;
         _context.SaveChanges();*/
-        
+
         var entityProject = new Project
         {
-            ProjectId =  updatedProject.ProjectId,
+            ProjectId = updatedProject.ProjectId,
             FileId = updatedProject.FileId,
             Title = updatedProject.Title,
             Articles = updatedProject.Articles,
@@ -73,7 +73,7 @@ public class DbContextProjectRepository: IProjectRepository
         };
         _context.Update(entityProject);
         _context.SaveChanges();
-        
+
         /*
         var entityProject = new Project
         {
@@ -106,31 +106,24 @@ public class DbContextProjectRepository: IProjectRepository
             Articles = project.Articles,
             Fundaments = project.Fundaments,
             Summary = project.Summary,
-            ProjectStateHistories = new  List<ProjectStateHistory>{newHistory}
+            ProjectStateHistories = new List<ProjectStateHistory> { newHistory }
         };
         _context.Projects.Add(entityProject);
         _context.SaveChanges();
     }
 
 
-
     public void Delete(int projectId)
     {
-        var entityProject = new Project
-        {
-            ProjectId = projectId
-        };
+        var entityProject = new Project { ProjectId = projectId };
         var history = _context.ProjectStateHistories
             .Where(h => h.ProjectId == projectId);
 
         foreach (var stateHistory in history)
-        {
             _context.Remove(stateHistory);
-        }
+
         _context.Projects.Remove(entityProject);
 
         _context.SaveChanges();
     }
-
-
 }
