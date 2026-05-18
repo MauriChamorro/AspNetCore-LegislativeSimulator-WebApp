@@ -8,12 +8,16 @@ public class UnexpectedExceptionHandler : ExceptionFilterAttribute
     public override void OnException(ExceptionContext context)
     {
         var env = context.HttpContext.RequestServices.GetRequiredService<IWebHostEnvironment>();
-        var message = "";
-        
+        var expMessage = "";
+
         if (env.IsDevelopment())
-            message = context.Exception.StackTrace;
+        {
+            expMessage = context.Exception.Message;
+            expMessage += "\n";
+            expMessage += context.Exception.StackTrace;
+        }
         context.Result = new RedirectToActionResult("Error", "Home",
-            new { bodyMessage = message });
+            new { bodyMessage = expMessage });
         //logger for production
         context.ExceptionHandled = true;
     }
