@@ -14,7 +14,7 @@ public interface IProjectService
     void SendToSession(int projectId);
     bool SimulateSessionResult(Project project);
     bool CanSendToCommission(Project project);
-    void PendingForCommissions(Project project);
+    void SetPendingForCommissionsFor(Project project);
     void DeleteProject(int projectId);
     bool CanDelete(int projectId);
     void SendToCommissions(int projectId);

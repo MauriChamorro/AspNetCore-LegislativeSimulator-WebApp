@@ -113,9 +113,9 @@ public class ProjectsController : Controller
             return View("Edit", projectVm); //doesnt clear data for on back validation
         }
         
+        _projectService.SetPendingForCommissionsFor(savedProject);
         UpdateProject(projectVm, savedProject);
         
-        _projectService.PendingForCommissions(savedProject);
         _notificationService.AddSentToCommissionsNotification();
         return RedirectToAction(nameof(Index));
     }

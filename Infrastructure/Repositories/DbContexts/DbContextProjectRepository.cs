@@ -40,17 +40,6 @@ public class DbContextProjectRepository : IProjectRepository
                 }).ToList();
     }
 
-    public Model.ProjectState GetScratchProjectStates() =>
-        _context.ProjectStates
-            //todo: check out how .where works
-            .Where(s => s.Name == "Borrador")
-            .Select(e => new Model.ProjectState
-            {
-                Id = e.ProjectStateId,
-                Name = e.Name,
-                State = (Model.FileState)e.IntState
-            })
-            .First();
 
     public void UpdateProject(Model.Project updatedProject)
     {
@@ -61,19 +50,7 @@ public class DbContextProjectRepository : IProjectRepository
         entityProject.Fundaments = updatedProject.Fundaments;
         entityProject.Summary = updatedProject.Summary;
         _context.SaveChanges();*/
-
-        var entityProject = new Project
-        {
-            ProjectId = updatedProject.ProjectId,
-            FileId = updatedProject.FileId,
-            Title = updatedProject.Title,
-            Articles = updatedProject.Articles,
-            Fundaments = updatedProject.Fundaments,
-            Summary = updatedProject.Summary
-        };
-        _context.Update(entityProject);
-        _context.SaveChanges();
-
+        
         /*
         var entityProject = new Project
         {
@@ -89,7 +66,58 @@ public class DbContextProjectRepository : IProjectRepository
 
         _context.SaveChanges();
         */
+        
+        var entityProject = new Project
+        {
+            ProjectId = updatedProject.ProjectId,
+            FileId = updatedProject.FileId,
+            Title = updatedProject.Title,
+            Articles = updatedProject.Articles,
+            Fundaments = updatedProject.Fundaments,
+            Summary = updatedProject.Summary
+        };
+        _context.Update(entityProject);
+        _context.SaveChanges();
     }
+    
+    public void AddStateHistory(int projectId,
+        Model.ProjectStateHistory projectStateHistory)
+    {
+        _context.ProjectStateHistories.Add(new ProjectStateHistory
+        {
+            ProjectId =  projectId,
+            ProjectStateId = projectStateHistory.ProjectState.Id,
+            Date = projectStateHistory.Date
+        });
+
+        _context.SaveChanges();
+    }
+
+    public Model.ProjectState GetSentToCommissionProjectStates()
+    {
+        return _context.ProjectStates
+            //todo: check out how .where works
+            .Where(s => s.Name == "Enviado a Comisiones")
+            .Select(e => new Model.ProjectState
+            {
+                Id = e.ProjectStateId,
+                Name = e.Name,
+                State = (Model.FileState)e.IntState
+            })
+            .First();
+    }
+
+    public Model.ProjectState GetScratchProjectStates() =>
+        _context.ProjectStates
+            //todo: check out how .where works
+            .Where(s => s.Name == "Borrador")
+            .Select(e => new Model.ProjectState
+            {
+                Id = e.ProjectStateId,
+                Name = e.Name,
+                State = (Model.FileState)e.IntState
+            })
+            .First();
 
     public void Add(Model.Project project)
     {

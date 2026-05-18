@@ -109,10 +109,15 @@ public class ProjectService : IProjectService
     public bool CanSendToCommission(Project project) =>
         project.GetCurrentState().ProjectState.State == FileState.Scratch;
 
-    public void PendingForCommissions(Project project)
+    public void SetPendingForCommissionsFor(Project project)
     {
-        project.GetCurrentState().ProjectState.State = FileState.PendingForAssignCommissions;
-        project.GetCurrentState().Date = DateTime.Now;
+        var projectStateHistory = new ProjectStateHistory
+        {
+            ProjectState = _projectRepository.GetSentToCommissionProjectStates(),
+            Date = DateTime.Now,
+        };
+
+        _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
     }
 
     public void DeleteProject(int projectId) => 

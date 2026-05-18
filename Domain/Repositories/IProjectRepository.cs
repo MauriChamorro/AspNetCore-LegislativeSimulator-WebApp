@@ -7,6 +7,8 @@ public interface IProjectRepository
     List<Project> GetProjects();
     void Add(Project project);
     void Delete(int projectId);
-    ProjectState GetScratchProjectStates();
     void UpdateProject(Project updatedProject);
+    void AddStateHistory(int projectId, ProjectStateHistory projectStateHistory);
+    ProjectState GetScratchProjectStates();
+    ProjectState GetSentToCommissionProjectStates();
 }
