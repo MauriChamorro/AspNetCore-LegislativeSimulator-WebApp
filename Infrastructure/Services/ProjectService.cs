@@ -35,7 +35,6 @@ public class ProjectService : IProjectService
 
     public void CreateNewProject(string title, string articles, string fundaments, string summary)
     {
-        var lastId = _projectRepository.GetProjects().Last().ProjectId;
 
         var history = new List<ProjectStateHistory>();
         history.Add( new ProjectStateHistory
@@ -46,8 +45,7 @@ public class ProjectService : IProjectService
             
         var newProject = new Project
         {
-            ProjectId = lastId + 1,
-            FileId = "asdasdasd",
+            FileId = "alphabetic-id",
             Title = title,
             Articles = articles,
             Fundaments = fundaments,

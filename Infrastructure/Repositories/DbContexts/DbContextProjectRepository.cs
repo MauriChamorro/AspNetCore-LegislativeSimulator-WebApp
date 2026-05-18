@@ -43,30 +43,6 @@ public class DbContextProjectRepository : IProjectRepository
 
     public void UpdateProject(Model.Project updatedProject)
     {
-        /*
-        var entityProject = _context.Projects.Find(updatedProject.ProjectId);
-        entityProject.Title = updatedProject.Title;
-        entityProject.Articles = updatedProject.Articles;
-        entityProject.Fundaments = updatedProject.Fundaments;
-        entityProject.Summary = updatedProject.Summary;
-        _context.SaveChanges();*/
-        
-        /*
-        var entityProject = new Project
-        {
-            ProjectId =  updatedProject.ProjectId,
-        };
-        _context.Projects.Attach(entityProject);
-
-        entityProject.Title = updatedProject.Title;
-
-        _context.Entry(entityProject)
-            .Property(e => e.Title)
-            .IsModified = true;
-
-        _context.SaveChanges();
-        */
-        
         var entityProject = new Project
         {
             ProjectId = updatedProject.ProjectId,
@@ -95,6 +71,7 @@ public class DbContextProjectRepository : IProjectRepository
 
     public Model.ProjectState GetSentToCommissionProjectStates()
     {
+        //todo: refactor with GetScratchProjectStates()a
         return _context.ProjectStates
             //todo: check out how .where works
             .Where(s => s.Name == "Enviado a Comisiones")
@@ -117,7 +94,7 @@ public class DbContextProjectRepository : IProjectRepository
                 Name = e.Name,
                 State = (Model.FileState)e.IntState
             })
-            .First();
+            .First(); // todo: change for another strategy to get only one
 
     public void Add(Model.Project project)
     {

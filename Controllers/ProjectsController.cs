@@ -88,7 +88,7 @@ public class ProjectsController : Controller
         
         if (!ModelState.IsValid)
         {
-            //re fill fields
+            //re fill fields for validation by data annotations
             _projectViewModelService.UpdateMissingValues(projectVm, savedProject);
             return View(projectVm);
         }
