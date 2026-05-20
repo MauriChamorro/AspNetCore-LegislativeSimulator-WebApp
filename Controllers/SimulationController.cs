@@ -28,8 +28,8 @@ public class SimulationController : ControllerBase
     public IActionResult AssignCommissions([FromRoute] int projectId)
     {
         var project = _projectService.GetProjectById(projectId);
-        //todo:service
-        if (project.GetCurrentState().ProjectState.State != FileState.PendingForAssignCommissions)
+        
+        if (!_projectService.CanAssignCommissions(project))
             return BadRequest("No es posible para el estado en que se encuentra." + project);
 
         var commissions = _commissionService.EvaluateCommissionFor(project.Articles);

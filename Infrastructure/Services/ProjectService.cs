@@ -134,4 +134,7 @@ public class ProjectService : IProjectService
 
         _projectRepository.AddStateHistory(projectId, projectStateHistory);
     }
+
+    public bool CanAssignCommissions(Project project) => 
+        project.GetCurrentState().ProjectState.State != FileState.PendingForAssignCommissions;
 }

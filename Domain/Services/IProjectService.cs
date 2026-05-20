@@ -18,4 +18,5 @@ public interface IProjectService
     void DeleteProject(int projectId);
     bool CanDelete(int projectId);
     void SetInCommissionFor(int projectId);
+    bool CanAssignCommissions(Project project);
 }
