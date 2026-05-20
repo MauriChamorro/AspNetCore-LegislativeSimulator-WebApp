@@ -30,7 +30,7 @@ public class SimulationController : ControllerBase
         var project = _projectService.GetProjectById(projectId);
         
         if (!_projectService.CanAssignCommissions(project))
-            return BadRequest("No es posible para el estado en que se encuentra." + project);
+            return BadRequest("No es posible para el estado en que se encuentra.");
 
         var commissions = _commissionService.EvaluateCommissionFor(project.Articles);
         if (commissions.Count == 0)

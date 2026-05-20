@@ -139,5 +139,5 @@ public class ProjectService : IProjectService
     }
 
     public bool CanAssignCommissions(Project project) => 
-        project.GetCurrentState().ProjectState.State != FileState.PendingForAssignCommissions;
+        project.GetCurrentState().ProjectState.State == FileState.PendingForAssignCommissions;
 }
