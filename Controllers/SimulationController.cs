@@ -65,8 +65,7 @@ public class SimulationController : ControllerBase
         if (_commissionService.ThereAreNotPendingReferral(referrals))
             return BadRequest("Todas la comisiones ya evaluaron.");
         
-        //Todo: check logic
-        var actualReferral = _commissionService.GetActualReferral(referrals);
+        var actualReferral = _commissionService.GetActualReferralFor(referrals);
         _commissionService.DoNextReferralPhase(actualReferral);
         if (_commissionService.IsRejectedReferral(actualReferral))
             _projectService.RejectProjectByCommissions(projectId);

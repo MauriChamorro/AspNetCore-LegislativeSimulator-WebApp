@@ -74,9 +74,12 @@ public class ProjectService : IProjectService
 
     public void RejectProjectByCommissions(int projectId)
     {
-        var project = GetProjectById(projectId);
-        project.GetCurrentState().ProjectState.State = FileState.RejectedByCommissions;
-        project.GetCurrentState().Date = DateTime.Now;
+        var rejectedState = new ProjectStateHistory
+        {
+            Date = DateTime.Now,
+            ProjectState = _projectRepository.GetRejectedByCommissionProjectState()
+        };
+        _projectRepository.AddStateHistory(projectId, rejectedState);
     }
 
     public void SendToSession(int projectId)

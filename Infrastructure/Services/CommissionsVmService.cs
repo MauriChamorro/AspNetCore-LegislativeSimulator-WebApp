@@ -28,7 +28,7 @@ public class CommissionsVmService: ICommissionsVmService
                 {
                     CommissionName = referral.Commission.Name,
                     ReferralStateName  = GetReferralStateName(referral.State),
-                    ReferralDate =  referral.Date,
+                    ReferralDate =  referral.DateState,
                     BackgroundColor = GetBackgroundColorForCommission(referral.CommissionId),
                     Color = GetColorForCommission(referral.CommissionId)
                 }    
@@ -65,17 +65,17 @@ public class CommissionsVmService: ICommissionsVmService
     }
         
 
-    private string GetReferralStateName(ReferralCommissionState referralCommissionState)
+    private string GetReferralStateName(ReferralState referralState)
     {
-        switch (referralCommissionState)
+        switch (referralState)
         {
-            case ReferralCommissionState.Assigned:
+            case ReferralState.Assigned:
                 return "Asignado";
-            case ReferralCommissionState.Evaluating:
+            case ReferralState.Evaluating:
                 return "Evaluando";
-            case ReferralCommissionState.Accepted:
+            case ReferralState.Accepted:
                 return "Aceptado";
-            case ReferralCommissionState.Rejected:
+            case ReferralState.Rejected:
                 return "Rechazado";
             default:
                 return "none";

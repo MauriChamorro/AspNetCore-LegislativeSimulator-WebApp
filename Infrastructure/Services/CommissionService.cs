@@ -51,8 +51,8 @@ public class CommissionService : ICommissionService
                 {
                     ProjectId = projectId,
                     CommissionId = commission.CommissionId,
-                    State = ReferralCommissionState.Assigned,
-                    Date = DateTime.Now
+                    State = ReferralState.Assigned,
+                    DateState = DateTime.Now
                 }
             );
         }
@@ -66,45 +66,46 @@ public class CommissionService : ICommissionService
     public List<Referral> GetReferralsFor(int projectId) => 
         _projectRepository.GetReferralsFor(projectId);
 
-    public Referral GetActualReferral(List<Referral> referralCommissions)
+    public Referral GetActualReferralFor(List<Referral> referralCommissions)
     {
-        //TODO: get by Date
-        if (referralCommissions.Any(rc => rc.State == ReferralCommissionState.Evaluating))
-            return referralCommissions.First(rc => rc.State == ReferralCommissionState.Evaluating);
-        return referralCommissions.First(rc => rc.State == ReferralCommissionState.Assigned);
+        if (referralCommissions.Any(rc => rc.State == ReferralState.Evaluating))
+            return referralCommissions.First(rc => rc.State == ReferralState.Evaluating);
+        return referralCommissions.First(rc => rc.State == ReferralState.Assigned);
     }
 
     public void DoNextReferralPhase(Referral actualReferral)
     {
-        if (actualReferral.State == ReferralCommissionState.Assigned)
+        if (actualReferral.State == ReferralState.Assigned)
         {
-            actualReferral.State = ReferralCommissionState.Evaluating;
-            actualReferral.Date = DateTime.Now;
+            actualReferral.State = ReferralState.Evaluating;
+            actualReferral.DateState = DateTime.Now;
         }
-        else if (actualReferral.State == ReferralCommissionState.Evaluating)
+        else if (actualReferral.State == ReferralState.Evaluating)
         {
             actualReferral.State = GetRandomResult();
-            actualReferral.Date = DateTime.Now;
+            actualReferral.DateState = DateTime.Now;
         }
+        
+        _projectRepository.UpdateReferral(actualReferral);
     }
 
-    private static ReferralCommissionState GetRandomResult()
+    private static ReferralState GetRandomResult()
     {
         var rnd = new Random();
         var success = rnd.Next(2) == 0;
         if (success)
-            return ReferralCommissionState.Accepted;
-        return ReferralCommissionState.Rejected;
+            return ReferralState.Accepted;
+        return ReferralState.Rejected;
     }
 
     public bool ThereAreNotPendingReferral(List<Referral> referralCommissions) =>
         referralCommissions.TrueForAll(rc =>
-            rc.State == ReferralCommissionState.Accepted || rc.State == ReferralCommissionState.Rejected);
+            rc.State == ReferralState.Accepted || rc.State == ReferralState.Rejected);
 
     public bool IsRejectedReferral(Referral actualReferral) =>
-        actualReferral.State == ReferralCommissionState.Rejected;
+        actualReferral.State == ReferralState.Rejected;
 
     public bool AcceptedByAllCommission(int projectId) =>
         _referralCommissionRepository.GetFor(projectId)
-            .TrueForAll(rc => rc.State == ReferralCommissionState.Accepted);
+            .TrueForAll(rc => rc.State == ReferralState.Accepted);
 }

@@ -15,32 +15,32 @@ public class ReferralCommissionRepository: IReferralCommissionRepository
             {
                 ProjectId = 4,
                 CommissionId = 3,
-                Date =  DateTime.Now.Subtract(TimeSpan.FromDays(10)),
-                State = ReferralCommissionState.Accepted
+                DateState =  DateTime.Now.Subtract(TimeSpan.FromDays(10)),
+                State = ReferralState.Accepted
             });
         _referrals.Add(
             new Referral
             {
                 ProjectId = 4,
                 CommissionId = 4,
-                Date =  DateTime.Now.Subtract(TimeSpan.FromDays(5)),
-                State = ReferralCommissionState.Accepted
+                DateState =  DateTime.Now.Subtract(TimeSpan.FromDays(5)),
+                State = ReferralState.Accepted
             });
         _referrals.Add(
             new Referral
             {
                 ProjectId = 5,
                 CommissionId = 2,
-                Date =  DateTime.Now.Subtract(TimeSpan.FromDays(10)),
-                State = ReferralCommissionState.Accepted
+                DateState =  DateTime.Now.Subtract(TimeSpan.FromDays(10)),
+                State = ReferralState.Accepted
             });
         _referrals.Add(
             new Referral
             {
                 ProjectId = 5,
                 CommissionId = 4,
-                Date =  DateTime.Now.Subtract(TimeSpan.FromDays(5)),
-                State = ReferralCommissionState.Accepted
+                DateState =  DateTime.Now.Subtract(TimeSpan.FromDays(5)),
+                State = ReferralState.Accepted
             });
     } 
     

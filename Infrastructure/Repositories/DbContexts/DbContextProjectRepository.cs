@@ -78,6 +78,9 @@ public class DbContextProjectRepository : IProjectRepository
     public Model.ProjectState GetInCommissionProjectState() => 
         GetProjectStateByName("En Comisiones");
 
+    public Model.ProjectState GetRejectedByCommissionProjectState() =>
+        GetProjectStateByName("Recahzado por Comisiones");
+
     public bool HasReferrals(int projectId) => 
         _context.Referrals.Any(r => r.ProjectId == projectId);
 
@@ -88,15 +91,23 @@ public class DbContextProjectRepository : IProjectRepository
             {
                 ProjectId = referral.ProjectId,
                 CommissionId = referral.CommissionId,
-                Date = referral.Date,
+                DateState = referral.Date,
                 Commission = new Model.Commission
                 {
                     CommissionId =  referral.CommissionId,
                     Name = referral.Commission.Name
                 },
-                State = (Model.ReferralCommissionState)referral.State
+                State = (Model.ReferralState)referral.State
             })
             .ToList();
+
+    public void UpdateReferral(Model.Referral modelReferral)
+    {
+        var referral = _context.Referrals.Find(modelReferral.ProjectId, modelReferral.CommissionId);
+        referral.State = (int)modelReferral.State;
+        referral.Date = modelReferral.DateState;
+        _context.SaveChanges();
+    }
 
     private Model.ProjectState GetProjectStateByName(string commissionName)
     {
@@ -129,7 +140,7 @@ public class DbContextProjectRepository : IProjectRepository
             {
                 ProjectId = modelReferral.ProjectId,
                 CommissionId =  modelReferral.CommissionId,
-                Date = modelReferral.Date,
+                Date = modelReferral.DateState,
                 State = (int)modelReferral.State
             });
         }
