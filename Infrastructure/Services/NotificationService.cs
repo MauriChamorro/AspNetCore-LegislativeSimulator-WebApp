@@ -43,7 +43,7 @@ public class NotificationService: INotificationService
         AddNotification(notificationVm);
     }
 
-    public void AddChangedCurrentReferralStateNotification(int projectId)
+    public void AddReferralChangeNotification(int projectId)
     {
         var project = GetProjectById(projectId);
         var notificationVm = new NotificationViewModel

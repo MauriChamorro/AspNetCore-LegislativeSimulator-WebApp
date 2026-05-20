@@ -47,7 +47,7 @@ public class ProjectViewModelService: IProjectViewModelService
         projectVm.CanEdit = auxProject.CanEdit();
     }
 
-    public void SetVmCommissions(ProjectViewModel projectVm, List<Referral> referralCommissions)
+    public void SetCommissionVmsToProjectVm(ProjectViewModel projectVm, List<Referral> referralCommissions)
     {
         projectVm.Commissions = new List<CommissionViewModel>();
         foreach (var referralCommission in referralCommissions)
@@ -55,7 +55,7 @@ public class ProjectViewModelService: IProjectViewModelService
             projectVm.Commissions.Add(
                 new()
                 {
-                    Name = referralCommission.CommissionName,
+                    Name = referralCommission.Commission.Name,
                     Color = "bg-info"
                 }
             );

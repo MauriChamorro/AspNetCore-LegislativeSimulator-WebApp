@@ -15,7 +15,6 @@ public class ReferralCommissionRepository: IReferralCommissionRepository
             {
                 ProjectId = 4,
                 CommissionId = 3,
-                CommissionName = "Comisión de Legislación General",
                 Date =  DateTime.Now.Subtract(TimeSpan.FromDays(10)),
                 State = ReferralCommissionState.Accepted
             });
@@ -24,7 +23,6 @@ public class ReferralCommissionRepository: IReferralCommissionRepository
             {
                 ProjectId = 4,
                 CommissionId = 4,
-                CommissionName = "Comisión de Legislación del Trabajo",
                 Date =  DateTime.Now.Subtract(TimeSpan.FromDays(5)),
                 State = ReferralCommissionState.Accepted
             });
@@ -33,7 +31,6 @@ public class ReferralCommissionRepository: IReferralCommissionRepository
             {
                 ProjectId = 5,
                 CommissionId = 2,
-                CommissionName = "Comisión de Presupuesto y Hacienda",
                 Date =  DateTime.Now.Subtract(TimeSpan.FromDays(10)),
                 State = ReferralCommissionState.Accepted
             });
@@ -42,7 +39,6 @@ public class ReferralCommissionRepository: IReferralCommissionRepository
             {
                 ProjectId = 5,
                 CommissionId = 4,
-                CommissionName = "Comisión de Legislación del Trabajo",
                 Date =  DateTime.Now.Subtract(TimeSpan.FromDays(5)),
                 State = ReferralCommissionState.Accepted
             });

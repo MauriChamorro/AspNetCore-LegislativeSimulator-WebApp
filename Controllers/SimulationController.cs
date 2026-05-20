@@ -51,7 +51,7 @@ public class SimulationController : ControllerBase
     {
         if (!_commissionService.HasBeenAssigned(projectId))
             return BadRequest("El proyecto no tiene comisiones asignadas.");
-        var result = _commissionService.GetReferralCommissionsFor(projectId);
+        var result = _commissionService.GetReferralsFor(projectId);
         return Ok(result);
     }
 
@@ -61,16 +61,17 @@ public class SimulationController : ControllerBase
         if (!_commissionService.HasBeenAssigned(projectId))
             return BadRequest("El proyecto no tiene comisiones asignadas.");
 
-        var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
-        if (_commissionService.ThereAreNotPendingReferral(referralCommissions))
+        var referrals = _commissionService.GetReferralsFor(projectId);
+        if (_commissionService.ThereAreNotPendingReferral(referrals))
             return BadRequest("Todas la comisiones ya evaluaron.");
-        var actualReferral = _commissionService.GetActualReferral(referralCommissions);
+        
+        //Todo: check logic
+        var actualReferral = _commissionService.GetActualReferral(referrals);
         _commissionService.DoNextReferralPhase(actualReferral);
-
-        if (_commissionService.ReferralIsRejected(actualReferral))
+        if (_commissionService.IsRejectedReferral(actualReferral))
             _projectService.RejectProjectByCommissions(projectId);
 
-        _notificationService.AddChangedCurrentReferralStateNotification(projectId);
+        _notificationService.AddReferralChangeNotification(projectId);
 
         return Ok(actualReferral);
     }
@@ -81,7 +82,7 @@ public class SimulationController : ControllerBase
     {
         if (!_commissionService.HasBeenAssigned(projectId))
             return BadRequest("El proyecto no tiene comisiones asignadas.");
-        var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
+        var referralCommissions = _commissionService.GetReferralsFor(projectId);
 
         if (!_commissionService.ThereAreNotPendingReferral(referralCommissions))
             return BadRequest("Todas las comisiones deben terminar de evaluar.");

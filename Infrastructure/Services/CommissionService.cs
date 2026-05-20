@@ -60,14 +60,15 @@ public class CommissionService : ICommissionService
         return referralCommissions;
     }
 
-    public bool HasBeenAssigned(int projectId) =>
-        _referralCommissionRepository.ExistProjectId(projectId);
+    public bool HasBeenAssigned(int projectId) => 
+        _projectRepository.HasReferrals(projectId);
 
-    public List<Referral> GetReferralCommissionsFor(int projectId) => 
-        _referralCommissionRepository.GetFor(projectId);
+    public List<Referral> GetReferralsFor(int projectId) => 
+        _projectRepository.GetReferralsFor(projectId);
 
     public Referral GetActualReferral(List<Referral> referralCommissions)
     {
+        //TODO: get by Date
         if (referralCommissions.Any(rc => rc.State == ReferralCommissionState.Evaluating))
             return referralCommissions.First(rc => rc.State == ReferralCommissionState.Evaluating);
         return referralCommissions.First(rc => rc.State == ReferralCommissionState.Assigned);
@@ -100,7 +101,7 @@ public class CommissionService : ICommissionService
         referralCommissions.TrueForAll(rc =>
             rc.State == ReferralCommissionState.Accepted || rc.State == ReferralCommissionState.Rejected);
 
-    public bool ReferralIsRejected(Referral actualReferral) =>
+    public bool IsRejectedReferral(Referral actualReferral) =>
         actualReferral.State == ReferralCommissionState.Rejected;
 
     public bool AcceptedByAllCommission(int projectId) =>

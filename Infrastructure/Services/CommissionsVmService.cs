@@ -14,40 +14,35 @@ public class CommissionsVmService: ICommissionsVmService
         {
             ProjectId =  project.ProjectId,
             ProjectTitle = project.Title,
-            ReferralCommissions = CreateReferralCommissions(referralCommissions),
+            ReferralCommissions = CreateReferralVms(referralCommissions),
         };
     }
 
-    private List<ReferralCommissionViewModel> CreateReferralCommissions(List<Referral> referralCommissions)
+    private List<ReferralViewModel> CreateReferralVms(List<Referral> referrals)
     {
-        var referralCommissionsVm = new List<ReferralCommissionViewModel>();
-        foreach (var referralCommission in referralCommissions)
+        var referralCommissionsVm = new List<ReferralViewModel>();
+        foreach (var referral in referrals)
         {
             referralCommissionsVm.Add(
-                new ReferralCommissionViewModel
+                new ReferralViewModel
                 {
-                    ReferralStateName  = GetReferralStateName(referralCommission.State),
-                    ReferralDate =  referralCommission.Date,
-                    BackgroundColor = GetBackgroundColorForCommission(referralCommission.CommissionId),
-                    Color = GetColorForCommission(referralCommission.CommissionId)
+                    CommissionName = referral.Commission.Name,
+                    ReferralStateName  = GetReferralStateName(referral.State),
+                    ReferralDate =  referral.Date,
+                    BackgroundColor = GetBackgroundColorForCommission(referral.CommissionId),
+                    Color = GetColorForCommission(referral.CommissionId)
                 }    
             );
         }
         return referralCommissionsVm;
     }
 
-    private string GetColorForCommission(int commissionId)
-    {
-        switch (commissionId)
-        {
-            default:
-                return "#000000";
-        }
-    }
-        
+    private string GetColorForCommission(int commissionId) => "#000000";
+
 
     private string GetBackgroundColorForCommission(int commissionId)
     {
+        //todo: select by name or from bd
         switch (commissionId)
         {
             case 1:

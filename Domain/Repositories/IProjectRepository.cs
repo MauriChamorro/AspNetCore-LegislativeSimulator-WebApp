@@ -14,4 +14,6 @@ public interface IProjectRepository
     ProjectState GetScratchProjectState();
     ProjectState GetSentToCommissionProjectState();
     ProjectState GetInCommissionProjectState();
+    bool HasReferrals(int projectId);
+    List<Referral> GetReferralsFor(int projectId);
 }

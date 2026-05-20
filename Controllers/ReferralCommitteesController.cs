@@ -26,7 +26,7 @@ public class ReferralCommitteesController: Controller
     public IActionResult Index(int projectId)
     {
         var project = _projectService.GetProjectById(projectId);
-        var referralCommissions = _commissionService.GetReferralCommissionsFor(projectId);
+        var referralCommissions = _commissionService.GetReferralsFor(projectId);
         var result = _commissionsVmService.CreateReferralCommissionsVMs(project,referralCommissions);
         return View(result);
     }

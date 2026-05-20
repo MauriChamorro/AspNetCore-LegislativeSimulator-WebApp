@@ -4,7 +4,6 @@ public class Referral
 {
     public int ProjectId { get; set; }
     public int CommissionId { get; set; }
-    public string CommissionName { get; set; } = "";
     public DateTime Date { get; set; }
     public ReferralCommissionState State { get; set; }
     

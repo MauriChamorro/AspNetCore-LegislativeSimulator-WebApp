@@ -1,6 +1,6 @@
 namespace WebAppMVC.ViewModels;
 
-public class ReferralCommissionViewModel
+public class ReferralViewModel
 {
     public string CommissionName { get; set; }
     public string ReferralStateName  { get; set; }
