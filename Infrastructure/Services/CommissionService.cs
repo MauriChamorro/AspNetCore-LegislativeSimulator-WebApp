@@ -21,7 +21,6 @@ public class CommissionService : ICommissionService
     public List<Commission> EvaluateCommissionFor(string projectArticles)
     {
         var assignedCommissions = new List<Commission>();
-        var words = new List<string>();
         foreach (var commission in _projectRepository.GetCommissions())
         {
             if (commission.WordsForAssignment != null)
@@ -29,15 +28,11 @@ public class CommissionService : ICommissionService
                 {
                     if (Regex.IsMatch(projectArticles, $@"\b{commissionWord}\b", RegexOptions.IgnoreCase))
                     {
-                        words.Add(commissionWord);
                         assignedCommissions.Add(commission);
                         break;
                     }
                 }
         }
-
-        foreach (var word in words)
-            Console.Write(word);
         return assignedCommissions;
     }
 
