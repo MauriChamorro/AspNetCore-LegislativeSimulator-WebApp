@@ -93,22 +93,27 @@ public class ProjectService : IProjectService
         _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
     }
 
-    public bool SimulateSessionResult(Project project)
+    public bool DoSession(Project project)
     {
         var rnd = new Random();
         var success = rnd.Next(2) == 0;
+
+        var projectStateHistory = new ProjectStateHistory();
+        
         if (success)
         {
-            project.GetCurrentState().ProjectState.State = FileState.ApprovedInSession;
-            project.GetCurrentState().Date = DateTime.Now;
+            projectStateHistory.ProjectState = _projectRepository.GetApprovedInSessionProjectState();
+            projectStateHistory.Date = DateTime.Now;
         }
         else
         {
-            project.GetCurrentState().ProjectState.State = FileState.RejectedInSession;
-            project.GetCurrentState().Date = DateTime.Now;
+            projectStateHistory.ProjectState = _projectRepository.GetRejectedInSessionProjectState();
+            projectStateHistory.Date = DateTime.Now;
         }
 
-        return project.GetCurrentState().ProjectState.State == FileState.ApprovedInSession;
+        _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
+        
+        return projectStateHistory.ProjectState.State == FileState.ApprovedInSession;
     }
 
     public bool CanSendToCommission(Project project) =>
@@ -147,4 +152,7 @@ public class ProjectService : IProjectService
 
     public bool IsInCommission(Project project) => 
         project.GetCurrentState().ProjectState.State == FileState.InCommission;
+
+    public bool IsInSession(Project project) => 
+        project.GetCurrentState().ProjectState.State == FileState.InSession;
 }

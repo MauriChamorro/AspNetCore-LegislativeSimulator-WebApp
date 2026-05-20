@@ -16,7 +16,10 @@ public interface IProjectRepository
     ProjectState GetInCommissionProjectState();
     ProjectState GetRejectedByCommissionProjectState();
     ProjectState GetInSessionProjectState();
+    ProjectState GetApprovedInSessionProjectState();
+    ProjectState GetRejectedInSessionProjectState();
     bool HasReferrals(int projectId);
     List<Referral> GetReferralsFor(int projectId);
     void UpdateReferral(Referral modelReferral);
+   
 }

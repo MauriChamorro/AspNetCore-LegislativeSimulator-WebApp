@@ -105,12 +105,12 @@ public class SimulationController : ControllerBase
     {
         var project = _projectService.GetProjectById(projectId);
 
-        if (project.GetCurrentState().ProjectState.State != FileState.InSession)
+        if(!_projectService.IsInSession(project))
             return BadRequest("No es posible finalizar el proyecto.");
 
-        var result = _projectService.SimulateSessionResult(project);
+        var result = _projectService.DoSession(project);
 
-        _notificationService.AddSessionResultNotification(projectId, result);
+        _notificationService.AddSessionResultNotification(project, result);
 
         return Ok($"Resultado de Sesión: {project.GetCurrentState().ProjectState.Name}");
     }

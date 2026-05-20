@@ -9,7 +9,7 @@ public interface INotificationService
     void AddCommissionAssignedNotification(int projectId);
     void AddReferralChangeNotification(int projectId);
     void AddSendToSessionNotification(Project project);
-    void AddSessionResultNotification(int projectId, bool success);
+    void AddSessionResultNotification(Project projectId, bool success);
     void AddProjectCreatedNotification();
     void AddProjectUpdatedNotification();
     void AddSentToCommissionsNotification();

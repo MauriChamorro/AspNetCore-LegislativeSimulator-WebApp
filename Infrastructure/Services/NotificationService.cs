@@ -65,9 +65,8 @@ public class NotificationService: INotificationService
         AddNotification(notificationVm);
     }
 
-    public void AddSessionResultNotification(int projectId, bool success)
+    public void AddSessionResultNotification(Project project, bool success)
     {
-        var project = GetProjectById(projectId);
         var notificationVm = new NotificationViewModel
         {
             Title = "Dictamen",
