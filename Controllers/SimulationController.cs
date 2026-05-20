@@ -30,7 +30,7 @@ public class SimulationController : ControllerBase
         var project = _projectService.GetProjectById(projectId);
         //todo:service
         if (project.GetCurrentState().ProjectState.State != FileState.PendingForAssignCommissions)
-            return BadRequest("No es posible para el estado en que se encuentra.");
+            return BadRequest("No es posible para el estado en que se encuentra." + project);
 
         var commissions = _commissionService.EvaluateCommissionFor(project.Articles);
         if (commissions.Count == 0)
@@ -41,7 +41,7 @@ public class SimulationController : ControllerBase
         }
 
         var result = _commissionService.AssignCommissionTo(commissions, project.ProjectId);
-        _projectService.SendToCommissions(projectId);
+        _projectService.SetInCommissionFor(projectId);
         _notificationService.AddCommissionAssignedNotification(projectId);
         return Ok(result);
     }

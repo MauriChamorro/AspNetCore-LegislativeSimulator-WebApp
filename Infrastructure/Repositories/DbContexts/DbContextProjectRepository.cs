@@ -21,11 +21,11 @@ public class DbContextProjectRepository : IProjectRepository
                 new Model.Project
                 {
                     ProjectId = p.ProjectId,
-                    FileId = p.FileId,
-                    Title = p.Title,
-                    Articles = p.Articles,
-                    Fundaments = p.Fundaments,
-                    Summary = p.Summary,
+                    FileId = p.FileId.Trim(),
+                    Title = p.Title.Trim(),
+                    Articles = p.Articles.Trim(),
+                    Fundaments = p.Fundaments.Trim(),
+                    Summary = p.Summary.Trim(),
                     StateHistory = p.ProjectStateHistories.Select(h =>
                         new Model.ProjectStateHistory
                         {
@@ -33,7 +33,7 @@ public class DbContextProjectRepository : IProjectRepository
                             ProjectState = new Model.ProjectState
                             {
                                 Id = h.ProjectState.ProjectStateId,
-                                Name = h.ProjectState.Name,
+                                Name = h.ProjectState.Name.Trim(),
                                 State = (Model.FileState)h.ProjectState.IntState
                             }
                         }).ToList()
@@ -82,6 +82,48 @@ public class DbContextProjectRepository : IProjectRepository
                 State = (Model.FileState)e.IntState
             })
             .First();
+    }
+    
+    public Model.ProjectState GetInCommissionProjectStates()
+    {
+        //todo: refactor with GetScratchProjectStates()a
+        return _context.ProjectStates
+            //todo: check out how .where works
+            .Where(s => s.Name == "En Comisiones")
+            .Select(e => new Model.ProjectState
+            {
+                Id = e.ProjectStateId,
+                Name = e.Name,
+                State = (Model.FileState)e.IntState
+            })
+            .First();
+    }
+
+    public List<Model.Commission> GetCommissions() =>
+        _context.Commissions
+            .Select(commission => new Model.Commission
+            {
+                CommissionId = commission.CommissionId,
+                Name =  commission.Name,
+                WordsForAssignment = commission.Tags!.Trim().Split().ToList()
+            })
+            .ToList();
+
+    public void AddReferrals(List<Model.Referral> referralCommissions)
+    {
+        var entities = new List<Referral>();
+        foreach (var modelReferral in referralCommissions)
+        {
+            entities.Add(new Referral
+            {
+                ProjectId = modelReferral.ProjectId,
+                CommissionId =  modelReferral.CommissionId,
+                Date = modelReferral.Date,
+                State = (int)modelReferral.State
+            });
+        }
+        _context.Referrals.AddRange(entities);
+        _context.SaveChanges();
     }
 
     public Model.ProjectState GetScratchProjectStates() =>

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
@@ -7,110 +8,36 @@ namespace WebAppMVC.Infrastructure.Services;
 public class CommissionService : ICommissionService
 {
     private readonly IReferralCommissionRepository _referralCommissionRepository;
+    private readonly IProjectRepository _projectRepository;
 
-    private List<Commission> _commissions; //this is a inmemory repo for now
 
-    public CommissionService(IReferralCommissionRepository referralCommissionRepository)
+    public CommissionService(IReferralCommissionRepository referralCommissionRepository,
+        IProjectRepository projectRepository)
     {
         _referralCommissionRepository = referralCommissionRepository;
-        _commissions = new List<Commission>
-        {
-            new()
-            {
-                CommissionId = 1,
-                Name = "Comisión de Asuntos Constitucionales",
-                WordsForAssignment =
-                [
-                    "Constitución", "Reforma", "Electoral", "Intervención", "Privilegios", "Tratados", "Ciudadanía",
-                    "Federalismo", "Poderes", "Enmienda", "Protocolo", "Institucional", "Representación", "Sufragio",
-                    "Autonomía", "Competencia", "Tratado", "Decretos", "Reglamentación", "Ética"
-                ]
-            },
-            new()
-            {
-                CommissionId = 2,
-                Name = "Comisión de Presupuesto y Hacienda",
-                WordsForAssignment =
-                [
-                    "Gasto", "Tributo", "Impuesto", "Alícuota", "Financiamiento", "Crédito", "Deuda", "Coparticipación",
-                    "Déficit", "Inversión", "Partida", "Erario", "Fiscal", "Recaudación", "Bonos", "Aranceles",
-                    "Exención", "Devengado", "Tesoro", "Superávit"
-                ]
-            },
-            new()
-            {
-                CommissionId = 3,
-                Name = "Comisión de Legislación General",
-                WordsForAssignment =
-                [
-                    "Código", "Contrato", "Civil", "Propiedad", "Locación", "Sucesiones", "Personería", "Notarial",
-                    "Registro", "Alquiler", "Sociedades", "Normativa", "Capacidad", "Patrimonio", "Domicilio",
-                    "Arrendamiento", "Prescripción", "Obligaciones", "Comercial", "Fundaciones"
-                ]
-            },
-            new()
-            {
-                CommissionId = 4,
-                Name = "Comisión de Legislación del Trabajo",
-                WordsForAssignment =
-                [
-                    "Empleo", "Indemnización", "Gremio", "Sindicato", "Salario", "Jornada", "Patronal", "Cese",
-                    "Previsión", "Jubilación", "Paritaria", "Convenio", "Aporte", "Contribución", "Despido", "ART",
-                    "Riesgo", "Licencia", "Seguridad", "Obrero"
-                ]
-            },
-            new()
-            {
-                CommissionId = 5,
-                Name = "Comisión de Acción Social y Salúd Pública",
-                WordsForAssignment =
-                [
-                    "Sanitario", "Epidemiología", "Prevención", "Paciente", "Médico", "Farmacéutico", "Adicciones",
-                    "Hospital", "Clínica", "Tratamiento", "Discapacidad", "Infancia", "Vulnerabilidad",
-                    "Medicamento", "Bioética", "Asistencia", "Vacunación", "Mental", "Nutrición", "Prestación"
-                ]
-            },
-            new()
-            {
-                CommissionId = 6,
-                Name = "Comisión de Energía y Combustible",
-                WordsForAssignment =
-                [
-                    "Hidrocarburos", "Petróleo", "Gas", "Renovables", "Tarifas", "Eléctrica", "Minería", "Litio",
-                    "Sustentable", "Generación", "Transporte", "Distribución", "Regalías", "Refinería",
-                    "Biocombustible", "Eólica", "Solar", "Cuenca", "Reservas", "Yacimiento"
-                ]
-            },
-            new()
-            {
-                CommissionId = 7,
-                Name = "Comisión de Juicio Político",
-                WordsForAssignment =
-                [
-                    "Destitución", "Mal desempeño", "Acusación", "Denuncia", "Remoción", "Investigación", "Magistrado",
-                    "Funcionario", "Corte", "Proceso", "Causal", "Testimonio", "Probatorio", "Dictamen", "Fallo",
-                    "Inhabilidad", "Debido proceso", "Senado", "Cargo", "Defensa"
-                ]
-            }
-        };
+        _projectRepository = projectRepository;
     }
 
     public List<Commission> EvaluateCommissionFor(string projectArticles)
     {
         var assignedCommissions = new List<Commission>();
-        var articles = projectArticles.ToLower();
-        foreach (var commission in _commissions)
+        var words = new List<string>();
+        foreach (var commission in _projectRepository.GetCommissions())
         {
-            foreach (var commissionWord in commission.WordsForAssignment)
-            {
-                if (articles.Contains(commissionWord, StringComparison.OrdinalIgnoreCase))
+            if (commission.WordsForAssignment != null)
+                foreach (var commissionWord in commission.WordsForAssignment)
                 {
-                    assignedCommissions.Add(commission);
-                    break;
+                    if (Regex.IsMatch(projectArticles, $@"\b{commissionWord}\b", RegexOptions.IgnoreCase))
+                    {
+                        words.Add(commissionWord);
+                        assignedCommissions.Add(commission);
+                        break;
+                    }
                 }
-            }
         }
 
+        foreach (var word in words)
+            Console.Write(word);
         return assignedCommissions;
     }
 
@@ -124,14 +51,12 @@ public class CommissionService : ICommissionService
                 {
                     ProjectId = projectId,
                     CommissionId = commission.CommissionId,
-                    CommissionName = commission.Name,
                     State = ReferralCommissionState.Assigned,
                     Date = DateTime.Now
                 }
             );
         }
-
-        _referralCommissionRepository.AddRange(referralCommissions);
+        _projectRepository.AddReferrals(referralCommissions);
         return referralCommissions;
     }
 

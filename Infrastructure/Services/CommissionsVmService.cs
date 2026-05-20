@@ -26,7 +26,6 @@ public class CommissionsVmService: ICommissionsVmService
             referralCommissionsVm.Add(
                 new ReferralCommissionViewModel
                 {
-                    CommissionName = referralCommission.CommissionName,
                     ReferralStateName  = GetReferralStateName(referralCommission.State),
                     ReferralDate =  referralCommission.Date,
                     BackgroundColor = GetBackgroundColorForCommission(referralCommission.CommissionId),

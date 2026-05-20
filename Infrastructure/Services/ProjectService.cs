@@ -124,10 +124,14 @@ public class ProjectService : IProjectService
     public bool CanDelete(int projectId) => 
         GetProjectById(projectId).GetCurrentState().ProjectState.State == FileState.Scratch;
 
-    public void SendToCommissions(int projectId)
+    public void SetInCommissionFor(int projectId)
     {
-        var project = GetProjectById(projectId);
-        project.GetCurrentState().ProjectState.State = FileState.InCommission;
-        project.GetCurrentState().Date = DateTime.Now;
+        var projectStateHistory = new ProjectStateHistory
+        {
+            ProjectState = _projectRepository.GetInCommissionProjectStates(),
+            Date = DateTime.Now
+        };
+
+        _projectRepository.AddStateHistory(projectId, projectStateHistory);
     }
 }

@@ -104,14 +104,15 @@ public partial class ExpedientesDevContext : DbContext
         {
             entity.HasKey(e => new { e.ProjectId, e.CommissionId }).HasName("PK_ProjectCommission");
 
-            entity.Property(e => e.ProjectId)
-                .HasMaxLength(30)
-                .IsFixedLength()
-                .HasColumnName("projectId");
+            entity.Property(e => e.ProjectId).HasColumnName("projectId");
             entity.Property(e => e.CommissionId).HasColumnName("commissionId");
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
+            entity.Property(e => e.FileId)
+                .HasMaxLength(30)
+                .IsFixedLength()
+                .HasColumnName("fileId");
             entity.Property(e => e.State).HasColumnName("state");
 
             entity.HasOne(d => d.Commission).WithMany(p => p.Referrals)

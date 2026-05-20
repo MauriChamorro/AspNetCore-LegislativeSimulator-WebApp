@@ -17,5 +17,5 @@ public interface IProjectService
     void SetPendingForCommissionsFor(Project project);
     void DeleteProject(int projectId);
     bool CanDelete(int projectId);
-    void SendToCommissions(int projectId);
+    void SetInCommissionFor(int projectId);
 }

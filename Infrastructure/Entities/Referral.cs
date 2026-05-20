@@ -5,9 +5,11 @@ namespace WebAppMVC.Infrastructure.Entities;
 
 public partial class Referral
 {
-    public string ProjectId { get; set; } = null!;
+    public int ProjectId { get; set; }
 
     public int CommissionId { get; set; }
+
+    public string? FileId { get; set; }
 
     public DateTime Date { get; set; }
 

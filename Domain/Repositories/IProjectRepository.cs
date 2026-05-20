@@ -9,6 +9,9 @@ public interface IProjectRepository
     void Delete(int projectId);
     void UpdateProject(Project updatedProject);
     void AddStateHistory(int projectId, ProjectStateHistory projectStateHistory);
+    List<Commission> GetCommissions();
+    void AddReferrals(List<Referral> referralCommissions);
     ProjectState GetScratchProjectStates();
     ProjectState GetSentToCommissionProjectStates();
+    ProjectState GetInCommissionProjectStates();
 }
