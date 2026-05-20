@@ -11,7 +11,7 @@ public interface IProjectRepository
     void AddStateHistory(int projectId, ProjectStateHistory projectStateHistory);
     List<Commission> GetCommissions();
     void AddReferrals(List<Referral> referralCommissions);
-    ProjectState GetScratchProjectStates();
-    ProjectState GetSentToCommissionProjectStates();
-    ProjectState GetInCommissionProjectStates();
+    ProjectState GetScratchProjectState();
+    ProjectState GetSentToCommissionProjectState();
+    ProjectState GetInCommissionProjectState();
 }

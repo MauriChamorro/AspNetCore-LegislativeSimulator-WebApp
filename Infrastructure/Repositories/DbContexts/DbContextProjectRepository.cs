@@ -69,34 +69,25 @@ public class DbContextProjectRepository : IProjectRepository
         _context.SaveChanges();
     }
 
-    public Model.ProjectState GetSentToCommissionProjectStates()
-    {
-        //todo: refactor with GetScratchProjectStates()a
-        return _context.ProjectStates
-            //todo: check out how .where works
-            .Where(s => s.Name == "Enviado a Comisiones")
-            .Select(e => new Model.ProjectState
-            {
-                Id = e.ProjectStateId,
-                Name = e.Name,
-                State = (Model.FileState)e.IntState
-            })
-            .First();
-    }
+    public Model.ProjectState GetScratchProjectState() => 
+        GetProjectStateByName("Borrador");
     
-    public Model.ProjectState GetInCommissionProjectStates()
+    public Model.ProjectState GetSentToCommissionProjectState() => 
+        GetProjectStateByName("Enviado a Comisiones");
+
+    public Model.ProjectState GetInCommissionProjectState() => 
+        GetProjectStateByName("En Comisiones");
+
+    private Model.ProjectState GetProjectStateByName(string commissionName)
     {
-        //todo: refactor with GetScratchProjectStates()a
-        return _context.ProjectStates
-            //todo: check out how .where works
-            .Where(s => s.Name == "En Comisiones")
-            .Select(e => new Model.ProjectState
-            {
-                Id = e.ProjectStateId,
-                Name = e.Name,
-                State = (Model.FileState)e.IntState
-            })
-            .First();
+        var projectState = _context.ProjectStates
+            .Single(e => e.Name == commissionName);
+        return new Model.ProjectState
+        {
+            Id = projectState.ProjectStateId,
+            Name = projectState.Name,
+            State = (Model.FileState)projectState.IntState
+        };
     }
 
     public List<Model.Commission> GetCommissions() =>
@@ -125,18 +116,6 @@ public class DbContextProjectRepository : IProjectRepository
         _context.Referrals.AddRange(entities);
         _context.SaveChanges();
     }
-
-    public Model.ProjectState GetScratchProjectStates() =>
-        _context.ProjectStates
-            //todo: check out how .where works
-            .Where(s => s.Name == "Borrador")
-            .Select(e => new Model.ProjectState
-            {
-                Id = e.ProjectStateId,
-                Name = e.Name,
-                State = (Model.FileState)e.IntState
-            })
-            .First(); // todo: change for another strategy to get only one
 
     public void Add(Model.Project project)
     {

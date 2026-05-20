@@ -31,7 +31,7 @@ public class ProjectService : IProjectService
     }
 
     private ProjectState GetScratchProjectState() => 
-        _projectRepository.GetScratchProjectStates();
+        _projectRepository.GetScratchProjectState();
 
     public void CreateNewProject(string title, string articles, string fundaments, string summary)
     {
@@ -111,7 +111,7 @@ public class ProjectService : IProjectService
     {
         var projectStateHistory = new ProjectStateHistory
         {
-            ProjectState = _projectRepository.GetSentToCommissionProjectStates(),
+            ProjectState = _projectRepository.GetSentToCommissionProjectState(),
             Date = DateTime.Now,
         };
 
@@ -128,7 +128,7 @@ public class ProjectService : IProjectService
     {
         var projectStateHistory = new ProjectStateHistory
         {
-            ProjectState = _projectRepository.GetInCommissionProjectStates(),
+            ProjectState = _projectRepository.GetInCommissionProjectState(),
             Date = DateTime.Now
         };
 
