@@ -62,7 +62,7 @@ public class SimulationController : ControllerBase
             return BadRequest("El proyecto no tiene comisiones asignadas.");
 
         var referrals = _commissionService.GetReferralsFor(projectId);
-        if (_commissionService.ThereAreNotPendingReferral(referrals))
+        if (_commissionService.AllCommissionEvaluated(referrals))
             return BadRequest("Todas la comisiones ya evaluaron.");
         
         var actualReferral = _commissionService.GetActualReferralFor(referrals);
@@ -81,23 +81,21 @@ public class SimulationController : ControllerBase
     {
         if (!_commissionService.HasBeenAssigned(projectId))
             return BadRequest("El proyecto no tiene comisiones asignadas.");
-        var referralCommissions = _commissionService.GetReferralsFor(projectId);
+        
+        var project = _projectService.GetProjectById(projectId);
+        if(!_projectService.IsInCommission(project))
+            return BadRequest("El proyecto debe estar en Comisión.");
 
-        if (!_commissionService.ThereAreNotPendingReferral(referralCommissions))
+        var referrals = _commissionService.GetReferralsFor(projectId);
+
+        if (!_commissionService.AllCommissionEvaluated(referrals))
             return BadRequest("Todas las comisiones deben terminar de evaluar.");
 
-        if (!_commissionService.AcceptedByAllCommission(projectId))
+        if (!_commissionService.AcceptedByAllCommission(referrals))
             return BadRequest("El proyecto debe ser aprobado por todas las commisiones.");
 
-        var project = _projectService.GetProjectById(projectId);
-
-        //One validation alternative
-        if (project.GetCurrentState().ProjectState.State != FileState.InCommission &&
-            !_commissionService.AcceptedByAllCommission(projectId))
-            return BadRequest("No es posible enviar a Sesión.");
-
-        _projectService.SendToSession(projectId);
-        _notificationService.AddSendToSessionNotification(projectId);
+        _projectService.SendToSession(project);
+        _notificationService.AddSendToSessionNotification(project);
         return Ok("Proyecto en Sesión");
     }
 

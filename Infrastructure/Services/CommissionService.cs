@@ -98,14 +98,13 @@ public class CommissionService : ICommissionService
         return ReferralState.Rejected;
     }
 
-    public bool ThereAreNotPendingReferral(List<Referral> referralCommissions) =>
+    public bool AllCommissionEvaluated(List<Referral> referralCommissions) =>
         referralCommissions.TrueForAll(rc =>
             rc.State == ReferralState.Accepted || rc.State == ReferralState.Rejected);
 
     public bool IsRejectedReferral(Referral actualReferral) =>
         actualReferral.State == ReferralState.Rejected;
 
-    public bool AcceptedByAllCommission(int projectId) =>
-        _referralCommissionRepository.GetFor(projectId)
-            .TrueForAll(rc => rc.State == ReferralState.Accepted);
+    public bool AcceptedByAllCommission(List<Referral> referralCommissions) =>
+        referralCommissions.TrueForAll(rc => rc.State == ReferralState.Accepted);
 }

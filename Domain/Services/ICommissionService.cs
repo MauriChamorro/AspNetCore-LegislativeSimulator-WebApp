@@ -10,7 +10,7 @@ public interface ICommissionService
     List<Referral> GetReferralsFor(int projectId);
     Referral GetActualReferralFor(List<Referral> referralCommissions);
     void DoNextReferralPhase(Referral actualReferral);
-    bool ThereAreNotPendingReferral(List<Referral> referralCommissions);
+    bool AllCommissionEvaluated(List<Referral> referralCommissions);
     bool IsRejectedReferral(Referral actualReferral);
-    bool AcceptedByAllCommission(int projectId);
+    bool AcceptedByAllCommission(List<Referral> referrals);
 }

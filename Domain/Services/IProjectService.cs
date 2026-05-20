@@ -11,7 +11,7 @@ public interface IProjectService
     bool ExistProject(int projectId);
     void UpdateProject(Project project, string title, string articles, string fundaments, string summary);
     void RejectProjectByCommissions(int projectId);
-    void SendToSession(int projectId);
+    void SendToSession(Project project);
     bool SimulateSessionResult(Project project);
     bool CanSendToCommission(Project project);
     void SetPendingForCommissionsFor(Project project);
@@ -19,4 +19,5 @@ public interface IProjectService
     bool CanDelete(int projectId);
     void SetInCommissionFor(int projectId);
     bool CanAssignCommissions(Project project);
+    bool IsInCommission(Project project);
 }

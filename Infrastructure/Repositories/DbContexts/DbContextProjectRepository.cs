@@ -81,6 +81,9 @@ public class DbContextProjectRepository : IProjectRepository
     public Model.ProjectState GetRejectedByCommissionProjectState() =>
         GetProjectStateByName("Recahzado por Comisiones");
 
+    public Model.ProjectState GetInSessionProjectState() => 
+        GetProjectStateByName("En Sesión");
+
     public bool HasReferrals(int projectId) => 
         _context.Referrals.Any(r => r.ProjectId == projectId);
 

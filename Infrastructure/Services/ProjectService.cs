@@ -82,11 +82,15 @@ public class ProjectService : IProjectService
         _projectRepository.AddStateHistory(projectId, rejectedState);
     }
 
-    public void SendToSession(int projectId)
+    public void SendToSession(Project project)
     {
-        var project =  GetProjectById(projectId);
-        project.GetCurrentState().ProjectState.State = FileState.InSession;
-        project.GetCurrentState().Date = DateTime.Now;
+        var projectStateHistory = new ProjectStateHistory
+        {
+            ProjectState = _projectRepository.GetInSessionProjectState(),
+            Date = DateTime.Now,
+        };
+
+        _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
     }
 
     public bool SimulateSessionResult(Project project)
@@ -140,4 +144,7 @@ public class ProjectService : IProjectService
 
     public bool CanAssignCommissions(Project project) => 
         project.GetCurrentState().ProjectState.State == FileState.PendingForAssignCommissions;
+
+    public bool IsInCommission(Project project) => 
+        project.GetCurrentState().ProjectState.State == FileState.InCommission;
 }
