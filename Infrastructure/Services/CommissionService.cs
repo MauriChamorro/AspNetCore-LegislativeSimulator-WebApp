@@ -61,11 +61,11 @@ public class CommissionService : ICommissionService
     public List<Referral> GetReferralsFor(int projectId) => 
         _projectRepository.GetReferralsFor(projectId);
 
-    public Referral GetActualReferralFor(List<Referral> referralCommissions)
+    public Referral GetActualReferralFor(List<Referral> referrals)
     {
-        if (referralCommissions.Any(rc => rc.State == ReferralState.Evaluating))
-            return referralCommissions.First(rc => rc.State == ReferralState.Evaluating);
-        return referralCommissions.First(rc => rc.State == ReferralState.Assigned);
+        if (referrals.Any(rc => rc.State == ReferralState.Evaluating))
+            return referrals.First(rc => rc.State == ReferralState.Evaluating);
+        return referrals.First(rc => rc.State == ReferralState.Assigned);
     }
 
     public void DoNextReferralPhase(Referral actualReferral)
@@ -93,13 +93,16 @@ public class CommissionService : ICommissionService
         return ReferralState.Rejected;
     }
 
-    public bool AllCommissionEvaluated(List<Referral> referralCommissions) =>
-        referralCommissions.TrueForAll(rc =>
+    public bool AllCommissionEvaluated(List<Referral> referrals) =>
+        referrals.TrueForAll(rc =>
             rc.State == ReferralState.Accepted || rc.State == ReferralState.Rejected);
 
     public bool IsRejectedReferral(Referral actualReferral) =>
         actualReferral.State == ReferralState.Rejected;
 
-    public bool AcceptedByAllCommission(List<Referral> referralCommissions) =>
-        referralCommissions.TrueForAll(rc => rc.State == ReferralState.Accepted);
+    public bool AcceptedByAllCommission(List<Referral> referrals) =>
+        referrals.TrueForAll(rc => rc.State == ReferralState.Accepted);
+
+    public bool AlreadyRejected(List<Referral> referrals)=>
+        referrals.Any(rc => rc.State == ReferralState.Rejected);
 }

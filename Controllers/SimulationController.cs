@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Infrastructure.Interfaces;
@@ -23,7 +22,7 @@ public class SimulationController : ControllerBase
         _notificationService = notificationService;
     }
 
-    [HttpPost("assignCommissions/{projectId}")]
+    [HttpPost("AssignCommissions/{projectId}")]
     [ProjectIdNotFoundFilter]
     public IActionResult AssignCommissions([FromRoute] int projectId)
     {
@@ -46,7 +45,7 @@ public class SimulationController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("assignedCommissions/{projectId}")]
+    [HttpGet("AssignedCommissions/{projectId}")]
     public IActionResult AssignedCommissions([FromRoute] int projectId)
     {
         if (!_commissionService.HasBeenAssigned(projectId))
@@ -55,7 +54,7 @@ public class SimulationController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("doReferring/{projectId}")]
+    [HttpPost("DoReferring/{projectId}")]
     public IActionResult DoReferring(int projectId)
     {
         if (!_commissionService.HasBeenAssigned(projectId))
@@ -64,6 +63,9 @@ public class SimulationController : ControllerBase
         var referrals = _commissionService.GetReferralsFor(projectId);
         if (_commissionService.AllCommissionEvaluated(referrals))
             return BadRequest("Todas la comisiones ya evaluaron.");
+        
+        if (_commissionService.AlreadyRejected(referrals))
+            return BadRequest("El proyecto ya fue rechazado.");
         
         var actualReferral = _commissionService.GetActualReferralFor(referrals);
         _commissionService.DoNextReferralPhase(actualReferral);
@@ -75,7 +77,7 @@ public class SimulationController : ControllerBase
         return Ok(actualReferral);
     }
 
-    [HttpPost("sendToSession/{projectId}")]
+    [HttpPost("SendToSession/{projectId}")]
     [ProjectIdNotFoundFilter]
     public IActionResult SendToSession(int projectId)
     {
