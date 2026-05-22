@@ -123,8 +123,8 @@ public class DbContextProjectRepository : IProjectRepository
     public async Task<bool> HasReferrals(int projectId) => 
         await _context.Referrals.AnyAsync(r => r.ProjectId == projectId);
 
-    public List<Model.Referral> GetReferralsFor(int projectId) =>
-        _context.Referrals
+    public async Task<List<Model.Referral>> GetReferralsFor(int projectId) =>
+       await _context.Referrals
             .Where(r => r.ProjectId == projectId)
             .Select(referral => new Model.Referral
             {
@@ -138,7 +138,7 @@ public class DbContextProjectRepository : IProjectRepository
                 },
                 State = (Model.ReferralState)referral.State
             })
-            .ToList();
+            .ToListAsync();
 
     public async Task UpdateReferral(Model.Referral modelReferral)
     {

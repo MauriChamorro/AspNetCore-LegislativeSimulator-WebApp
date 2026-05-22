@@ -73,7 +73,7 @@ public class ProjectsController : Controller
         var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
         if (hasBeenAssigned)
         {
-            var referrals = _commissionService.GetReferralsFor(projectId);
+            var referrals = await _commissionService.GetReferralsFor(projectId);
             _projectViewModelService.SetCommissionVmsToProjectVm(projectVm, referrals);
         }
         return View(projectVm);

@@ -7,7 +7,7 @@ public interface ICommissionService
     Task<List<Commission>> EvaluateCommissionFor(string projectArticles);
     Task<List<Referral>> AssignCommissionTo(List<Commission> commissions, int projectId);
     Task<bool> HasBeenAssigned(int projectId);
-    List<Referral> GetReferralsFor(int projectId);
+    Task<List<Referral>> GetReferralsFor(int projectId);
     Referral GetActualReferralFor(List<Referral> referrals);
     Task DoNextReferralPhase(Referral actualReferral);
     bool AllCommissionEvaluated(List<Referral> referrals);

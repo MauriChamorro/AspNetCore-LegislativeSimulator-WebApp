@@ -27,7 +27,7 @@ public class ReferralCommitteesController: Controller
     public async Task<IActionResult> Index(int projectId)
     {
         var project = await _projectService.GetProjectByIdAsync(projectId);
-        var referralCommissions = _commissionService.GetReferralsFor(projectId);
+        var referralCommissions = await _commissionService.GetReferralsFor(projectId);
         var result = _commissionsVmService.CreateReferralCommissionsVMs(project,referralCommissions);
         return View(result);
     }

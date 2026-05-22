@@ -53,7 +53,7 @@ public class SimulationController : ControllerBase
         
         if (!hasBeenAssigned)
             return BadRequest("El proyecto no tiene comisiones asignadas.");
-        var result = _commissionService.GetReferralsFor(projectId);
+        var result = await _commissionService.GetReferralsFor(projectId);
         return Ok(result);
     }
 
@@ -65,7 +65,7 @@ public class SimulationController : ControllerBase
         if (!hasBeenAssigned)
             return BadRequest("El proyecto no tiene comisiones asignadas.");
 
-        var referrals = _commissionService.GetReferralsFor(projectId);
+        var referrals = await _commissionService.GetReferralsFor(projectId);
         if (_commissionService.AllCommissionEvaluated(referrals))
             return BadRequest("Todas la comisiones ya evaluaron.");
         
@@ -95,7 +95,7 @@ public class SimulationController : ControllerBase
         if(!_projectService.IsInCommission(project))
             return BadRequest("El proyecto debe estar en Comisión.");
 
-        var referrals = _commissionService.GetReferralsFor(projectId);
+        var referrals = await _commissionService.GetReferralsFor(projectId);
 
         if (!_commissionService.AllCommissionEvaluated(referrals))
             return BadRequest("Todas las comisiones deben terminar de evaluar.");

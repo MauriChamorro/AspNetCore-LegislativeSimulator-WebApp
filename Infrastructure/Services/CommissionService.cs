@@ -56,8 +56,8 @@ public class CommissionService : ICommissionService
     public async Task<bool> HasBeenAssigned(int projectId) => 
        await _projectRepository.HasReferrals(projectId);
 
-    public List<Referral> GetReferralsFor(int projectId) => 
-        _projectRepository.GetReferralsFor(projectId);
+    public async Task<List<Referral>> GetReferralsFor(int projectId) => 
+       await _projectRepository.GetReferralsFor(projectId);
 
     public Referral GetActualReferralFor(List<Referral> referrals)
     {
