@@ -18,12 +18,14 @@ public class ProjectVmAsyncFilterAttribute: IAsyncActionFilter
             if(!exist)
             {
                 context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "Proyecto no econtrado" });
+                return;
             }
-            else
+
+            var savedProject = await projectService.GetProjectByIdAsync(projectVm.ProjectId);
+            if (!projectService.CanSendToCommission(savedProject))
             {
-                var savedProject = await projectService.GetProjectByIdAsync(projectVm.ProjectId);
-                if(!projectService.CanSendToCommission(savedProject))
-                    context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "No es posible enviar a comisión" });
+                context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "No es posible enviar a comisión" });
+                return;
             }
         }
         

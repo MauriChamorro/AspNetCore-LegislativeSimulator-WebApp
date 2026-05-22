@@ -15,6 +15,7 @@ public class ReferralCommitteesAsyncFilterAttribute: IAsyncActionFilter
         if (!hasBeenAssigned)
         {
             context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "El proyecto no tiene comisiones asignadas" });
+            return;
         }
 
         await next();

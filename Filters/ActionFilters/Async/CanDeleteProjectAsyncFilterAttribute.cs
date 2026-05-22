@@ -11,12 +11,16 @@ public class CanDeleteProjectAsyncFilterAttribute: IAsyncActionFilter
         var projectService = context.HttpContext.RequestServices.GetService<IProjectService>();
         var projectId = (int)(context.ActionArguments["projectId"] ?? 0);
         var canDelete = await projectService.CanDelete(projectId);
-        
-        if (!canDelete) 
+
+        if (!canDelete)
+        {
             context.Result = new RedirectToActionResult("Error",
                 "Home", 
                 new { errorMessage = "No es posible borrar el proyecto actual" });
 
+            return;
+        }
+            
         await next();
     }
 }

@@ -14,6 +14,7 @@ public class ProjectIdNotFoundAsyncFilterAttribute: IAsyncActionFilter
         if (!exist)
         {
             context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "Proyecto no econtrado" });
+            return;
         }
         await next();
     }
