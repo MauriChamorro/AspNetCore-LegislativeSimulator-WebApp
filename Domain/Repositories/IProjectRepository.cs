@@ -8,7 +8,7 @@ public interface IProjectRepository
     Task<bool> Exists(int projectId);
     Task<Project> Get(int projectId);
     Task Add(Project project);
-    void Delete(int projectId);
+    Task Delete(int projectId);
     Task UpdateProject(Project updatedProject);
     Task AddStateHistory(int projectId, ProjectStateHistory projectStateHistory);
     List<Commission> GetCommissions();

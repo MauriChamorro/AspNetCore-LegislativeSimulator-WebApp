@@ -210,7 +210,7 @@ public class DbContextProjectRepository : IProjectRepository
     }
 
 
-    public void Delete(int projectId)
+    public async Task Delete(int projectId)
     {
         var entityProject = new Project { ProjectId = projectId };
         var history = _context.ProjectStateHistories
@@ -221,6 +221,6 @@ public class DbContextProjectRepository : IProjectRepository
 
         _context.Projects.Remove(entityProject);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }

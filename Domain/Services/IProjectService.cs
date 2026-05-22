@@ -15,7 +15,7 @@ public interface IProjectService
     Task<bool> DoSession(Project project);
     bool CanSendToCommission(Project project);
     Task SetPendingForCommissionsFor(Project project);
-    void DeleteProject(int projectId);
+    Task DeleteProject(int projectId);
     Task<bool> CanDelete(int projectId);
     Task SetInCommissionFor(int projectId);
     bool CanAssignCommissions(Project project);

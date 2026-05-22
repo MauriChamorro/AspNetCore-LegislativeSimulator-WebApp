@@ -134,8 +134,8 @@ public class ProjectService : IProjectService
         await _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
     }
 
-    public void DeleteProject(int projectId) => 
-        _projectRepository.Delete(projectId);
+    public async Task DeleteProject(int projectId) => 
+        await _projectRepository.Delete(projectId);
 
     public async Task<bool> CanDelete(int projectId)
     {

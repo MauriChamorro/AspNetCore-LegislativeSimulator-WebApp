@@ -124,9 +124,9 @@ public class ProjectsController : Controller
     [HttpPost("Projects/Delete/{projectId}")]
     [ServiceFilter(typeof(CanDeleteProjectAsyncFilterAttribute))]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
-    public IActionResult Delete(int projectId)
+    public async Task<IActionResult> Delete(int projectId)
     {
-        _projectService.DeleteProject(projectId);
+        await _projectService.DeleteProject(projectId);
         _notificationService.AddProjectDeletedNotification();
         return RedirectToAction(nameof(Index));
     }
