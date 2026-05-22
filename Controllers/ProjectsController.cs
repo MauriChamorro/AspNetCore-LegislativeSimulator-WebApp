@@ -125,6 +125,7 @@ public class ProjectsController : Controller
     public async Task<IActionResult> Delete(int projectId)
     {
         await _projectService.DeleteProject(projectId);
+        //todo: setear estado Eliminado por Legislador solo cuando se decida Marcar y no borrar de BD
         _notificationService.AddProjectDeletedNotification();
         return RedirectToAction(nameof(Index));
     }
