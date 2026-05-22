@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters.Async;
@@ -10,19 +11,16 @@ using WebAppMVC.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-using var loggerFactory = LoggerFactory.Create(loggingBuilder =>
-{
-    loggingBuilder.AddConfiguration(builder.Configuration.GetSection("Logging"));
-    loggingBuilder.AddConsole();
-    loggingBuilder.AddDebug();
-});
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
 
-ILogger logger = loggerFactory.CreateLogger("Startup");
+builder.Host.UseSerilog();
+
 try
 {
-    logger.LogInformation("Configurando servicios...");
-    logger.LogInformation("GetConnectionString");
-
+    Log.Information("Iniciando el servidor web...");
+    
     // inject db
     var connectionString = builder.Configuration.GetConnectionString("DbConnection");
     builder.Services.AddDbContext<ExpedientesDevContext>(options => options.UseSqlServer(connectionString));
@@ -58,7 +56,7 @@ try
     });
 
     var app = builder.Build();
-
+    app.UseSerilogRequestLogging();
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
@@ -73,7 +71,6 @@ try
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
-
     app.UseHttpsRedirection();
     app.UseCors("AllowAllOrigins");
     app.UseStaticFiles();
@@ -84,6 +81,9 @@ try
 }
 catch (Exception ex)
 {
-    logger.LogCritical(ex, "La aplicación falló al arrancar.");
-    throw; // para que el servidor sepa que falló
+    Log.Fatal(ex, "El servidor web falló inesperadamente al arrancar.");
+}
+finally
+{
+    Log.CloseAndFlush(); // Asegura que todos los logs en memoria se escriban antes de cerrar
 }
