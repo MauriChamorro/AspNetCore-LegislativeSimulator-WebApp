@@ -15,7 +15,7 @@ El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor
 *   **Interfaz Dinámica:** Dashboard construido con ASP.NET Core MVC y Bootstrap para una visualización clara del estado parlamentario.
 
 ## 🛠️ Stack Tecnológico
-*   **Backend:** C# con .NET 8.0 y ASP.NET Core MVC extendido.
+*   **Backend:** C# con .NET 8.0, ASP.NET Core MVC extendido, Serilog
 *   **Base de Datos:** InMemoryRepositories, SQL Server / Entity Framework Core (configurado).
 *   **Frontend:** Razor Views, Bootstrap 5, y SweetAlert2 para notificaciones interactivas.
 *   **Arquitectura:** Clean Architecture (Separación de preocupaciones).
@@ -29,7 +29,9 @@ El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor
 *   `/Infrastructure/Interfaces`: Interfaces de infrastructura. 
 *   `/Infrastructure/Services`: Implementaciones de servicios.
 *   `/Infrastructure/Repositories`: Implementaciones de repositorios.
-*   `/Filters`: Manejo de Excepciones y Validaciones.
+*   `/Infrastructure/DbContexts`: DebContext generado por EF-DbFirst.
+*   `/Infrastructure/Entities`: Entities generado por EF-DbFirst.
+*   `/Filters`: Clases para el Manejo de Excepciones y Validaciones de Vista.
 *   `/Views`: Plantillas Razor para la interfaz de usuario.
 *   `/ViewsModels`: DTOs para comunicación de datos con la vista a través de DataBinding.
 
@@ -38,8 +40,7 @@ El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor
 * El sitio web solo contempla la **creación, edición y visualización de proyectos** de ley para un Legislador.
 * Se deben **simular los resultados que no son por acciones del usuario** (Legislador). Para hacerlo, se usan métodos POST al endpoint http://expedientesar.somee.com/api/Simulation
 * **No hay login de usuario:** la aplicación supone que eres un Legislador y ya estas logueado.
-* **La persistencia de datos** complejos sucede en memoria (por motivos de tiempo de entrega).
-* Para comprobar una **conección a base de datos** sql: http://expedientesar.somee.com/api/person
+* **La persistencia de datos** sucede en una base de datos SQLServer express en de la herramienta de host.
 
  
 # Cómo usar
@@ -55,7 +56,7 @@ El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor
     * En Sesión
     * Aprobado
     * Rechazado en Sesión
-    * Eliminado por Legislador
+    * Elimado por Legislador
 * **Editar**: abre un proyecto en _estado Borrador_ para hacer modifiaciones.
     * **Borrar**: es el único momento en el que se puede _Eliminar_ un proyecto de ley.
     * **Actualizar**: guarda los cambios realizados.
@@ -86,7 +87,7 @@ El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor
         * Aprobado: "Realizar siguiente Operación de Giro" con 50% de ser _aprobado_.
         * Rechazado: "Realizar siguiente Operación de Giro" con 50% de ser _rechazado_.
 
-* Realizar **simulaciones:** Ver apartado _Simulaciones_. **Nota:** Cada vez que se realiza algún cambio en las entidades, se _genera_ una notificación. Para que aparezca la notificación, ir a http://expedientesar.somee.com/Projects .
+* Realizar **simulaciones:** Ver apartado _Simulaciones_. **Nota:** Cada vez que se realiza algún cambio en las entidades, se _genera_ una notificación. Para ver la notificación, refrescar o ir a http://expedientesar.somee.com/Projects .
 
 * Una vez que el proyecto llega al estado _Aprobado_ o _Rechazado en Sesión_, se da por **finalizado el flujo**.
 
@@ -111,7 +112,7 @@ _Ejemplo_: http://expedientesar.somee.com/api/Simulation/DoReferring/1
 
 **Requisitos:** El proyecto tiene que estar en _En Comisiones_.
 
-**Efectos:** Cambios en los _estados de Giro (Evaluando/Aprobado/Rechazado por Comisiones)_.  Los cambios de estado se pueden ver en la página de _Comisiones_.
+**Efectos:** Cambios en los _estados de Giro (Evaluando/Aprobado/Rechazado por Comisiones)_.  Luego, ver página de _Comisiones_.
 
 **Nota**: continuar enviado peticiones hasta que todos los giros finalicen en _Aprobado o Rechazado por Comisiones_. Ver _Estados de Giro_.
 
@@ -141,10 +142,11 @@ _Ejemplo_: http://expedientesar.somee.com/api/Simulation/DoSession/1
     * Listar todos los proyectos de todos los legisladores en la Home
         * Busqueda y Filtros
     * Login (Legislador)
-    * Mejorar Sistema de Notificación (UI Notification y servidor).
+    * Botón de Notificaciones en cliente.
 * **Tecnologías:**
-    * Aplicar Entity Framework + CodeFirst + SQL server para Proyectos.
-    * TestSuit para Proyectos (Servicios, Repositorios, Entidades).
+    * ~~Aplicar Entity Framework + DB-First + SQL server para Proyectos (Servicios, Repositorios, Entidades)~~.
+    * ~~Implementar Logger para prod~~
+    * TestSuit para Proyectos.
     * ASP.Net Identity.
 # ✉️ Contacto
 ¡Gracias por visitar mi proyecto! Si estás interesado en colaborar, tienes alguna duda o simplemente quieres charlar sobre desarrollo en .NET, no dudes en contactarme.
