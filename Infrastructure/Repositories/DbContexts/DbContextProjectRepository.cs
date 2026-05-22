@@ -151,7 +151,7 @@ public class DbContextProjectRepository : IProjectRepository
     private async Task<Model.ProjectState> GetProjectStateByName(string commissionName)
     {
         var projectState = await _context.ProjectStates
-            .SingleAsync(e => e.Name.Contains(commissionName));
+            .SingleAsync(e => e.Name == commissionName);
         
         return new Model.ProjectState
         {

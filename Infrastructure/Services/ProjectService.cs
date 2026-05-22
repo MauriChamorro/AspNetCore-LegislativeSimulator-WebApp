@@ -117,7 +117,7 @@ public class ProjectService : IProjectService
 
         await _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
         
-        return projectStateHistory.ProjectState.State == FileState.ApprovedInSession;
+        return success;
     }
 
     public bool CanSendToCommission(Project project) =>

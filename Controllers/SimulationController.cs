@@ -88,7 +88,7 @@ public class SimulationController : ControllerBase
     {
         var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
         
-        if (hasBeenAssigned)
+        if (!hasBeenAssigned)
             return BadRequest("El proyecto no tiene comisiones asignadas.");
         
         var project = await _projectService.GetProjectByIdAsync(projectId);
@@ -117,10 +117,13 @@ public class SimulationController : ControllerBase
         if(!_projectService.IsInSession(project))
             return BadRequest("No es posible finalizar el proyecto.");
 
-        var result = await _projectService.DoSession(project);
+        var sessionResult = await _projectService.DoSession(project);
 
-        _notificationService.AddSessionResultNotification(project, result);
+        _notificationService.AddSessionResultNotification(project, sessionResult);
 
-        return Ok($"Resultado de Sesión: {project.GetCurrentState().ProjectState.Name}");
+        return Ok($"Resultado de Sesión: { GetResultText(sessionResult) }");
     }
+
+    private string GetResultText(bool sessionResult) => 
+        sessionResult ? "Aprobado" : "Rechazado";
 }
