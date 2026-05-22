@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Services;
-using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Filters.ActionFilters.Async;
+using WebAppMVC.Filters.ExceptionFilters;
 using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Controllers;
 
+[UnexpectedExceptionHandler]
 public class ReferralCommitteesController: Controller
 {
     private readonly IProjectService _projectService;
