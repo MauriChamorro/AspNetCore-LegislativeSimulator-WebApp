@@ -52,8 +52,8 @@ public class CommissionService : ICommissionService
         return referralCommissions;
     }
 
-    public bool HasBeenAssigned(int projectId) => 
-        _projectRepository.HasReferrals(projectId);
+    public async Task<bool> HasBeenAssigned(int projectId) => 
+       await _projectRepository.HasReferrals(projectId);
 
     public List<Referral> GetReferralsFor(int projectId) => 
         _projectRepository.GetReferralsFor(projectId);

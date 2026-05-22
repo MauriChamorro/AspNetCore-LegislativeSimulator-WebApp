@@ -46,9 +46,11 @@ public class SimulationController : ControllerBase
     }
 
     [HttpGet("AssignedCommissions/{projectId}")]
-    public IActionResult AssignedCommissions([FromRoute] int projectId)
+    public async Task<IActionResult> AssignedCommissions([FromRoute] int projectId)
     {
-        if (!_commissionService.HasBeenAssigned(projectId))
+        var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
+        
+        if (!hasBeenAssigned)
             return BadRequest("El proyecto no tiene comisiones asignadas.");
         var result = _commissionService.GetReferralsFor(projectId);
         return Ok(result);
@@ -57,7 +59,9 @@ public class SimulationController : ControllerBase
     [HttpPost("DoReferring/{projectId}")]
     public async Task<IActionResult> DoReferring(int projectId)
     {
-        if (!_commissionService.HasBeenAssigned(projectId))
+        var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
+        
+        if (!hasBeenAssigned)
             return BadRequest("El proyecto no tiene comisiones asignadas.");
 
         var referrals = _commissionService.GetReferralsFor(projectId);
@@ -81,7 +85,9 @@ public class SimulationController : ControllerBase
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     public async Task<IActionResult> SendToSession(int projectId)
     {
-        if (!_commissionService.HasBeenAssigned(projectId))
+        var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
+        
+        if (hasBeenAssigned)
             return BadRequest("El proyecto no tiene comisiones asignadas.");
         
         var project = await _projectService.GetProjectByIdAsync(projectId);

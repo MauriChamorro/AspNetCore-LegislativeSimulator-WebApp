@@ -120,8 +120,8 @@ public class DbContextProjectRepository : IProjectRepository
     public async Task<Model.ProjectState> GetRejectedInSessionProjectState() => 
         await GetProjectStateByName("Rechazado en Sesión");
 
-    public bool HasReferrals(int projectId) => 
-        _context.Referrals.Any(r => r.ProjectId == projectId);
+    public async Task<bool> HasReferrals(int projectId) => 
+        await _context.Referrals.AnyAsync(r => r.ProjectId == projectId);
 
     public List<Model.Referral> GetReferralsFor(int projectId) =>
         _context.Referrals

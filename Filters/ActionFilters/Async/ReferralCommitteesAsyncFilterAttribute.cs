@@ -2,22 +2,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using WebAppMVC.Domain.Services;
 
-namespace WebAppMVC.Filters.ActionFilters;
+namespace WebAppMVC.Filters.ActionFilters.Async;
 
-public class ReferralCommitteesFilterAttribute: ActionFilterAttribute
+public class ReferralCommitteesAsyncFilterAttribute: IAsyncActionFilter
 {
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        base.OnActionExecuting(context);
-            
         var projectId = (int)(context.ActionArguments["projectId"] ?? 0);
         
         var commissionService = context.HttpContext.RequestServices.GetService<ICommissionService>();
-
-        if (!commissionService.HasBeenAssigned(projectId))
+        var hasBeenAssigned = await commissionService.HasBeenAssigned(projectId);
+        if (!hasBeenAssigned)
         {
             context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "El proyecto no tiene comisiones asignadas" });
         }
-            
+
+        await next();
     }
 }

@@ -43,6 +43,7 @@ try
     builder.Services.AddScoped<ProjectIdNotFoundAsyncFilterAttribute>();
     builder.Services.AddScoped<CanDeleteProjectAsyncFilterAttribute>();
     builder.Services.AddScoped<ProjectVmAsyncFilterAttribute>();
+    builder.Services.AddScoped<ReferralCommitteesAsyncFilterAttribute>();
     
     builder.Services.AddControllersWithViews();
     builder.Services.AddSwaggerGen();

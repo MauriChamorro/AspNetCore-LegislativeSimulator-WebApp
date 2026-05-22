@@ -6,7 +6,7 @@ public interface ICommissionService
 {
     List<Commission> EvaluateCommissionFor(string projectArticles);
     List<Referral> AssignCommissionTo(List<Commission> commissions, int projectId);
-    bool HasBeenAssigned(int projectId);
+    Task<bool> HasBeenAssigned(int projectId);
     List<Referral> GetReferralsFor(int projectId);
     Referral GetActualReferralFor(List<Referral> referrals);
     void DoNextReferralPhase(Referral actualReferral);

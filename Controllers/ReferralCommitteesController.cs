@@ -23,7 +23,7 @@ public class ReferralCommitteesController: Controller
     
     [HttpGet("ReferralCommittees/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
-    [ReferralCommitteesFilter]
+    [ServiceFilter(typeof(ReferralCommitteesAsyncFilterAttribute))]
     public async Task<IActionResult> Index(int projectId)
     {
         var project = await _projectService.GetProjectByIdAsync(projectId);
