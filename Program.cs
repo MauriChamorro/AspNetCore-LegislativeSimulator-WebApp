@@ -29,7 +29,6 @@ try
     // inject repositories
     //.Services.AddScoped<IPersonRepository, PersonDbContext>();
     builder.Services.AddScoped<IProjectRepository, DbContextProjectRepository>();
-    builder.Services.AddSingleton<IReferralCommissionRepository, ReferralCommissionRepository>();
     builder.Services.AddSingleton<INotificationRepository, InMemoryNotificationRepository>();
     
     // inject services

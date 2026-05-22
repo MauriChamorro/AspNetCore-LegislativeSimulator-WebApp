@@ -7,14 +7,11 @@ namespace WebAppMVC.Infrastructure.Services;
 
 public class CommissionService : ICommissionService
 {
-    private readonly IReferralCommissionRepository _referralCommissionRepository;
     private readonly IProjectRepository _projectRepository;
 
 
-    public CommissionService(IReferralCommissionRepository referralCommissionRepository,
-        IProjectRepository projectRepository)
+    public CommissionService(IProjectRepository projectRepository)
     {
-        _referralCommissionRepository = referralCommissionRepository;
         _projectRepository = projectRepository;
     }
 
