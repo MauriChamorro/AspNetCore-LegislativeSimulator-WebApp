@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters;
+using WebAppMVC.Filters.ActionFilters.Async;
 using WebAppMVC.Filters.ExceptionFilters;
 using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.ViewModels;
@@ -27,10 +28,10 @@ public class ProjectsController : Controller
         _notificationService = notificationService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         _notificationService.SendNotification(TempData);
-        var projects = _projectService.GetProjects();
+        var projects = await _projectService.GetProjects();
         var projectVms = _projectViewModelService.ToProjectsVm(projects);
         return View(projectVms);
     }
@@ -62,12 +63,12 @@ public class ProjectsController : Controller
     }
     
     [HttpGet("Projects/Edit/{projectId}")]
-    [ProjectIdNotFoundFilter]
-    public IActionResult Edit([FromRoute] int projectId)
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    public async Task<IActionResult> Edit([FromRoute] int projectId)
     {
         ViewBag.Action = "edit";
         
-        var project = _projectService.GetProjectById(projectId);
+        var project = await _projectService.GetProjectByIdAsync(projectId);
         
         var projectVm = _projectViewModelService.ToProjectVm(project);
         if (_commissionService.HasBeenAssigned(projectId))
@@ -79,12 +80,12 @@ public class ProjectsController : Controller
     }
 
     [HttpPost]
-    [ProjectVmFilter]
-    public IActionResult Edit(ProjectViewModel projectVm)
+    [ServiceFilter(typeof(ProjectVmAsyncFilterAttribute))]
+    public async Task<IActionResult> Edit(ProjectViewModel projectVm)
     {
         ViewBag.Action = "edit";
         
-        var savedProject = _projectService.GetProjectById(projectVm.ProjectId);
+        var savedProject = await _projectService.GetProjectByIdAsync(projectVm.ProjectId);
         
         if (!ModelState.IsValid)
         {
@@ -100,10 +101,10 @@ public class ProjectsController : Controller
     }
 
     [HttpPost]
-    [ProjectVmFilter]
-    public IActionResult SendToCommission(ProjectViewModel projectVm)
+    [ServiceFilter(typeof(ProjectVmAsyncFilterAttribute))]
+    public async Task<IActionResult> SendToCommission(ProjectViewModel projectVm)
     {
-        var savedProject = _projectService.GetProjectById(projectVm.ProjectId);
+        var savedProject = await _projectService.GetProjectByIdAsync(projectVm.ProjectId);
         
         //en el mundo real, habrían más validaciones
         if (!ModelState.IsValid)
@@ -121,8 +122,8 @@ public class ProjectsController : Controller
     }
     
     [HttpPost("Projects/Delete/{projectId}")]
-    [ProjectIdNotFoundFilter]
-    [CanDeleteProjectFilter]
+    [ServiceFilter(typeof(CanDeleteProjectAsyncFilterAttribute))]
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     public IActionResult Delete(int projectId)
     {
         _projectService.DeleteProject(projectId);

@@ -3,29 +3,30 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.ViewModels;
 
-namespace WebAppMVC.Filters.ActionFilters;
+namespace WebAppMVC.Filters.ActionFilters.Async;
 
-public class ProjectVmFilterAttribute: ActionFilterAttribute
+public class ProjectVmAsyncFilterAttribute: IAsyncActionFilter
 {
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        base.OnActionExecuting(context);
-        
         var projectService = context.HttpContext.RequestServices.GetService<IProjectService>();
         var projectVm = (ProjectViewModel)context.ActionArguments["projectVm"];
 
         if (projectVm != null)
-        {
-            if(!projectService.ExistProject(projectVm.ProjectId))
+        { 
+            var exist = await projectService.ExistProjectAsync(projectVm.ProjectId);
+            if(!exist)
             {
                 context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "Proyecto no econtrado" });
             }
             else
             {
-                var savedProject = projectService.GetProjectById(projectVm.ProjectId);
+                var savedProject = await projectService.GetProjectByIdAsync(projectVm.ProjectId);
                 if(!projectService.CanSendToCommission(savedProject))
                     context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "No es posible enviar a comisión" });
             }
         }
+        
+        await next();
     }
 }

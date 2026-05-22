@@ -2,21 +2,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using WebAppMVC.Domain.Services;
 
-namespace WebAppMVC.Filters.ActionFilters;
+namespace WebAppMVC.Filters.ActionFilters.Async;
 
-public class ProjectIdNotFoundFilterAttribute: ActionFilterAttribute
+public class ProjectIdNotFoundAsyncFilterAttribute: IAsyncActionFilter
 {
-    
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        base.OnActionExecuting(context);
-        
         var projectService = context.HttpContext.RequestServices.GetService<IProjectService>();
         var projectId = (int)(context.ActionArguments["projectId"] ?? 0);
-        
-        if (!projectService.ExistProject(projectId))
+        var exist = await projectService.ExistProjectAsync(projectId);
+        if (!exist)
         {
             context.Result = new RedirectToActionResult("Error", "Home", new { errorMessage = "Proyecto no econtrado" });
         }
+        await next();
     }
 }

@@ -4,7 +4,9 @@ namespace WebAppMVC.Domain.Repositories;
 
 public interface IProjectRepository
 {
-    List<Project> GetProjects();
+    Task<List<Project>> GetProjects();
+    Task<bool> Exists(int projectId);
+    Task<Project> Get(int projectId);
     void Add(Project project);
     void Delete(int projectId);
     void UpdateProject(Project updatedProject);
@@ -21,5 +23,5 @@ public interface IProjectRepository
     bool HasReferrals(int projectId);
     List<Referral> GetReferralsFor(int projectId);
     void UpdateReferral(Referral modelReferral);
-   
+
 }

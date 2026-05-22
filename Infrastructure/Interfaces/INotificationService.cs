@@ -6,13 +6,13 @@ namespace WebAppMVC.Infrastructure.Interfaces;
 public interface INotificationService
 {
     void SendNotification(ITempDataDictionary tempData);
-    void AddCommissionAssignedNotification(int projectId);
-    void AddReferralChangeNotification(int projectId);
+    Task AddCommissionAssignedNotification(int projectId);
+    Task AddReferralChangeNotification(int projectId);
     void AddSendToSessionNotification(Project project);
     void AddSessionResultNotification(Project projectId, bool success);
     void AddProjectCreatedNotification();
     void AddProjectUpdatedNotification();
     void AddSentToCommissionsNotification();
-    void AddProjectStateChangedNotification(int projectId);
+    Task AddProjectStateChangedNotification(int projectId);
     void AddProjectDeletedNotification();
 }

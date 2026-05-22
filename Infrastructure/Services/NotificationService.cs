@@ -32,9 +32,9 @@ public class NotificationService: INotificationService
         _projectService = projectService;
     }
     
-    public void AddCommissionAssignedNotification(int projectId)
+    public async Task AddCommissionAssignedNotification(int projectId)
     {
-        var project = GetProjectById(projectId);
+        var project = await GetProjectByIdAsync(projectId);
         var notificationVm = new NotificationViewModel
         {
             Title = "Comisiones asignadas",
@@ -43,9 +43,9 @@ public class NotificationService: INotificationService
         AddNotification(notificationVm);
     }
 
-    public void AddReferralChangeNotification(int projectId)
+    public async Task AddReferralChangeNotification(int projectId)
     {
-        var project = GetProjectById(projectId);
+        var project = await GetProjectByIdAsync(projectId);
         var notificationVm = new NotificationViewModel
         {
             Title = "Cambio de Giro",
@@ -102,9 +102,9 @@ public class NotificationService: INotificationService
         AddNotification(notificationVm);
     }
 
-    public void AddProjectStateChangedNotification(int projectId)
+    public async Task AddProjectStateChangedNotification(int projectId)
     {
-        var project = GetProjectById(projectId);
+        var project = await GetProjectByIdAsync(projectId);
         var notificationVm = new NotificationViewModel
         {
             Title = "Proyecto rechazado",
@@ -131,8 +131,8 @@ public class NotificationService: INotificationService
     private NotificationViewModel GetNextNotification() 
         => _notificationRepository.GetNext();
 
-    private Project GetProjectById(int projectId) => 
-        _projectService.GetProjectById(projectId);
+    private async Task<Project> GetProjectByIdAsync(int projectId) => 
+        await _projectService.GetProjectByIdAsync(projectId);
 
     private void AddNotification(NotificationViewModel notificationVm) => 
         _notificationRepository.Add(notificationVm);

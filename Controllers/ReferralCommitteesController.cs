@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters;
+using WebAppMVC.Filters.ActionFilters.Async;
 using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Controllers;
@@ -21,11 +22,11 @@ public class ReferralCommitteesController: Controller
     }
     
     [HttpGet("ReferralCommittees/{projectId}")]
-    [ProjectIdNotFoundFilter]
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     [ReferralCommitteesFilter]
-    public IActionResult Index(int projectId)
+    public async Task<IActionResult> Index(int projectId)
     {
-        var project = _projectService.GetProjectById(projectId);
+        var project = await _projectService.GetProjectByIdAsync(projectId);
         var referralCommissions = _commissionService.GetReferralsFor(projectId);
         var result = _commissionsVmService.CreateReferralCommissionsVMs(project,referralCommissions);
         return View(result);

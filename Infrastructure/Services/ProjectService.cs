@@ -13,7 +13,7 @@ public class ProjectService : IProjectService
         _projectRepository = projectRepository;
     }
 
-    public List<Project> GetProjects() => _projectRepository.GetProjects();
+    public Task<List<Project>> GetProjects() => _projectRepository.GetProjects();
 
     public Project BuildEmptyProject()
     {
@@ -56,11 +56,15 @@ public class ProjectService : IProjectService
         _projectRepository.Add(newProject);
     }
 
-    public Project GetProjectById(int projectId) =>
-        _projectRepository.GetProjects().First(p => p.ProjectId == projectId);
+    public async Task<Project> GetProjectByIdAsync(int projectId)
+    {
+        var projects = await _projectRepository.GetProjects();
+        //TODO: _projectRepository.Get(projectId);
+        return projects.First(p => p.ProjectId == projectId);
+    }
 
-    public bool ExistProject(int projectId) =>
-        _projectRepository.GetProjects().Exists(p => p.ProjectId == projectId);
+    public Task<bool> ExistProjectAsync(int projectId) =>
+        _projectRepository.Exists(projectId);
 
     public void UpdateProject(Project project, string title, string articles, string fundaments, string summary)
     {
@@ -133,8 +137,12 @@ public class ProjectService : IProjectService
     public void DeleteProject(int projectId) => 
         _projectRepository.Delete(projectId);
 
-    public bool CanDelete(int projectId) => 
-        GetProjectById(projectId).GetCurrentState().ProjectState.State == FileState.Scratch;
+    public async Task<bool> CanDelete(int projectId)
+    {
+        //TODO: no usarlo en excepciones
+        var project = await GetProjectByIdAsync(projectId);
+        return project.GetCurrentState().ProjectState.State == FileState.Scratch;
+    }
 
     public void SetInCommissionFor(int projectId)
     {

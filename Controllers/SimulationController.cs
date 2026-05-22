@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters;
+using WebAppMVC.Filters.ActionFilters.Async;
 using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Controllers;
@@ -23,10 +24,10 @@ public class SimulationController : ControllerBase
     }
 
     [HttpPost("AssignCommissions/{projectId}")]
-    [ProjectIdNotFoundFilter]
-    public IActionResult AssignCommissions([FromRoute] int projectId)
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    public async Task<IActionResult> AssignCommissions([FromRoute] int projectId)
     {
-        var project = _projectService.GetProjectById(projectId);
+        var project = await _projectService.GetProjectByIdAsync(projectId);
         
         if (!_projectService.CanAssignCommissions(project))
             return BadRequest("No es posible para el estado en que se encuentra.");
@@ -78,13 +79,13 @@ public class SimulationController : ControllerBase
     }
 
     [HttpPost("SendToSession/{projectId}")]
-    [ProjectIdNotFoundFilter]
-    public IActionResult SendToSession(int projectId)
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    public async Task<IActionResult> SendToSession(int projectId)
     {
         if (!_commissionService.HasBeenAssigned(projectId))
             return BadRequest("El proyecto no tiene comisiones asignadas.");
         
-        var project = _projectService.GetProjectById(projectId);
+        var project = await _projectService.GetProjectByIdAsync(projectId);
         if(!_projectService.IsInCommission(project))
             return BadRequest("El proyecto debe estar en Comisión.");
 
@@ -102,10 +103,10 @@ public class SimulationController : ControllerBase
     }
 
     [HttpPost("DoSession/{projectId}")]
-    [ProjectIdNotFoundFilter]
-    public IActionResult DoSession(int projectId)
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    public async Task<IActionResult> DoSession(int projectId)
     {
-        var project = _projectService.GetProjectById(projectId);
+        var project = await _projectService.GetProjectByIdAsync(projectId);
 
         if(!_projectService.IsInSession(project))
             return BadRequest("No es posible finalizar el proyecto.");

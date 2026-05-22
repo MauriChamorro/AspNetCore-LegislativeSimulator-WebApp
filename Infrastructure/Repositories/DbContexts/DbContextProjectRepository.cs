@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Model = WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Infrastructure.DbContexts;
@@ -14,9 +15,9 @@ public class DbContextProjectRepository : IProjectRepository
         _context = context;
     }
 
-    public List<Model.Project> GetProjects()
+    public async Task<List<Model.Project>> GetProjects()
     {
-        return _context.Projects
+        return await _context.Projects
             .Select(p =>
                 new Model.Project
                 {
@@ -37,7 +38,36 @@ public class DbContextProjectRepository : IProjectRepository
                                 State = (Model.FileState)h.ProjectState.IntState
                             }
                         }).ToList()
-                }).ToList();
+                })
+            .ToListAsync();
+    }
+
+    public Task<bool> Exists(int projectId) => 
+        _context.Projects.AnyAsync(p => p.ProjectId == projectId);
+
+    public async Task<Model.Project> Get(int projectId)
+    {
+        var p = await _context.Projects.FindAsync(projectId);
+        return new Model.Project
+        {
+            ProjectId = p.ProjectId,
+            FileId = p.FileId.Trim(),
+            Title = p.Title.Trim(),
+            Articles = p.Articles.Trim(),
+            Fundaments = p.Fundaments.Trim(),
+            Summary = p.Summary.Trim(),
+            StateHistory = p.ProjectStateHistories.Select(h =>
+                new Model.ProjectStateHistory
+                {
+                    Date = h.Date,
+                    ProjectState = new Model.ProjectState
+                    {
+                        Id = h.ProjectState.ProjectStateId,
+                        Name = h.ProjectState.Name.Trim(),
+                        State = (Model.FileState)h.ProjectState.IntState
+                    }
+                }).ToList()
+        };
     }
 
 

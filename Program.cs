@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Filters.ActionFilters;
+using WebAppMVC.Filters.ActionFilters.Async;
 using WebAppMVC.Infrastructure.DbContexts;
 using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.Infrastructure.Repositories.DbContexts;
@@ -26,17 +28,23 @@ try
     var connectionString = builder.Configuration.GetConnectionString("DbConnection");
     builder.Services.AddDbContext<ExpedientesDevContext>(options => options.UseSqlServer(connectionString));
     
-    // inject repositories
+    // repository injections
     //.Services.AddScoped<IPersonRepository, PersonDbContext>();
     builder.Services.AddScoped<IProjectRepository, DbContextProjectRepository>();
     builder.Services.AddSingleton<INotificationRepository, InMemoryNotificationRepository>();
     
-    // inject services
+    // service injections
     builder.Services.AddScoped<IProjectService, ProjectService>();
     builder.Services.AddScoped<ICommissionService, CommissionService>();
     builder.Services.AddScoped<ICommissionsVmService, CommissionsVmService>();
     builder.Services.AddScoped<IProjectViewModelService, ProjectViewModelService>();
     builder.Services.AddScoped<INotificationService, NotificationService>();
+    
+    // filter injections
+    builder.Services.AddScoped<ProjectIdNotFoundAsyncFilterAttribute>();
+    builder.Services.AddScoped<CanDeleteProjectAsyncFilterAttribute>();
+    builder.Services.AddScoped<ProjectVmAsyncFilterAttribute>();
+    
     builder.Services.AddControllersWithViews();
     builder.Services.AddSwaggerGen();
     builder.Services.AddCors(options =>
