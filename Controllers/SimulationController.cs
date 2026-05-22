@@ -39,10 +39,11 @@ public class SimulationController : ControllerBase
             return BadRequest("No se encontraron comisiones adecuadas.");
         }
 
-        var result = _commissionService.AssignCommissionTo(commissions, project.ProjectId);
+        //todo: check if can parallelize method
+        var assignedReferrals = await _commissionService.AssignCommissionTo(commissions, project.ProjectId);
         await _projectService.SetInCommissionFor(projectId);
         await _notificationService.AddCommissionAssignedNotification(projectId);
-        return Ok(result);
+        return Ok(assignedReferrals);
     }
 
     [HttpGet("AssignedCommissions/{projectId}")]

@@ -12,7 +12,7 @@ public interface IProjectRepository
     Task UpdateProject(Project updatedProject);
     Task AddStateHistory(int projectId, ProjectStateHistory projectStateHistory);
     List<Commission> GetCommissions();
-    void AddReferrals(List<Referral> referralCommissions);
+    Task AddReferrals(List<Referral> referralCommissions);
     Task<ProjectState> GetScratchProjectState();
     Task<ProjectState> GetSentToCommissionProjectState();
     Task<ProjectState> GetInCommissionProjectState();

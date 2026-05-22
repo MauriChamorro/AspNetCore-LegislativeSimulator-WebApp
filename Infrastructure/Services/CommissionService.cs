@@ -33,7 +33,7 @@ public class CommissionService : ICommissionService
         return assignedCommissions;
     }
 
-    public List<Referral> AssignCommissionTo(List<Commission> commissions, int projectId)
+    public async Task<List<Referral>> AssignCommissionTo(List<Commission> commissions, int projectId)
     {
         var referralCommissions = new List<Referral>();
         foreach (var commission in commissions)
@@ -48,7 +48,7 @@ public class CommissionService : ICommissionService
                 }
             );
         }
-        _projectRepository.AddReferrals(referralCommissions);
+        await _projectRepository.AddReferrals(referralCommissions);
         return referralCommissions;
     }
 

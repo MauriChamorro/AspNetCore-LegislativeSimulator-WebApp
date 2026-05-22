@@ -171,7 +171,7 @@ public class DbContextProjectRepository : IProjectRepository
             })
             .ToList();
 
-    public void AddReferrals(List<Model.Referral> referralCommissions)
+    public async Task AddReferrals(List<Model.Referral> referralCommissions)
     {
         var entities = new List<Referral>();
         foreach (var modelReferral in referralCommissions)
@@ -185,7 +185,7 @@ public class DbContextProjectRepository : IProjectRepository
             });
         }
         _context.Referrals.AddRange(entities);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
     public async Task Add(Model.Project project)
