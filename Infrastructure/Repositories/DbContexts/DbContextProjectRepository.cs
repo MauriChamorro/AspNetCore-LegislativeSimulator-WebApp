@@ -161,15 +161,15 @@ public class DbContextProjectRepository : IProjectRepository
         };
     }
 
-    public List<Model.Commission> GetCommissions() =>
-        _context.Commissions
+    public async Task<List<Model.Commission>> GetCommissions() =>
+        await _context.Commissions
             .Select(commission => new Model.Commission
             {
                 CommissionId = commission.CommissionId,
                 Name =  commission.Name,
                 WordsForAssignment = commission.Tags!.Trim().Split().ToList()
             })
-            .ToList();
+            .ToListAsync();
 
     public async Task AddReferrals(List<Model.Referral> referralCommissions)
     {

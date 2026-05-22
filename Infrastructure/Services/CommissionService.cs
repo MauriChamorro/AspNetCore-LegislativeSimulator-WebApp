@@ -15,10 +15,11 @@ public class CommissionService : ICommissionService
         _projectRepository = projectRepository;
     }
 
-    public List<Commission> EvaluateCommissionFor(string projectArticles)
+    public async Task<List<Commission>> EvaluateCommissionFor(string projectArticles)
     {
         var assignedCommissions = new List<Commission>();
-        foreach (var commission in _projectRepository.GetCommissions())
+        var commissions = await _projectRepository.GetCommissions();
+        foreach (var commission in commissions)
         {
             if (commission.WordsForAssignment != null)
                 foreach (var commissionWord in commission.WordsForAssignment)

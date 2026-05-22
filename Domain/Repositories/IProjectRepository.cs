@@ -11,7 +11,7 @@ public interface IProjectRepository
     Task Delete(int projectId);
     Task UpdateProject(Project updatedProject);
     Task AddStateHistory(int projectId, ProjectStateHistory projectStateHistory);
-    List<Commission> GetCommissions();
+    Task<List<Commission>> GetCommissions();
     Task AddReferrals(List<Referral> referralCommissions);
     Task<ProjectState> GetScratchProjectState();
     Task<ProjectState> GetSentToCommissionProjectState();
