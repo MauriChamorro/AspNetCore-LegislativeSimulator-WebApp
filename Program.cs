@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
-using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Filters.ActionFilters.Async;
 using WebAppMVC.Infrastructure.DbContexts;
 using WebAppMVC.Infrastructure.Interfaces;

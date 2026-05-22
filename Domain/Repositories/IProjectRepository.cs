@@ -9,7 +9,7 @@ public interface IProjectRepository
     Task<Project> Get(int projectId);
     void Add(Project project);
     void Delete(int projectId);
-    void UpdateProject(Project updatedProject);
+    Task UpdateProject(Project updatedProject);
     void AddStateHistory(int projectId, ProjectStateHistory projectStateHistory);
     List<Commission> GetCommissions();
     void AddReferrals(List<Referral> referralCommissions);

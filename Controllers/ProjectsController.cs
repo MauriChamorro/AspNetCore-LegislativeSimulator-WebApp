@@ -94,7 +94,7 @@ public class ProjectsController : Controller
             return View(projectVm);
         }
 
-        UpdateProject(projectVm, savedProject);
+        await UpdateProject(projectVm, savedProject);
         _notificationService.AddProjectUpdatedNotification();
         _notificationService.SendNotification(TempData);
         return View(projectVm);
@@ -115,7 +115,7 @@ public class ProjectsController : Controller
         }
         
         _projectService.SetPendingForCommissionsFor(savedProject);
-        UpdateProject(projectVm, savedProject);
+        await UpdateProject(projectVm, savedProject);
         
         _notificationService.AddSentToCommissionsNotification();
         return RedirectToAction(nameof(Index));
@@ -131,9 +131,9 @@ public class ProjectsController : Controller
         return RedirectToAction(nameof(Index));
     }
     
-    private void UpdateProject(ProjectViewModel projectVm, Project savedProject)
+    private async Task UpdateProject(ProjectViewModel projectVm, Project savedProject)
     {
-        _projectService.UpdateProject(
+       await _projectService.UpdateProject(
             savedProject,
             projectVm.Title, 
             projectVm.Articles,

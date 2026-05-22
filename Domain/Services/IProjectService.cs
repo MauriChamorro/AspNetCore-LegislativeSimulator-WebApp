@@ -9,7 +9,7 @@ public interface IProjectService
     Task<Project> GetProjectByIdAsync(int projectId);
     Project BuildEmptyProject();
     void CreateNewProject(string title, string articles, string fundaments, string summary);
-    void UpdateProject(Project project, string title, string articles, string fundaments, string summary);
+    Task UpdateProject(Project project, string title, string articles, string fundaments, string summary);
     void RejectProjectByCommissions(int projectId);
     void SendToSession(Project project);
     bool DoSession(Project project);

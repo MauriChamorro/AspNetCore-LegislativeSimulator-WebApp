@@ -66,14 +66,14 @@ public class ProjectService : IProjectService
     public Task<bool> ExistProjectAsync(int projectId) =>
         _projectRepository.Exists(projectId);
 
-    public void UpdateProject(Project project, string title, string articles, string fundaments, string summary)
+    public async Task UpdateProject(Project project, string title, string articles, string fundaments, string summary)
     {
         project.Title = title;
         project.Articles = articles;
         project.Fundaments = fundaments;
         project.Summary = summary;
 
-        _projectRepository.UpdateProject(project);
+        await _projectRepository.UpdateProject(project);
     }
 
     public void RejectProjectByCommissions(int projectId)

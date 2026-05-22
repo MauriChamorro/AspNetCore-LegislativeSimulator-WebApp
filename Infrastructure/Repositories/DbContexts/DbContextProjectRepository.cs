@@ -71,7 +71,7 @@ public class DbContextProjectRepository : IProjectRepository
     }
 
 
-    public void UpdateProject(Model.Project updatedProject)
+    public async Task UpdateProject(Model.Project updatedProject)
     {
         var entityProject = new Project
         {
@@ -83,7 +83,7 @@ public class DbContextProjectRepository : IProjectRepository
             Summary = updatedProject.Summary
         };
         _context.Update(entityProject);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
     
     public void AddStateHistory(int projectId,
