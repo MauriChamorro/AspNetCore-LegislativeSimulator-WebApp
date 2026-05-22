@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters.Async;
-using WebAppMVC.Filters.ExceptionFilters;
 using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[UnexpectedExceptionHandler]
 public class SimulationController : ControllerBase
 {
     private readonly ICommissionService _commissionService;

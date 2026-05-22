@@ -3,6 +3,7 @@ using Serilog;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters.Async;
+using WebAppMVC.Filters.ExceptionFilters;
 using WebAppMVC.Infrastructure.DbContexts;
 using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.Infrastructure.Repositories.DbContexts;
@@ -43,7 +44,11 @@ try
     builder.Services.AddScoped<ProjectVmAsyncFilterAttribute>();
     builder.Services.AddScoped<ReferralCommitteesAsyncFilterAttribute>();
     
-    builder.Services.AddControllersWithViews();
+    builder.Services.AddControllersWithViews(options =>
+    {
+        options.Filters.Add<GlobalExceptionFilter>();
+    });
+    
     builder.Services.AddSwaggerGen();
     builder.Services.AddCors(options =>
     {
