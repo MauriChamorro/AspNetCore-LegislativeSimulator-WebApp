@@ -65,7 +65,7 @@ public class CommissionService : ICommissionService
         return referrals.First(rc => rc.State == ReferralState.Assigned);
     }
 
-    public void DoNextReferralPhase(Referral actualReferral)
+    public async Task DoNextReferralPhase(Referral actualReferral)
     {
         if (actualReferral.State == ReferralState.Assigned)
         {
@@ -78,7 +78,7 @@ public class CommissionService : ICommissionService
             actualReferral.DateState = DateTime.Now;
         }
         
-        _projectRepository.UpdateReferral(actualReferral);
+        await _projectRepository.UpdateReferral(actualReferral);
     }
 
     private static ReferralState GetRandomResult()

@@ -140,12 +140,12 @@ public class DbContextProjectRepository : IProjectRepository
             })
             .ToList();
 
-    public void UpdateReferral(Model.Referral modelReferral)
+    public async Task UpdateReferral(Model.Referral modelReferral)
     {
         var referral = _context.Referrals.Find(modelReferral.ProjectId, modelReferral.CommissionId);
         referral.State = (int)modelReferral.State;
         referral.Date = modelReferral.DateState;
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
     private async Task<Model.ProjectState> GetProjectStateByName(string commissionName)

@@ -73,7 +73,7 @@ public class SimulationController : ControllerBase
             return BadRequest("El proyecto ya fue rechazado.");
         
         var actualReferral = _commissionService.GetActualReferralFor(referrals);
-        _commissionService.DoNextReferralPhase(actualReferral);
+        await _commissionService.DoNextReferralPhase(actualReferral);
         if (_commissionService.IsRejectedReferral(actualReferral))
             await _projectService.RejectProjectByCommissions(projectId);
 

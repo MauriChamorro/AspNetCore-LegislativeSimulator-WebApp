@@ -22,6 +22,6 @@ public interface IProjectRepository
     Task<ProjectState> GetRejectedInSessionProjectState();
     Task<bool> HasReferrals(int projectId);
     List<Referral> GetReferralsFor(int projectId);
-    void UpdateReferral(Referral modelReferral);
+    Task UpdateReferral(Referral modelReferral);
 
 }

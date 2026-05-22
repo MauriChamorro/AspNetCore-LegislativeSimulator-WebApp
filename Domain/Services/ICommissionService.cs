@@ -9,7 +9,7 @@ public interface ICommissionService
     Task<bool> HasBeenAssigned(int projectId);
     List<Referral> GetReferralsFor(int projectId);
     Referral GetActualReferralFor(List<Referral> referrals);
-    void DoNextReferralPhase(Referral actualReferral);
+    Task DoNextReferralPhase(Referral actualReferral);
     bool AllCommissionEvaluated(List<Referral> referrals);
     bool IsRejectedReferral(Referral actualReferral);
     bool AcceptedByAllCommission(List<Referral> referrals);
