@@ -86,7 +86,7 @@ public class DbContextProjectRepository : IProjectRepository
         await _context.SaveChangesAsync();
     }
     
-    public void AddStateHistory(int projectId,
+    public async Task AddStateHistory(int projectId,
         Model.ProjectStateHistory projectStateHistory)
     {
         _context.ProjectStateHistories.Add(new ProjectStateHistory
@@ -96,29 +96,29 @@ public class DbContextProjectRepository : IProjectRepository
             Date = projectStateHistory.Date
         });
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public Model.ProjectState GetScratchProjectState() => 
-        GetProjectStateByName("Borrador");
+    public async Task<Model.ProjectState> GetScratchProjectState() => 
+        await GetProjectStateByName("Borrador");
     
-    public Model.ProjectState GetSentToCommissionProjectState() => 
-        GetProjectStateByName("Enviado a Comisiones");
+    public async Task<Model.ProjectState> GetSentToCommissionProjectState() => 
+        await GetProjectStateByName("Enviado a Comisiones");
 
-    public Model.ProjectState GetInCommissionProjectState() => 
-        GetProjectStateByName("En Comisiones");
+    public async Task<Model.ProjectState> GetInCommissionProjectState() => 
+        await GetProjectStateByName("En Comisiones");
 
-    public Model.ProjectState GetRejectedByCommissionProjectState() =>
-        GetProjectStateByName("Rechazado por Comisiones");
+    public async Task<Model.ProjectState> GetRejectedByCommissionProjectState() =>
+        await GetProjectStateByName("Rechazado por Comisiones");
 
-    public Model.ProjectState GetInSessionProjectState() => 
-        GetProjectStateByName("En Sesión");
+    public async Task<Model.ProjectState> GetInSessionProjectState() => 
+        await GetProjectStateByName("En Sesión");
 
-    public Model.ProjectState GetApprovedInSessionProjectState() => 
-        GetProjectStateByName("Aprobado");
+    public async Task<Model.ProjectState> GetApprovedInSessionProjectState() => 
+        await GetProjectStateByName("Aprobado");
 
-    public Model.ProjectState GetRejectedInSessionProjectState() => 
-        GetProjectStateByName("Rechazado en Sesión");
+    public async Task<Model.ProjectState> GetRejectedInSessionProjectState() => 
+        await GetProjectStateByName("Rechazado en Sesión");
 
     public bool HasReferrals(int projectId) => 
         _context.Referrals.Any(r => r.ProjectId == projectId);
@@ -148,10 +148,11 @@ public class DbContextProjectRepository : IProjectRepository
         _context.SaveChanges();
     }
 
-    private Model.ProjectState GetProjectStateByName(string commissionName)
+    private async Task<Model.ProjectState> GetProjectStateByName(string commissionName)
     {
-        var projectState = _context.ProjectStates
-            .Single(e => e.Name.Contains(commissionName));
+        var projectState = await _context.ProjectStates
+            .SingleAsync(e => e.Name.Contains(commissionName));
+        
         return new Model.ProjectState
         {
             Id = projectState.ProjectStateId,
@@ -187,7 +188,7 @@ public class DbContextProjectRepository : IProjectRepository
         _context.SaveChanges();
     }
 
-    public void Add(Model.Project project)
+    public async Task Add(Model.Project project)
     {
         var newHistory = new ProjectStateHistory
         {
@@ -205,7 +206,7 @@ public class DbContextProjectRepository : IProjectRepository
             ProjectStateHistories = new List<ProjectStateHistory> { newHistory }
         };
         _context.Projects.Add(entityProject);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
 

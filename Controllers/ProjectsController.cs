@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
-using WebAppMVC.Filters.ActionFilters;
 using WebAppMVC.Filters.ActionFilters.Async;
 using WebAppMVC.Filters.ExceptionFilters;
 using WebAppMVC.Infrastructure.Interfaces;
@@ -37,27 +36,27 @@ public class ProjectsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Add()
+    public async Task<IActionResult> Add()
     {
         ViewBag.Action = "add";
-        var emptyProject = _projectService.BuildEmptyProject();
+        var emptyProject = await _projectService.BuildEmptyProject();
         var newProjectVm = _projectViewModelService.ToProjectVm(emptyProject);
         return View(newProjectVm);
     }
     
     [HttpPost]
-    public IActionResult Add(ProjectViewModel projectVm)
+    public async Task<IActionResult> Add(ProjectViewModel projectVm)
     {
         ViewBag.Action = "add";
         
         if (!ModelState.IsValid)
         {
-            var emptyProject = _projectService.BuildEmptyProject();
+            var emptyProject = await _projectService.BuildEmptyProject();
             _projectViewModelService.UpdateMissingValues(projectVm, emptyProject);
             return View(projectVm);
         }
 
-        _projectService.CreateNewProject(projectVm.Title, projectVm.Articles, projectVm.Fundaments,projectVm.Summary);
+        await _projectService.CreateNewProject(projectVm.Title, projectVm.Articles, projectVm.Fundaments,projectVm.Summary);
         _notificationService.AddProjectCreatedNotification();
         return RedirectToAction(nameof(Index));
     }
@@ -114,7 +113,7 @@ public class ProjectsController : Controller
             return View("Edit", projectVm); //doesnt clear data for on back validation
         }
         
-        _projectService.SetPendingForCommissionsFor(savedProject);
+        await _projectService.SetPendingForCommissionsFor(savedProject);
         await UpdateProject(projectVm, savedProject);
         
         _notificationService.AddSentToCommissionsNotification();

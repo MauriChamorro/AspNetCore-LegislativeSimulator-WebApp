@@ -15,7 +15,7 @@ public class ProjectService : IProjectService
 
     public Task<List<Project>> GetProjects() => _projectRepository.GetProjects();
 
-    public Project BuildEmptyProject()
+    public async Task<Project> BuildEmptyProject()
     {
         return new Project
         {
@@ -24,23 +24,23 @@ public class ProjectService : IProjectService
                 new ProjectStateHistory
                 {
                     Date = DateTime.Now,
-                    ProjectState = GetScratchProjectState()
+                    ProjectState = await GetScratchProjectState()
                 }
             ]
         };
     }
 
-    private ProjectState GetScratchProjectState() => 
-        _projectRepository.GetScratchProjectState();
+    private async Task<ProjectState> GetScratchProjectState() => 
+        await _projectRepository.GetScratchProjectState();
 
-    public void CreateNewProject(string title, string articles, string fundaments, string summary)
+    public async Task CreateNewProject(string title, string articles, string fundaments, string summary)
     {
 
         var history = new List<ProjectStateHistory>();
         history.Add( new ProjectStateHistory
             {
                 Date = DateTime.Now,
-                ProjectState = GetScratchProjectState()
+                ProjectState = await GetScratchProjectState()
             });
             
         var newProject = new Project
@@ -53,7 +53,7 @@ public class ProjectService : IProjectService
             StateHistory = history
         };
         
-        _projectRepository.Add(newProject);
+       await _projectRepository.Add(newProject);
     }
 
     public async Task<Project> GetProjectByIdAsync(int projectId)
@@ -76,28 +76,28 @@ public class ProjectService : IProjectService
         await _projectRepository.UpdateProject(project);
     }
 
-    public void RejectProjectByCommissions(int projectId)
+    public async Task RejectProjectByCommissions(int projectId)
     {
         var rejectedState = new ProjectStateHistory
         {
             Date = DateTime.Now,
-            ProjectState = _projectRepository.GetRejectedByCommissionProjectState()
+            ProjectState = await _projectRepository.GetRejectedByCommissionProjectState()
         };
-        _projectRepository.AddStateHistory(projectId, rejectedState);
+        await _projectRepository.AddStateHistory(projectId, rejectedState);
     }
 
-    public void SendToSession(Project project)
+    public async Task SendToSession(Project project)
     {
         var projectStateHistory = new ProjectStateHistory
         {
-            ProjectState = _projectRepository.GetInSessionProjectState(),
+            ProjectState = await _projectRepository.GetInSessionProjectState(),
             Date = DateTime.Now,
         };
 
-        _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
+        await _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
     }
 
-    public bool DoSession(Project project)
+    public async Task<bool> DoSession(Project project)
     {
         var rnd = new Random();
         var success = rnd.Next(2) == 0;
@@ -106,16 +106,16 @@ public class ProjectService : IProjectService
         
         if (success)
         {
-            projectStateHistory.ProjectState = _projectRepository.GetApprovedInSessionProjectState();
+            projectStateHistory.ProjectState = await _projectRepository.GetApprovedInSessionProjectState();
             projectStateHistory.Date = DateTime.Now;
         }
         else
         {
-            projectStateHistory.ProjectState = _projectRepository.GetRejectedInSessionProjectState();
+            projectStateHistory.ProjectState = await _projectRepository.GetRejectedInSessionProjectState();
             projectStateHistory.Date = DateTime.Now;
         }
 
-        _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
+        await _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
         
         return projectStateHistory.ProjectState.State == FileState.ApprovedInSession;
     }
@@ -123,15 +123,15 @@ public class ProjectService : IProjectService
     public bool CanSendToCommission(Project project) =>
         project.GetCurrentState().ProjectState.State == FileState.Scratch;
 
-    public void SetPendingForCommissionsFor(Project project)
+    public async Task SetPendingForCommissionsFor(Project project)
     {
         var projectStateHistory = new ProjectStateHistory
         {
-            ProjectState = _projectRepository.GetSentToCommissionProjectState(),
+            ProjectState = await _projectRepository.GetSentToCommissionProjectState(),
             Date = DateTime.Now,
         };
 
-        _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
+        await _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
     }
 
     public void DeleteProject(int projectId) => 
@@ -144,15 +144,15 @@ public class ProjectService : IProjectService
         return project.GetCurrentState().ProjectState.State == FileState.Scratch;
     }
 
-    public void SetInCommissionFor(int projectId)
+    public async Task SetInCommissionFor(int projectId)
     {
         var projectStateHistory = new ProjectStateHistory
         {
-            ProjectState = _projectRepository.GetInCommissionProjectState(),
+            ProjectState = await _projectRepository.GetInCommissionProjectState(),
             Date = DateTime.Now
         };
 
-        _projectRepository.AddStateHistory(projectId, projectStateHistory);
+        await _projectRepository.AddStateHistory(projectId, projectStateHistory);
     }
 
     public bool CanAssignCommissions(Project project) => 
