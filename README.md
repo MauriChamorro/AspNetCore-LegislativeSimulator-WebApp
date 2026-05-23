@@ -4,44 +4,42 @@
 http://expedientesar.somee.com
 
 ## 📝 Descripción
-Es un prototipo que simula la gestión, clasificación y visualización del proceso legislativo sobre proyectos de ley para un Legislador en particular.
+Es una Demo que simula la gestión, clasificación y visualización del proceso legislativo sobre proyectos de ley para un Legislador en particular.
 
 ## 🎯 Propósito
-El objetivo del este proyecto es aprender las tecnologías AspNet Core 8 + Razor para la creación de aplicaciones web aplicando algunas prácticas de Ingeniería de Software.
+El objetivo es aprender las tecnologías AspNet Core 8 + Razor y su ecosistema tecnológico moderno para la creación de aplicaciones web aplicando algunas prácticas de Ingeniería de Software.
 
 ## 🚀 Características Principales
-*   **Gestión básica de Proyectos de Ley:** Creación, edición y categorización de proyectos.
-*   **Motor de Clasificación:** Sistema básico que simula la asignación de comisiones basado en palabras claves (Salud, Presupuesto, Trabajo, etc.).
-*   **Interfaz Dinámica:** Dashboard construido con ASP.NET Core MVC y Bootstrap para una visualización clara del estado parlamentario.
+*   **Gestión básica de Proyectos de Ley:** Creación, Edición y Envío a Comisiones de Proyectos.
+*   **Motor de Clasificación:** Sistema básico que simula la asignación de comisiones basado en palabras claves (Salud, Presupuesto, Trabajo, etc.) y también el resultado del Dictamen.
+*   **Interfaz:** Dashboard construido con ASP.NET Core MVC y Bootstrap para una visualización de los proyectos y sus estados.
 
 ## 🛠️ Stack Tecnológico
-*   **Backend:** C# con .NET 8.0, ASP.NET Core MVC extendido, Serilog
-*   **Base de Datos:** InMemoryRepositories, SQL Server / Entity Framework Core (configurado).
-*   **Frontend:** Razor Views, Bootstrap 5, y SweetAlert2 para notificaciones interactivas.
-*   **Arquitectura:** Clean Architecture (Separación de preocupaciones).
+*   **Backend:** C# con .NET 8.0, ASP.NET Core MVC extendido, Serilog.
+*   **Base de Datos:** InMemoryRepositories, SQL Server / Entity Framework Core.
+*   **Frontend:** Razor Views, Bootstrap 5 y SweetAlert2 para notificaciones interactivas.
+*   **Arquitectura:** Clean Architecture (Dominio, Servicios, Repositorios e Infraestructura).
 
 ## 📂 Estructura del Proyecto
-*   `/Controllers`: Lógica de control y rutas del website y simulador.
-*   `/Domain/Models`: Definición de entidades.
-*   `/Domain/Services`: Definición de Services de Dominio (IProjectService, ...).
+*   `/Controllers`: Lógica de control, rutas del website y simulador.
+*   `/Domain/Models`: Definición de Modelos de Dominio.
+*   `/Domain/Services`: Definición de Servicios de Dominio (IProjectService, ...).
 *   `/Domain/Repositories`: Definición de Repositorios de Dominio (IProjectRepository, ...).
-*   `/Infrastructure`: Implementaciones de Servicios y Repositorios de Dominio.
 *   `/Infrastructure/Interfaces`: Interfaces de infrastructura. 
 *   `/Infrastructure/Services`: Implementaciones de servicios.
 *   `/Infrastructure/Repositories`: Implementaciones de repositorios.
-*   `/Infrastructure/DbContexts`: DebContext generado por EF-DbFirst.
+*   `/Infrastructure/DbContexts`: DbContext generado por EF-DbFirst y extensiones.
 *   `/Infrastructure/Entities`: Entities generado por EF-DbFirst.
 *   `/Filters`: Clases para el Manejo de Excepciones y Validaciones de Vista.
 *   `/Views`: Plantillas Razor para la interfaz de usuario.
-*   `/ViewsModels`: DTOs para comunicación de datos con la vista a través de DataBinding.
+*   `/ViewsModels`: DTOs para comunicación de datos con la vista.
 
 ## 🛡️ Consideraciones
-* Hay muchas **funcionalidades que no están desarrolladas** por temas de complejidad y falta de conocimiento interno del área legislativa.
+* Hay muchas **funcionalidades que no están desarrolladas** por temas de complejidad e investigación en el área legislativa.
 * El sitio web solo contempla la **creación, edición y visualización de proyectos** de ley para un Legislador.
 * Se deben **simular los resultados que no son por acciones del usuario** (Legislador). Para hacerlo, se usan métodos POST al endpoint http://expedientesar.somee.com/api/Simulation
 * **No hay login de usuario:** la aplicación supone que eres un Legislador y ya estas logueado.
-* **La persistencia de datos** sucede en una base de datos SQLServer express en de la herramienta de host.
-
+* **La persistencia de datos** sucede en una base de datos SQLServer express que ofrece la herramienta de hosting.
  
 # Cómo usar
 * **Flujo** básico de proyectos: Crear Proyecto, Editar Proyecto, Enviar Proyecto, Asignación de Comisiones, Evaluación de cada Comisión, Enviar a Sesión y Dictaminar.
