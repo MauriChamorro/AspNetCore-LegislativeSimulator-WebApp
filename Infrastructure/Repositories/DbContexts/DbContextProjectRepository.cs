@@ -73,16 +73,14 @@ public class DbContextProjectRepository : IProjectRepository
 
     public async Task UpdateProject(Model.Project updatedProject)
     {
-        var entityProject = new Project
-        {
-            ProjectId = updatedProject.ProjectId,
-            FileId = updatedProject.FileId,
-            Title = updatedProject.Title,
-            Articles = updatedProject.Articles,
-            Fundaments = updatedProject.Fundaments,
-            Summary = updatedProject.Summary
-        };
-        _context.Update(entityProject);
+        var savedProject = await _context.Projects.FindAsync(updatedProject.ProjectId);
+        savedProject.ProjectId = updatedProject.ProjectId;
+        savedProject.FileId = updatedProject.FileId;
+        savedProject.Title = updatedProject.Title;
+        savedProject.Articles = updatedProject.Articles;
+        savedProject.Fundaments = updatedProject.Fundaments;
+        savedProject.Summary = updatedProject.Summary;
+        _context.Update(savedProject);
         await _context.SaveChangesAsync();
     }
     
@@ -142,7 +140,7 @@ public class DbContextProjectRepository : IProjectRepository
 
     public async Task UpdateReferral(Model.Referral modelReferral)
     {
-        var referral = _context.Referrals.Find(modelReferral.ProjectId, modelReferral.CommissionId);
+        var referral = await _context.Referrals.FindAsync(modelReferral.ProjectId, modelReferral.CommissionId);
         referral.State = (int)modelReferral.State;
         referral.Date = modelReferral.DateState;
         await _context.SaveChangesAsync();
@@ -212,14 +210,14 @@ public class DbContextProjectRepository : IProjectRepository
 
     public async Task Delete(int projectId)
     {
-        var entityProject = new Project { ProjectId = projectId };
+        var entity = await _context.Projects.FindAsync(projectId);
         var history = _context.ProjectStateHistories
             .Where(h => h.ProjectId == projectId);
 
         foreach (var stateHistory in history)
             _context.Remove(stateHistory);
 
-        _context.Projects.Remove(entityProject);
+        _context.Projects.Remove(entity);
 
         await _context.SaveChangesAsync();
     }

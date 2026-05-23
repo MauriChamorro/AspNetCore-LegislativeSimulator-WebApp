@@ -17,5 +17,7 @@ public partial class Project
 
     public string Summary { get; set; } = null!;
 
+    public byte[] RowVersion { get; set; } = null!;
+
     public virtual ICollection<ProjectStateHistory> ProjectStateHistories { get; set; } = new List<ProjectStateHistory>();
 }

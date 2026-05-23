@@ -55,6 +55,9 @@ public partial class ExpedientesDevContext : DbContext
                 .HasMaxLength(500)
                 .IsFixedLength()
                 .HasColumnName("fundaments");
+            entity.Property(e => e.RowVersion)
+                .IsRowVersion()
+                .IsConcurrencyToken();
             entity.Property(e => e.Summary)
                 .HasMaxLength(200)
                 .IsFixedLength()
