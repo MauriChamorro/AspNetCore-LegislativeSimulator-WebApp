@@ -1,0 +1,33 @@
+@model CredentialVm
+
+@section title
+{
+    <h1>Inicio de Sesión</h1>
+}
+
+<div class="container border" style="padding: 20px">
+    <form method="post" asp-controller="Login" asp-action="Index">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="@Model.Username"></label>
+            </div>
+            <div class="col-5">
+                <input type="text" class="form-control" asp-for="@Model.Username"/>
+            </div>
+            <span class="text-danger" asp-validation-for="@Model.Username"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="@Model.Password"></label>
+            </div>
+            <div class="col-5">
+                <input type="password" class="form-control" asp-for="@Model.Password"/>
+            </div>
+            <span class="text-danger" asp-validation-for="@Model.Password"></span>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" value="Iniciar Sesión"/>
+        </div>
+    </form>
+</div>
