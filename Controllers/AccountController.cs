@@ -24,6 +24,7 @@ public class AccountController: Controller
             {
                 new(ClaimTypes.Name, credentials.Username),
                 new(ClaimTypes.Country, "ar"),
+                new("Legislador","true")
             };
 
             //Establece (set) la Autenticación; mediante Cookies (web)
