@@ -44,7 +44,7 @@ try
     builder.Services.AddScoped<ProjectVmAsyncFilterAttribute>();
     builder.Services.AddScoped<ReferralCommitteesAsyncFilterAttribute>();
 
-    builder.Services.AddAuthentication() //crea las bases y abstracciones
+    builder.Services.AddAuthentication("MyAppCookies") //crea las bases y abstracciones
         //Agrega una implementación "Scheme para Cookies" dandole el id-name
         .AddCookie("MyAppCookies",options => 
         {
@@ -89,6 +89,7 @@ try
     app.UseCors("AllowAllOrigins");
     app.UseStaticFiles();
     app.UseRouting();
+    app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
     app.Run();
