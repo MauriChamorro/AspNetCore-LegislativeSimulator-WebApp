@@ -5,15 +5,15 @@ using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
 
-public class LoginController: Controller
+public class AccountController: Controller
 {
-    public IActionResult Index()
+    public IActionResult Login()
     {
-        return View();
+        return View("Login");
     }
     
     [HttpPost]
-    public async Task<IActionResult> Index(CredentialVm credentials)
+    public async Task<IActionResult> Login(CredentialVm credentials)
     {
         if (!ModelState.IsValid) return View(credentials);
         

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
@@ -25,6 +26,7 @@ public class ProjectsController : Controller
         _notificationService = notificationService;
     }
 
+    [Authorize]
     public async Task<IActionResult> Index()
     {
         _notificationService.SendNotification(TempData);

@@ -51,6 +51,7 @@ try
             //se hacen todas las config del esquema
             //id-nombre para identificar en el cliente/nav, en el http header
             options.Cookie.Name = "MyAppCookies";
+            options.LoginPath = "/Account/Login";
         });
     
     builder.Services.AddControllersWithViews(options =>
