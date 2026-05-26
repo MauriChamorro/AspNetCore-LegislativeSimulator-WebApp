@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.ViewModels;
 
@@ -11,14 +13,34 @@ public class LoginController: Controller
     }
     
     [HttpPost]
-    public IActionResult Index(CredentialVm credentials)
+    public async Task<IActionResult> Index(CredentialVm credentials)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid) return View(credentials);
+        
+        //validation service
+        if (credentials.Username == "admin" && credentials.Password == "admin")
         {
-            credentials.Username = "";
-            credentials.Password = "";
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Name, credentials.Username),
+                new(ClaimTypes.Country, "ar")
+            };
+
+            //Establece (set) la Autenticación; mediante Cookies (web)
+            //IsAuthenticated pasa a ser true.
+            var identity = new ClaimsIdentity(claims, "MyAppCookies");
+            
+            //user-like
+            var principal = new ClaimsPrincipal(identity);
+            
+            //hace el inicio de sesion usando las implementaciones injectadas
+            //serialize claimsPrincipal into a string and it is saved as a cookie in the http context
+            await HttpContext.SignInAsync("MyAppCookies", principal);
+            
+            return RedirectToAction("Index", "Home");
         }
         
-        return View();
+        //TODO: auth error message
+        return View(credentials);
     }
 }

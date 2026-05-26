@@ -43,6 +43,15 @@ try
     builder.Services.AddScoped<CanDeleteProjectAsyncFilterAttribute>();
     builder.Services.AddScoped<ProjectVmAsyncFilterAttribute>();
     builder.Services.AddScoped<ReferralCommitteesAsyncFilterAttribute>();
+
+    builder.Services.AddAuthentication() //crea las bases y abstracciones
+        //Agrega una implementación "Scheme para Cookies" dandole el id-name
+        .AddCookie("MyAppCookies",options => 
+        {
+            //se hacen todas las config del esquema
+            //id-nombre para identificar en el cliente/nav, en el http header
+            options.Cookie.Name = "MyAppCookies";
+        });
     
     builder.Services.AddControllersWithViews(options =>
     {
@@ -72,7 +81,7 @@ try
 
     if (!app.Environment.IsDevelopment())
     {
-        app.UseExceptionHandler("/Home/Error"); //testear en prod
+        app.UseExceptionHandler("/Home/Error");
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
