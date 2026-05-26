@@ -44,4 +44,11 @@ public class AccountController: Controller
         //TODO: auth error message
         return View(credentials);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync("MyAppCookies");
+        return RedirectToAction("Login", "Account");
+    }
 }
