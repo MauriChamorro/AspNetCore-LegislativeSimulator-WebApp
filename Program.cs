@@ -62,6 +62,12 @@ try
         {
             policy.RequireClaim("Legislador","true");
         });
+        
+        options.AddPolicy("admin", policy =>
+        {
+            policy.RequireClaim("admin","true");
+            policy.RequireClaim("Legislador","true");
+        });
     });
     
     builder.Services.AddControllersWithViews(options =>
