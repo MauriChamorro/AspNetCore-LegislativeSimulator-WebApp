@@ -23,7 +23,7 @@ public class AccountController: Controller
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Name, credentials.Username),
-                new(ClaimTypes.Country, "ar")
+                new(ClaimTypes.Country, "ar"),
             };
 
             //Establece (set) la Autenticación; mediante Cookies (web)

@@ -26,7 +26,7 @@ public class ProjectsController : Controller
         _notificationService = notificationService;
     }
 
-    [Authorize]
+    [Authorize(Policy = "Legislador")]
     public async Task<IActionResult> Index()
     {
         _notificationService.SendNotification(TempData);
