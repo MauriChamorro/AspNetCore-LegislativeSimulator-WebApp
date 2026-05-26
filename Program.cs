@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using WebAppMVC.Authorization.Handlers;
+using WebAppMVC.Authorization.Requirements;
 using WebAppMVC.Domain.Repositories;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters.Async;
@@ -61,14 +64,17 @@ try
         options.AddPolicy("Legislador", policy =>
         {
             policy.RequireClaim("Legislador","true");
+            policy.AddRequirements(new AddProjectRequirement(10));
         });
         
         options.AddPolicy("admin", policy =>
         {
             policy.RequireClaim("admin","true");
-            policy.RequireClaim("Legislador","true");
         });
     });
+    
+    //Authorization injection
+    builder.Services.AddSingleton<IAuthorizationHandler, AddProjectRequirementHandler>();
     
     builder.Services.AddControllersWithViews(options =>
     {

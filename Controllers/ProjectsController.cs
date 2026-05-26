@@ -26,6 +26,7 @@ public class ProjectsController : Controller
         _notificationService = notificationService;
     }
 
+    [AllowAnonymous]
     [Authorize(Policy = "Legislador")]
     public async Task<IActionResult> Index()
     {
@@ -36,6 +37,7 @@ public class ProjectsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Policy = "Legislador")]
     public async Task<IActionResult> Add()
     {
         ViewBag.Action = "add";
@@ -44,6 +46,7 @@ public class ProjectsController : Controller
         return View(newProjectVm);
     }
     
+    [Authorize(Policy = "Legislador")]
     [HttpPost]
     public async Task<IActionResult> Add(ProjectViewModel projectVm)
     {
