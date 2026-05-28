@@ -5,7 +5,7 @@ namespace WebAppMVC.ViewModels;
 public class CredentialVm
 {
     [Required]
-    [Display(Name = "Nombre de Usuario")]
+    [Display(Name = "Usuario")]
     public string Username { get; set; }
     
     [Required]

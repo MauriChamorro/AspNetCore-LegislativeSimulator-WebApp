@@ -5,34 +5,26 @@
     <h1>Inicio de Sesión</h1>
 }
 
-<div class="container border" style="padding: 20px">
+<div class="container border rounded shadow-sm" style="padding: 20px; max-width: 400px; margin-top: 50px;">
     <form method="post" asp-controller="Account" asp-action="Login">
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-        <div class="form-group row mb-2 align-content-center">
-            <div class="col-2">
-                <label asp-for="@Model.Username"></label>
-            </div>
-            <div class="col-5">
-                <input type="text" class="form-control" asp-for="@Model.Username"/>
-            </div>
-            <span class="text-danger" asp-validation-for="@Model.Username"></span>
+        <div class="text-danger mb-3" asp-validation-summary="ModelOnly"></div>
+        
+        <div class="mb-3">
+            <label class="form-label fw-bold" asp-for="@Model.Username"></label>
+            <input type="text" class="form-control" placeholder="Ingresa tu nombre de usuario" asp-for="@Model.Username"/>
+            <span class="text-danger small" asp-validation-for="@Model.Username"></span>
         </div>
-        <div class="form-group row mb-2">
-            <div class="col-2 align-content-center">
-                <label asp-for="@Model.Password"></label>
-            </div>
-            <div class="col-5">
-                <input type="password" class="form-control" asp-for="@Model.Password"/>
-            </div>
-            <span class="text-danger" asp-validation-for="@Model.Password"></span>
+        
+        <div class="mb-3">
+            <label class="form-label fw-bold" asp-for="@Model.Password"></label>
+            <input type="password" class="form-control" asp-for="@Model.Password"/>
+            <span class="text-danger small" asp-validation-for="@Model.Password"></span>
         </div>
-        <div class="row form-check mb-2">
-            <div class="col-2">
-                <input type="checkbox" asp-for="@Model.RememberMe" class="form-check-input"/>
-                <label class="form-check-label" asp-for="@Model.RememberMe"></label>
-            </div>    
+        <div class="form-check mb-4">
+            <input type="checkbox" asp-for="@Model.RememberMe" class="form-check-input"/>
+            <label class="form-check-label" asp-for="@Model.RememberMe"></label>
         </div>
-        <div>
+        <div class="d-grid">
             <input type="submit" class="btn btn-primary" value="Iniciar Sesión"/>
         </div>
     </form>
