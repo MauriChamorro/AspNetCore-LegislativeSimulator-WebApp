@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters.Async;
@@ -20,6 +21,7 @@ public class ReferralCommitteesController: Controller
         _commissionsVmService = commissionsVmService;
     }
     
+    [Authorize(Roles = "legislador, admin")]
     [HttpGet("ReferralCommittees/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     [ServiceFilter(typeof(ReferralCommitteesAsyncFilterAttribute))]

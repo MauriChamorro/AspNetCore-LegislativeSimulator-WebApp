@@ -27,7 +27,7 @@ public class ProjectsController : Controller
     }
 
     [AllowAnonymous]
-    [Authorize(Policy = "Legislador")]
+    [Authorize(Roles = "legislador, admin")]
     public async Task<IActionResult> Index()
     {
         _notificationService.SendNotification(TempData);
@@ -37,7 +37,7 @@ public class ProjectsController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "legislador, admin")]
+    [Authorize(Roles = "legislador")]
     public async Task<IActionResult> Add()
     {
         ViewBag.Action = "add";
@@ -46,7 +46,7 @@ public class ProjectsController : Controller
         return View(newProjectVm);
     }
     
-    [Authorize(Policy = "Legislador")]
+    [Authorize(Roles = "legislador")]
     [HttpPost]
     public async Task<IActionResult> Add(ProjectViewModel projectVm)
     {
@@ -66,6 +66,7 @@ public class ProjectsController : Controller
     
     [HttpGet("Projects/Edit/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    [Authorize(Roles = "legislador, admin")]
     public async Task<IActionResult> Edit([FromRoute] int projectId)
     {
         ViewBag.Action = "edit";
@@ -84,6 +85,7 @@ public class ProjectsController : Controller
 
     [HttpPost]
     [ServiceFilter(typeof(ProjectVmAsyncFilterAttribute))]
+    [Authorize(Roles = "legislador")]
     public async Task<IActionResult> Edit(ProjectViewModel projectVm)
     {
         ViewBag.Action = "edit";
@@ -105,6 +107,7 @@ public class ProjectsController : Controller
 
     [HttpPost]
     [ServiceFilter(typeof(ProjectVmAsyncFilterAttribute))]
+    [Authorize(Roles = "legislador")]
     public async Task<IActionResult> SendToCommission(ProjectViewModel projectVm)
     {
         var savedProject = await _projectService.GetProjectByIdAsync(projectVm.ProjectId);
@@ -127,6 +130,7 @@ public class ProjectsController : Controller
     [HttpPost("Projects/Delete/{projectId}")]
     [ServiceFilter(typeof(CanDeleteProjectAsyncFilterAttribute))]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    [Authorize(Roles = "legislador")]
     public async Task<IActionResult> Delete(int projectId)
     {
         await _projectService.DeleteProject(projectId);
