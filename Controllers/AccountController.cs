@@ -35,9 +35,14 @@ public class AccountController: Controller
             //user-like
             var principal = new ClaimsPrincipal(identity);
             
+            var authProps = new AuthenticationProperties
+            {
+               IsPersistent = credentials.RememberMe
+            };
+            
             //hace el inicio de sesion usando las implementaciones injectadas
             //serialize claimsPrincipal into a string and it is saved as a cookie in the http context
-            await HttpContext.SignInAsync("MyAppCookies", principal);
+            await HttpContext.SignInAsync("MyAppCookies", principal, authProps);
             
             return RedirectToAction("Index", "Home");
         }

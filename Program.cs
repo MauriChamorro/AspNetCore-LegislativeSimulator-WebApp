@@ -54,7 +54,8 @@ try
             //se hacen todas las config del esquema
             //id-nombre para identificar en el cliente/nav, en el http header
             options.Cookie.Name = "MyAppCookies";
-            
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
+            options.SlidingExpiration = false;
             options.LoginPath = "/Account/Login";
             options.AccessDeniedPath = "/Account/Login";
         });
@@ -64,12 +65,12 @@ try
         options.AddPolicy("Legislador", policy =>
         {
             policy.RequireClaim("Legislador","true");
-            policy.AddRequirements(new AddProjectRequirement(10));
         });
         
         options.AddPolicy("admin", policy =>
         {
             policy.RequireClaim("admin","true");
+            policy.AddRequirements(new AddProjectRequirement(10));
         });
     });
     

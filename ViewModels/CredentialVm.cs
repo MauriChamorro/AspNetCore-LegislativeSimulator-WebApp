@@ -12,4 +12,7 @@ public class CredentialVm
     [DataType(DataType.Password)]
     [Display(Name = "Contraseña")]
     public string Password { get; set; }
+    
+    [Display(Name = "Mantener sesión")]
+    public bool RememberMe { get; set; }
 }
