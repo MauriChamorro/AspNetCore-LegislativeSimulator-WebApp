@@ -58,7 +58,7 @@ try
             options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
             options.SlidingExpiration = false;
             options.LoginPath = "/Account/Login";
-            options.AccessDeniedPath = "/Account/Login";
+            options.AccessDeniedPath = "/Account/AccessDenied";
         });
 
     builder.Services.AddAuthorization(options =>

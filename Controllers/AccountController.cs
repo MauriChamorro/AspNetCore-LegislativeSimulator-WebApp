@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Services;
@@ -50,5 +49,10 @@ public class AccountController: Controller
     {
         await HttpContext.SignOutAsync("MyAppCookies");
         return RedirectToAction("Login", "Account");
+    }
+
+    public IActionResult AccessDenied()
+    {
+        return View();
     }
 }
