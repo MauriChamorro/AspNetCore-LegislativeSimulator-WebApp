@@ -56,7 +56,7 @@ try
             //se hacen todas las config del esquema
             //id-nombre para identificar en el cliente/nav, en el http header
             options.Cookie.Name = ExpedientesAuthValues.CookieName;
-            options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
+            options.ExpireTimeSpan = TimeSpan.FromHours(5);
             options.SlidingExpiration = false;
             options.LoginPath = "/Account/Login";
             options.AccessDeniedPath = "/Account/AccessDenied";

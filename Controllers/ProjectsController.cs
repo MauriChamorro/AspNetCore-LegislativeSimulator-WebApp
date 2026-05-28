@@ -26,7 +26,6 @@ public class ProjectsController : Controller
         _notificationService = notificationService;
     }
 
-    [AllowAnonymous]
     [Authorize(Roles = "legislador, admin")]
     public async Task<IActionResult> Index()
     {
