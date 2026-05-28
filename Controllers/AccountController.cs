@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.ViewModels;
+using WebAppMVC.Views.Account;
 
 namespace WebAppMVC.Controllers;
 
@@ -27,7 +28,7 @@ public class AccountController: Controller
         if (_accountService.ExistUser(credentials.Username, credentials.Password))
         {
             var claims = _accountService.GetClaims(credentials.Username);
-            var principal = _accountService.GetPrincipal(claims, "MyAppCookies");
+            var principal = _accountService.GetPrincipal(claims, ExpedientesAuthValues.CookieName);
             var authProps = new AuthenticationProperties
             {
                IsPersistent = credentials.RememberMe
@@ -35,7 +36,7 @@ public class AccountController: Controller
             
             //hace el inicio de sesion usando las implementaciones injectadas
             //serialize claimsPrincipal into a string and it is saved as a cookie in the http context
-            await HttpContext.SignInAsync("MyAppCookies", principal, authProps);
+            await HttpContext.SignInAsync(ExpedientesAuthValues.CookieName, principal, authProps);
             
             return RedirectToAction("Index", "Home");
         }
@@ -47,7 +48,7 @@ public class AccountController: Controller
     [HttpPost]
     public async Task<IActionResult> Logout()
     {
-        await HttpContext.SignOutAsync("MyAppCookies");
+        await HttpContext.SignOutAsync(ExpedientesAuthValues.CookieName);
         return RedirectToAction("Login", "Account");
     }
 

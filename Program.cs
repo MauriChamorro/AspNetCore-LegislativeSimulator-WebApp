@@ -12,6 +12,7 @@ using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.Infrastructure.Repositories.DbContexts;
 using WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;
 using WebAppMVC.Infrastructure.Services;
+using WebAppMVC.Views.Account;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,13 +49,13 @@ try
     builder.Services.AddScoped<ProjectVmAsyncFilterAttribute>();
     builder.Services.AddScoped<ReferralCommitteesAsyncFilterAttribute>();
 
-    builder.Services.AddAuthentication("MyAppCookies") //crea las bases y abstracciones
+    builder.Services.AddAuthentication(ExpedientesAuthValues.CookieName) //crea las bases y abstracciones
         //Agrega una implementación "Scheme para Cookies" dandole el id-name
-        .AddCookie("MyAppCookies",options => 
+        .AddCookie(ExpedientesAuthValues.CookieName,options => 
         {
             //se hacen todas las config del esquema
             //id-nombre para identificar en el cliente/nav, en el http header
-            options.Cookie.Name = "MyAppCookies";
+            options.Cookie.Name = ExpedientesAuthValues.CookieName;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
             options.SlidingExpiration = false;
             options.LoginPath = "/Account/Login";
