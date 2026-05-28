@@ -37,7 +37,7 @@ public class ProjectsController : Controller
     }
 
     [HttpGet]
-    [Authorize(Policy = "Legislador")]
+    [Authorize(Roles = "legislador, admin")]
     public async Task<IActionResult> Add()
     {
         ViewBag.Action = "add";

@@ -19,7 +19,7 @@ public class AccountService: IAccountService
             [
                 new(ClaimTypes.Name, userName),
                 new(ClaimTypes.Country, "ar"),
-                new("admin", "true")
+                new(ClaimTypes.Role, "admin")
             ];
         }
 
@@ -29,7 +29,7 @@ public class AccountService: IAccountService
             [
                 new(ClaimTypes.Name, userName),
                 new(ClaimTypes.Country, "ar"),
-                new("Legislador", "true"),
+                new(ClaimTypes.Role, "legislador"),
                 new("ProbationDate", "2026-5-20")
             ];
         }
