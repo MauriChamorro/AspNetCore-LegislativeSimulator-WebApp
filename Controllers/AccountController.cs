@@ -1,12 +1,20 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using WebAppMVC.Domain.Services;
 using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
 
 public class AccountController: Controller
 {
+    private readonly IAccountService _accountService;
+
+    public AccountController(IAccountService accountService)
+    {
+        _accountService = accountService;
+    }
+    
     public IActionResult Login()
     {
         return View("Login");
@@ -17,24 +25,10 @@ public class AccountController: Controller
     {
         if (!ModelState.IsValid) return View(credentials);
         
-        //validation service
-        if (credentials.Username == "admin" && credentials.Password == "admin")
+        if (_accountService.ExistUser(credentials.Username, credentials.Password))
         {
-            var claims = new List<Claim>
-            {
-                new(ClaimTypes.Name, credentials.Username),
-                new(ClaimTypes.Country, "ar"),
-                new("Legislador","true"),
-                new("ProbationDate","2026-5-20")
-            };
-
-            //Establece (set) la Autenticación; mediante Cookies (web)
-            //IsAuthenticated pasa a ser true.
-            var identity = new ClaimsIdentity(claims, "MyAppCookies");
-            
-            //user-like
-            var principal = new ClaimsPrincipal(identity);
-            
+            var claims = _accountService.GetClaims(credentials.Username);
+            var principal = _accountService.GetPrincipal(claims, "MyAppCookies");
             var authProps = new AuthenticationProperties
             {
                IsPersistent = credentials.RememberMe
@@ -47,7 +41,7 @@ public class AccountController: Controller
             return RedirectToAction("Index", "Home");
         }
         
-        //TODO: auth error message
+        //TODO: user not exist message
         return View(credentials);
     }
 

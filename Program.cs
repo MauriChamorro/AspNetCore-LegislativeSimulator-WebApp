@@ -35,6 +35,7 @@ try
     builder.Services.AddSingleton<INotificationRepository, InMemoryNotificationRepository>();
     
     // service injections
+    builder.Services.AddScoped<IAccountService, AccountService>();
     builder.Services.AddScoped<IProjectService, ProjectService>();
     builder.Services.AddScoped<ICommissionService, CommissionService>();
     builder.Services.AddScoped<ICommissionsVmService, CommissionsVmService>();
