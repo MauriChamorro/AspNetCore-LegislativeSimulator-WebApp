@@ -11,14 +11,17 @@ El objetivo es aprender las tecnologías AspNet Core 8 + Razor y su ecosistema t
 
 ## 🚀 Características Principales
 *   **Gestión básica de Proyectos de Ley:** Creación, Edición y Envío a Comisiones de Proyectos.
-*   **Motor de Clasificación:** Sistema básico que simula la asignación de comisiones basado en palabras claves (Salud, Presupuesto, Trabajo, etc.) y también el resultado del Dictamen.
+*   **Simulador de Clasificación:** Sistema básico que simula la asignación de comisiones basado en palabras claves (Salud, Presupuesto, Trabajo, etc.), la evaluación de cada Comisión y también el resultado del Dictamen.
+* **Autenticación y Autorización:** Implementación básica de Login/Logout con roles básicos. Denegación de acceso a ciertas páginas en base al rol.
+* **Concurrencia:** Aplicación de manejo de concurrencia básico en la Creación de Proyectos, usando la técnica Rawverion + EntityFramework.
 *   **Interfaz:** Dashboard construido con ASP.NET Core MVC y Bootstrap para una visualización de los proyectos y sus estados.
 
 ## 🛠️ Stack Tecnológico
-*   **Backend:** C# con .NET 8.0, ASP.NET Core MVC extendido, Serilog.
+*   **Backend:** C# con .NET 8.0, ASP.NET Core MVC extendido.
 *   **Base de Datos:** InMemoryRepositories, SQL Server / Entity Framework Core.
 *   **Frontend:** Razor Views, Bootstrap 5 y SweetAlert2 para notificaciones interactivas.
 *   **Arquitectura:** Clean Architecture (Dominio, Servicios, Repositorios e Infraestructura).
+* **Herramientas/Plugins:** Serilog.
 
 ## 📂 Estructura del Proyecto
 *   `/Controllers`: Lógica de control, rutas del website y simulador.
@@ -36,10 +39,21 @@ El objetivo es aprender las tecnologías AspNet Core 8 + Razor y su ecosistema t
 
 ## 🛡️ Consideraciones
 * Hay muchas **funcionalidades que no están desarrolladas** por temas de complejidad e investigación en el área legislativa.
-* El sitio web solo contempla la **creación, edición y visualización de proyectos** de ley para un Legislador.
+* El sitio web solo contempla la **creación, edición y visualización de proyectos** de ley para un Legislador genérico.
 * Se deben **simular los resultados que no son por acciones del usuario** (Legislador). Para hacerlo, se usan métodos POST al endpoint http://expedientesar.somee.com/api/Simulation
-* **No hay login de usuario:** la aplicación supone que eres un Legislador y ya estas logueado.
 * **La persistencia de datos** sucede en una base de datos SQLServer express que ofrece la herramienta de hosting.
+
+# Login
+## Roles
+* **Legislador:** Ver Proyectos, Crear Proyectos, Actualizar Proyecto, Eliminar Proyecto y Enviar Proyecto a Comisiones.
+* **Admin:** Ver Proyectos.
+## Credenciales
+* **Legislador:**
+    + Nombre de usuario: legislador
+    + Contraseña: legislador
+* **Admin:**
+    + Nombre de usuario: admin
+    + Contraseña: admin
  
 # Cómo usar
 * **Flujo** básico de proyectos: Crear Proyecto, Editar Proyecto, Enviar Proyecto, Asignación de Comisiones, Evaluación de cada Comisión, Enviar a Sesión y Dictaminar.
@@ -110,7 +124,7 @@ _Ejemplo_: http://expedientesar.somee.com/api/Simulation/DoReferring/1
 
 **Requisitos:** El proyecto tiene que estar en _En Comisiones_.
 
-**Efectos:** Cambios en los _estados de Giro (Evaluando/Aprobado/Rechazado por Comisiones)_.  Luego, ver página de _Comisiones_.
+**Efectos:** Cambios en los _estados de Giro (Evaluando/Aprobado/Rechazado por Comisiones)_.  Ver sección sobre "Página de _Comisiones_".
 
 **Nota**: continuar enviado peticiones hasta que todos los giros finalicen en _Aprobado o Rechazado por Comisiones_. Ver _Estados de Giro_.
 
@@ -132,21 +146,23 @@ _Ejemplo_: http://expedientesar.somee.com/api/Simulation/DoSession/1
 
 **Requisitos:** El proyecto debe estar _En Sesión_.
 
-**Lógica de Dictamen**: 50% de éxito o de fallo.
+**Lógica de Dictamen**: 50% de éxito o de fallo al azar.
 
 **Efectos:** Cambio de estado del proyecto _Aprobado o Rechazado en Sesión_.
 # 🏁 To Do
 * **Features**
     * Listar todos los proyectos de todos los legisladores en la Home
         * Busqueda y Filtros
-    * Login (Legislador)
+    * ~~Login/Logout (Legislador)~~
+    * Registro de Usuarios con sus Roles.
     * Botón de Notificaciones en cliente.
 * **Tecnologías:**
     * ~~Aplicar Entity Framework + DB-First + SQL server para Proyectos (Servicios, Repositorios, Entidades)~~.
     * ~~Implementar Logger para prod~~
     * TestSuit para Proyectos.
-    * ASP.Net Identity.
+    * ~~ASP.Net Identity basico (Autenticación y Autorización).~~
+    * ~~Concurrencia.~~
 # ✉️ Contacto
-¡Gracias por visitar mi proyecto! Si estás interesado en colaborar, tienes alguna duda o simplemente quieres charlar sobre desarrollo en .NET, no dudes en contactarme.
+¡Gracias por visitar mi proyecto! Si tienes alguna duda o simplemente quieres charlar sobre desarrollo en .NET, no dudes en contactarme.
 
-**LinkedIn**: https://www.linkedin.com/in/mauricio-manuel-chamorro/
+<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg" width="18" height="18" style="vertical-align: middle;" /> [Mauricio Chamorro](https://www.linkedin.com/in/mauricio-manuel-chamorro/)
