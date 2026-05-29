@@ -37,7 +37,7 @@
             <label class="col-form-label">Título</label>
         </div>
         <div class="col-6">
-            <input type="text" asp-for="Title" class="form-control" readonly="@(Model.CanEdit ? null : "readonly")"/>
+            <input type="text" asp-for="Title" class="form-control border p-2 pb-3" readonly="@(Model.CanEdit ? null : "readonly")"/>
         </div>
         <div class="col">
             <span class="text-danger" asp-validation-for="Title"></span>
@@ -45,14 +45,14 @@
     </div>
     <div>
         <label asp-for="Articles" class="form-label mt-4">Artículos</label>
-        <textarea class="form-control" id="articles" rows="15" asp-for="Articles" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
+        <textarea class="form-control border p-2 pb-3" id="articles" rows="15" asp-for="Articles" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
         <div class="col">
             <span class="text-danger" asp-validation-for="Articles"></span>
         </div>
     </div>
     <div>
         <label asp-for="Fundaments" class="form-label mt-4">Fundamentos</label>
-        <textarea class="form-control" id="fundaments" rows="5" asp-for="Fundaments" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
+        <textarea class="form-control border p-2 pb-3" id="fundaments" rows="5" asp-for="Fundaments" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
         <div class="col">
             <span class="text-danger" asp-validation-for="Fundaments"></span>
         </div>
@@ -60,7 +60,7 @@
     <br/>
         
     <label asp-for="Summary" class="form-label mt-4">Resumen</label>
-    <textarea class="form-control" id="summary" rows="3" asp-for="Summary" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
+    <textarea class="form-control border p-2 pb-3" id="summary" rows="3" asp-for="Summary" readonly="@(Model.CanEdit ? null : "readonly")"></textarea>
     <div class="col">
         <span class="text-danger" asp-validation-for="Summary"></span>
     </div>
