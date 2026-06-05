@@ -4,4 +4,4 @@
     <h3>[@Model.StateName]</h3>
 }
 
-<partial name="_Projects" model="Model"/>
+@await Html.PartialAsync("_Projects", Model, ViewData)
