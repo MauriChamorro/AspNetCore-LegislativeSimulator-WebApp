@@ -1,54 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="es-ES">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>ExpedientesAr</title>
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="icon" href="/favicon.ico">
-</head>
+<partial name="_Head.cshtml"/>
 <body class="d-flex flex-column min-vh-100">
-<header>
-    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ExpedientesAr</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" asp-controller="Home" asp-action="Index">Inicio
-                            <span class="visually-hidden">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Projects" asp-action="Index">Mis Proyectos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacidad</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="mr-2" style="margin-right: 20px">
-                @{
-                    if (User.Identity.IsAuthenticated)
-                    {
-                        <form method="post" asp-controller="Account" asp-action="Logout">
-                            <!--<a type="submit" class="link-light">Logout</a> !-->
-                            <button type="submit" class="btn text-white">Salir</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <a class="btn text-white" asp-controller="Account" asp-action="Login">Ingresar</a>
-                    }
-                }
-            </div>
-        </div>
-    </nav>
-</header>
+<partial name="_Header.cshtml"/>
 <div class="text-center container py-4">
     @RenderSection("title")
 </div>
@@ -57,41 +11,10 @@
         @RenderBody()
     </div>
 </main>
-<footer class="py-3 border-b footer text-muted">
-    <div class="container text-center">
-        <p>Aprende sobre <a href="https://www.argentina.gob.ar/normativa">Leyes Argentinas</a>.</p>
-    </div>
-    <div class="container text-center">
-        &copy; 2026 - ExpedientesAr - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
-    </div>
-</footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Obtenemos los valores de TempData desde C#
-        var title = '@Html.Raw(TempData["SwalTitle"])';
-        var message = '@Html.Raw(TempData["SwalMessage"])';
-        var type = '@TempData["SwalIcon"]';
 
-        if (title) {
-            Swal.fire({
-                title: title || 'Notificación',
-                text: message,
-                icon: type || 'info', // Si no hay icono, por defecto info
-                timer: null,
-                timerProgressBar: false,
-                showConfirmButton: true,
-                confirmButtonText: 'Aceptar',
-                confirmButtonColor: '#3085d6',
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            });
-        }
-    });
-</script>
+<partial name="_Footer.cshtml"/>
+<partial name="_Scripts.cshtml"/>
+
 @await RenderSectionAsync("Scripts", false)
 </body>
 </html>
