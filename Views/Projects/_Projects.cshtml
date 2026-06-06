@@ -77,32 +77,13 @@
     {
         <div class="d-flex justify-content-end">
             <a class="btn btn-success"
-               role="button"
-               onclick="confirmSending('¿Enviar a Comisiones?','Enviar', '@Url.Action("SendToCommission", "Projects", new { id = Model.ProjectId })')">
+               id="send-to-commission-element"
+               data-message="¿Enviar a Comisiones?"
+               data-success-text="Enviar"
+               data-url="@Url.Action("SendToCommission", "Projects", new { id = Model.ProjectId })"
+               role="button">
                 Enviar
             </a>
         </div>
     }
 </form>
-
-<script>
-function confirmSending(modalTitle, actionTxt, url, projectId) {
-    Swal.fire({
-        title: modalTitle,
-        text: "Esta acción no podrá deshacerse.",
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#198754', // Verde (Aceptar)
-        cancelButtonColor: '#dc3545',  // Rojo (Rechazar)
-        confirmButtonText: actionTxt,
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        console.log(url,projectId);
-        if (result.isConfirmed) {
-            const form = document.getElementById('formExpediente');
-            form.action = url;
-            form.submit();
-        }
-    });
-}
-</script>

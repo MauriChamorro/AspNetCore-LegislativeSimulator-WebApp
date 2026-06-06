@@ -4,7 +4,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Obtenemos los valores de TempData desde C#
         var title = '@Html.Raw(TempData["SwalTitle"])';
         var message = '@Html.Raw(TempData["SwalMessage"])';
         var type = '@TempData["SwalIcon"]';
