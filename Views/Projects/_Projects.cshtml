@@ -8,8 +8,13 @@
 @if (Model.ProjectId != 0 && Model.CanEdit)
 {
     <div class="d-flex justify-content-end">
-        <a class="btn btn-danger" role="button"
-           onclick="confirmSending('¿Estás seguro que desea borrar el proyecto?','Borrar','@Url.Action("Delete", "Projects", new { id = Model.ProjectId })')">Borrar</a>
+        <a class="btn btn-danger confirm-modal"
+           role="button"
+           data-message="¿Quiere borrar el proyecto?"
+           data-success-text="Borrar"
+           data-url="@Url.Action("Delete", "Projects", new { id = Model.ProjectId })">
+            Borrar
+        </a>
     </div>
 }
 <form method="post" asp-controller="Projects" asp-action=@action id="formExpediente">
@@ -81,8 +86,7 @@
     @if (Model.ProjectId != 0 && Model.CanEdit)
     {
         <div class="d-flex justify-content-end">
-            <a class="btn btn-success"
-               id="send-to-commission-element"
+            <a class="btn btn-success confirm-modal"
                data-message="¿Enviar a Comisiones?"
                data-success-text="Enviar"
                data-url="@Url.Action("SendToCommission", "Projects", new { id = Model.ProjectId })"
