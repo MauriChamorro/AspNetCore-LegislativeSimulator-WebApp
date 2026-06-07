@@ -1,7 +1,11 @@
+@{
+    ViewData["title"] = "Nuevo Proyecto";
+    ViewData["subtitle"] = $"[{Model.StateName.Trim()}]"; 
+}
+
 @section title
 {
-    <h2>Nuevo Proyecto</h2>
-    <h3>[@Model.StateName]</h3>
+    <partial name="_Title"/>
 }
 
 @await Html.PartialAsync("_Projects", Model, ViewData)
