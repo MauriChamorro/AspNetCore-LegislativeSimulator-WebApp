@@ -22,17 +22,19 @@
                 <td>@projectVm.Title</td>
                 <td style="background-color: #fff7d9">@projectVm.StateName</td>
                 <td>@projectVm.StateDate.ToString("dd/MM/yyyy")</td>
-                
+
                 @if (projectVm.CanEdit)
                 {
                     <td>
-                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-projectId="@projectVm.ProjectId">Editar</a>
+                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit"
+                           asp-route-projectId="@projectVm.ProjectId">Editar</a>
                     </td>
                 }
                 else
                 {
                     <td>
-                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit" asp-route-projectId="@projectVm.ProjectId">Ver</a>
+                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit"
+                           asp-route-projectId="@projectVm.ProjectId">Ver</a>
                     </td>
                     if (projectVm.CommissionsAssigned)
                     {
@@ -45,8 +47,7 @@
             </tr>
         }
         </tbody>
-    </table>
-}
+    </table>}
 <br/>
 <div class="d-flex justify-content-end">
     <a class="btn btn-primary" asp-controller="Projects" asp-action="Add" role="button">Nuevo Proyecto</a>

@@ -19,20 +19,20 @@
 @section Scripts
 {
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const sendToCommission = document.getElementById("send-to-commission-element");
             if (sendToCommission) {
-                sendToCommission.addEventListener("click", function (event){
+                sendToCommission.addEventListener("click", function (event) {
                     event.preventDefault();
                     const message = event.target.getAttribute("data-message")
                     const actionText = event.target.getAttribute("data-success-text");
                     const url = event.target.getAttribute("data-url")
-                    
+
                     confirmSending(message, actionText, url);
                 })
             }
         })
-        
+
         function confirmSending(modalTitle, actionTxt, url) {
             Swal.fire({
                 title: modalTitle,
@@ -52,5 +52,5 @@
                 }
             });
         }
-</script>
+    </script>
 }

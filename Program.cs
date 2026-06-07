@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using WebAppMVC.Authorization;
 using WebAppMVC.Authorization.Handlers;
 using WebAppMVC.Authorization.Requirements;
 using WebAppMVC.Domain.Repositories;
@@ -12,7 +13,6 @@ using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.Infrastructure.Repositories.DbContexts;
 using WebAppMVC.Infrastructure.Repositories.InMemoryRepositories;
 using WebAppMVC.Infrastructure.Services;
-using WebAppMVC.Views.Account;
 
 var builder = WebApplication.CreateBuilder(args);
 

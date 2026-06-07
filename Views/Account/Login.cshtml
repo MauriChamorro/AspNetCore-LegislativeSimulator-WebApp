@@ -8,13 +8,14 @@
 <div class="container border rounded shadow-sm" style="padding: 20px; max-width: 400px; margin-top: 50px;">
     <form method="post" asp-controller="Account" asp-action="Login">
         <div class="text-danger mb-3" asp-validation-summary="ModelOnly"></div>
-        
+
         <div class="mb-3">
             <label class="form-label fw-bold" asp-for="@Model.Username"></label>
-            <input type="text" class="form-control" placeholder="Ingresa tu nombre de usuario" asp-for="@Model.Username"/>
+            <input type="text" class="form-control" placeholder="Ingresa tu nombre de usuario"
+                   asp-for="@Model.Username"/>
             <span class="text-danger small" asp-validation-for="@Model.Username"></span>
         </div>
-        
+
         <div class="mb-3">
             <label class="form-label fw-bold" asp-for="@Model.Password"></label>
             <input type="password" class="form-control" asp-for="@Model.Password" placeholder="Ingresa tu contraseña"/>

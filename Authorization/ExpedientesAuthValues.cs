@@ -1,4 +1,4 @@
-namespace WebAppMVC.Views.Account;
+namespace WebAppMVC.Authorization;
 
 public class ExpedientesAuthValues
 {

@@ -3,7 +3,7 @@
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         var title = '@Html.Raw(TempData["SwalTitle"])';
         var message = '@Html.Raw(TempData["SwalMessage"])';
         var type = '@TempData["SwalIcon"]';

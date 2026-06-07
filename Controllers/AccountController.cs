@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using WebAppMVC.Authorization;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.ViewModels;
-using WebAppMVC.Views.Account;
 
 namespace WebAppMVC.Controllers;
 
