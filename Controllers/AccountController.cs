@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Authorization;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;

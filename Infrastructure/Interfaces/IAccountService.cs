@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace WebAppMVC.Domain.Services;
+namespace WebAppMVC.Infrastructure.Interfaces;
 
 public interface IAccountService
 {

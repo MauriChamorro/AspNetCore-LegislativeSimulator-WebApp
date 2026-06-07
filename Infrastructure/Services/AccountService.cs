@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Infrastructure.Services;
 
