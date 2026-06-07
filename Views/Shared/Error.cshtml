@@ -1,12 +1,16 @@
 ﻿@model ErrorViewModel
+@{
+    ViewData["title"] = "Error";
+    ViewData["subtitle"] = "";
+    ViewBag.style = "danger";
+}
 
 @section title
 {
-    <h1 class="text-danger">Error</h1>
-    <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
+    <partial name="_Title"/>
 }
 
-<h3>Ocurrió un error inesperado</h3>
+<h3>@ViewBag.ErrorMessage</h3>
 <p>
     @ViewBag.bodyMessage
 </p>

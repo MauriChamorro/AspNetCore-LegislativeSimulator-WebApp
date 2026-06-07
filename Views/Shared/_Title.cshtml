@@ -1,2 +1,11 @@
-<h2>@ViewData["title"]</h2>
+@{
+   string GetStyle()
+   {
+      if (ViewBag.style == "danger")
+         return "class=text-danger";
+      return "";
+   }
+}
+
+<h2 @GetStyle()>@ViewData["title"]</h2>
 <h3>@ViewData["subtitle"]</h3>
