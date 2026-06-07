@@ -1,7 +1,12 @@
 @model List<ProjectViewModel>
 
+@{
+    ViewData["title"] = "Mis Proyectos";
+    ViewData["subtitle"] = "";
+}
+
 @section title {
-    <h1>Mis Proyectos</h1>
+    <partial name="_Title"/>
 }
 
 @{

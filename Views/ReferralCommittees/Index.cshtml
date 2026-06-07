@@ -1,8 +1,11 @@
 @model ProjectReferralCommissionsViewModel
+@{
+    ViewData["title"] = $"{Model.ProjectId} - {@Model.ProjectTitle}";
+    ViewData["subtitle"] = "Estado de los Giros de Comisiones";
+}
 
-@section title{
-    <h2>@Model.ProjectId - @Model.ProjectTitle</h2>
-    <h3>Comisiones evaluando</h3>
+@section title {
+    <partial name="_Title"/>
 }
 
 <table class="table">

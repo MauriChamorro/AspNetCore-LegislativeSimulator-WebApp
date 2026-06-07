@@ -1,8 +1,12 @@
 @model CredentialVm
 
-@section title
-{
-    <h1>Inicio de Sesión</h1>
+@{
+    ViewData["title"] = "Inicio de Sesión";
+    ViewData["subtitle"] = "";
+}
+
+@section title {
+    <partial name="_Title"/>
 }
 
 <div class="container border rounded shadow-sm" style="padding: 20px; max-width: 400px; margin-top: 50px;">
