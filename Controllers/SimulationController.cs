@@ -82,32 +82,6 @@ public class SimulationController : ControllerBase
         return Ok(actualReferral);
     }
 
-    [HttpPost("SendToSession/{projectId}")]
-    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
-    public async Task<IActionResult> SendToSession(int projectId)
-    {
-        var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
-        
-        if (!hasBeenAssigned)
-            return BadRequest("El proyecto no tiene comisiones asignadas.");
-        
-        var project = await _projectService.GetProjectByIdAsync(projectId);
-        if(!_projectService.IsInCommission(project))
-            return BadRequest("El proyecto debe estar en Comisión.");
-
-        var referrals = await _commissionService.GetReferralsFor(projectId);
-
-        if (!_commissionService.AllCommissionEvaluated(referrals))
-            return BadRequest("Todas las comisiones deben terminar de evaluar.");
-
-        if (!_commissionService.AcceptedByAllCommission(referrals))
-            return BadRequest("El proyecto debe ser aprobado por todas las commisiones.");
-
-        await _projectService.SendToSession(project);
-        _notificationService.AddSendToSessionNotification(project);
-        return Ok("Proyecto en Sesión");
-    }
-
     [HttpPost("DoSession/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     public async Task<IActionResult> DoSession(int projectId)

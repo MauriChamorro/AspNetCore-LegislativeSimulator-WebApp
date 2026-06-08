@@ -8,7 +8,7 @@ public interface INotificationService
     void SendNotification(ITempDataDictionary tempData);
     Task AddCommissionAssignedNotification(int projectId);
     Task AddReferralChangeNotification(int projectId);
-    void AddSendToSessionNotification(Project project);
+    void AddSentToSessionNotification(Project project);
     void AddSessionResultNotification(Project projectId, bool success);
     void AddProjectCreatedNotification();
     void AddProjectUpdatedNotification();

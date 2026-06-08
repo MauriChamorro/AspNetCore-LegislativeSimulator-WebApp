@@ -28,7 +28,8 @@ public class ProjectViewModelService: IProjectViewModelService
             StateDate = project.GetCurrentState().Date,
             CanEdit = project.CanEdit(),
             IsEdit = project.IsEdit(),
-            CommissionsAssigned = project.AreCommissionsAssigned()
+            InCommission = project.InCommission(),
+            CanSendToSession = false
         };
     
     public void UpdateMissingValues(ProjectViewModel projectVm, Project auxProject)
@@ -45,8 +46,10 @@ public class ProjectViewModelService: IProjectViewModelService
         projectVm.StateName = auxProject.GetCurrentState().ProjectState.Name;
         projectVm.CurrentState = auxProject.GetCurrentState().ProjectState.State;
         projectVm.StateDate = auxProject.GetCurrentState().Date;
+        projectVm.InCommission = auxProject.InCommission();
         projectVm.CanEdit = auxProject.CanEdit();
         projectVm.IsEdit =  auxProject.IsEdit();
+        projectVm.CanSendToSession = false;
     }
 
     public void SetCommissionVmsToProjectVm(ProjectViewModel projectVm, List<Referral> referralCommissions)

@@ -55,7 +55,7 @@ public class NotificationService: INotificationService
 
     }
 
-    public void AddSendToSessionNotification(Project project)
+    public void AddSentToSessionNotification(Project project)
     {
         var notificationVm = new NotificationViewModel
         {

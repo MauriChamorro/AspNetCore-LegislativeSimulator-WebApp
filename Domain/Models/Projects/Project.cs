@@ -11,12 +11,9 @@ public class Project
     public int StateId { get; set; }
     public List<ProjectStateHistory> StateHistory { get; set; } = null!;
     public ICollection<Referral> Referrals { get; set; } = new List<Referral>();
-
     public ProjectStateHistory GetCurrentState() => StateHistory.Last();
-
     public bool CanEdit() => GetCurrentState().ProjectState.State == FileState.Scratch;
-
-    public bool AreCommissionsAssigned() => GetCurrentState().ProjectState.State != FileState.Scratch && 
-                                            GetCurrentState().ProjectState.State != FileState.PendingForAssignCommissions;
+    public bool InCommission() => GetCurrentState().ProjectState.State == FileState.InCommission;
     public bool IsEdit() => ProjectId != 0 && CanEdit();
+    public bool CanSendToSession() => GetCurrentState().ProjectState.State == FileState.Scratch;
 }

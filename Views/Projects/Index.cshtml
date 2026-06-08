@@ -41,13 +41,20 @@
                         <a class="btn btn-success" asp-controller="Projects" asp-action="Edit"
                            asp-route-projectId="@projectVm.ProjectId">Ver</a>
                     </td>
-                    if (projectVm.CommissionsAssigned)
-                    {
-                        <td>
-                            <a class="btn btn-secondary" asp-controller="ReferralCommittees" asp-action="Index"
-                               asp-route-projectId="@projectVm.ProjectId">Comisiones</a>
-                        </td>
-                    }
+                }
+                @if (projectVm.InCommission)
+                {
+                    <td>
+                        <a class="btn btn-secondary" asp-controller="ReferralCommittees" asp-action="Index"
+                           asp-route-projectId="@projectVm.ProjectId">Comisiones</a>
+                    </td>
+                }
+                @if (projectVm.CanSendToSession)
+                {
+                    <td>
+                        <a class="btn btn-outline-info" asp-controller="Projects" asp-action="SendToSession"
+                           asp-route-projectId="@projectVm.ProjectId">Enviar a Sesión</a>
+                    </td>
                 }
             </tr>
         }
