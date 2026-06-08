@@ -130,7 +130,7 @@ public class ProjectsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpGet("SendToSession/{projectId}")]
+    [HttpPost("SendToSession/{projectId}")]
     [Authorize(Roles = "legislador")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     public async Task<IActionResult> SendToSession(int projectId)

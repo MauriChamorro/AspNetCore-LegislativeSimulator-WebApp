@@ -45,8 +45,11 @@
                 @if (projectVm.CanSendToSession)
                 {
                     <td>
-                        <a class="btn btn-warning" asp-controller="Projects" asp-action="SendToSession"
-                           asp-route-projectId="@projectVm.ProjectId">Enviar a Sesión</a>
+                        <form method="post" asp-controller="Projects" asp-action="SendToSession" asp-route-projectId="@projectVm.ProjectId">
+                            <button type="submit" class="btn btn-warning">
+                                Enviar a Sesión
+                            </button>
+                        </form>
                     </td>
                 }
                 else if (projectVm.InCommission)
