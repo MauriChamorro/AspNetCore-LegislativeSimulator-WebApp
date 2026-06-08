@@ -55,12 +55,11 @@ public class NotificationService: INotificationService
 
     }
 
-    public void AddSentToSessionNotification(Project project)
+    public void AddSentToSessionNotification()
     {
         var notificationVm = new NotificationViewModel
         {
-            Title = "Enviado a Sesión",
-            Message = $"El proyecto \"{project.Title}\" ha sido enviado a Sesión"
+            Title = "Proyecto Enviado a Sesión"
         };
         AddNotification(notificationVm);
     }

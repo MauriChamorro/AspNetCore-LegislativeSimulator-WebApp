@@ -11,7 +11,7 @@ public interface IProjectService
     Task CreateNewProject(string title, string articles, string fundaments, string summary);
     Task UpdateProject(Project project, string title, string articles, string fundaments, string summary);
     Task RejectProjectByCommissions(int projectId);
-    Task SendToSession(Project project);
+    Task SendToSession(int projectId);
     Task<bool> DoSession(Project project);
     bool CanSendToCommission(Project project);
     Task SetPendingForCommissionsFor(Project project);
@@ -19,7 +19,6 @@ public interface IProjectService
     Task<bool> CanDelete(int projectId);
     Task SetInCommissionFor(int projectId);
     bool CanAssignCommissions(Project project);
-    bool IsInCommission(Project project);
     bool IsInSession(Project project);
     Task<bool> CanSendToSession(Project project);
 }

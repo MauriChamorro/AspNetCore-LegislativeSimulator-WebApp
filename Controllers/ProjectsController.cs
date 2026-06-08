@@ -135,28 +135,24 @@ public class ProjectsController : Controller
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     public async Task<IActionResult> SendToSession(int projectId)
     {
-        TempData["SwalTitle"] = "El proyecto no tiene comisiones asignadas.";
-        return RedirectToAction(nameof(Index));
-        var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
-        
-        if (!hasBeenAssigned)
-            return BadRequest("El proyecto no tiene comisiones asignadas.");
-        
-        var project = await _projectService.GetProjectByIdAsync(projectId);
-        if(!_projectService.IsInCommission(project))
-            return BadRequest("El proyecto debe estar en Comisión.");
-
         var referrals = await _commissionService.GetReferralsFor(projectId);
+        if (referrals.Count == 0)
+        {
+            TempData["SwalTitle"] = "No es posible enviar a Sesión";
+            return RedirectToAction(nameof(Index));
+        }
 
-        if (!_commissionService.AllCommissionEvaluated(referrals))
-            return BadRequest("Todas las comisiones deben terminar de evaluar.");
-
-        if (!_commissionService.AcceptedByAllCommission(referrals))
-            return BadRequest("El proyecto debe ser aprobado por todas las commisiones.");
-
-        await _projectService.SendToSession(project);
-        _notificationService.AddSentToSessionNotification(project);
-        return Ok("Proyecto en Sesión");
+        var project = await _projectService.GetProjectByIdAsync(projectId);
+        var canSendToSession = await _projectService.CanSendToSession(project);
+        if (!canSendToSession)
+        {
+            TempData["SwalTitle"] = "El Proyecto debe ser Aprobado por todas las Comisiones";
+            return RedirectToAction(nameof(Index));
+        }
+       
+        await _projectService.SendToSession(project.ProjectId);
+        _notificationService.AddSentToSessionNotification();
+        return RedirectToAction(nameof(Index));
     }
     
     private async Task UpdateProject(ProjectViewModel projectVm, Project savedProject)

@@ -86,7 +86,7 @@ public class ProjectService : IProjectService
         await _projectRepository.AddStateHistory(projectId, rejectedState);
     }
 
-    public async Task SendToSession(Project project)
+    public async Task SendToSession(int projectId)
     {
         var projectStateHistory = new ProjectStateHistory
         {
@@ -94,7 +94,7 @@ public class ProjectService : IProjectService
             Date = DateTime.Now,
         };
 
-        await _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
+        await _projectRepository.AddStateHistory(projectId, projectStateHistory);
     }
 
     public async Task<bool> DoSession(Project project)
