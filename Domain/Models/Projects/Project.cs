@@ -18,4 +18,5 @@ public class Project
 
     public bool AreCommissionsAssigned() => GetCurrentState().ProjectState.State != FileState.Scratch && 
                                             GetCurrentState().ProjectState.State != FileState.PendingForAssignCommissions;
+    public bool IsEdit() => ProjectId != 0 && CanEdit();
 }

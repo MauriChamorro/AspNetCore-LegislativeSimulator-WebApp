@@ -39,7 +39,6 @@ public class ProjectsController : Controller
     [Authorize(Roles = "legislador")]
     public async Task<IActionResult> Add()
     {
-        ViewBag.Action = "add";
         var emptyProject = await _projectService.BuildEmptyProject();
         var newProjectVm = _projectViewModelService.ToProjectVm(emptyProject);
         return View(newProjectVm);
@@ -49,8 +48,6 @@ public class ProjectsController : Controller
     [HttpPost]
     public async Task<IActionResult> Add(ProjectViewModel projectVm)
     {
-        ViewBag.Action = "add";
-        
         if (!ModelState.IsValid)
         {
             var emptyProject = await _projectService.BuildEmptyProject();
@@ -65,11 +62,9 @@ public class ProjectsController : Controller
     
     [HttpGet("Projects/Edit/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
-    [Authorize(Roles = "legislador, admin")]
+    [Authorize(Roles = "legislador")]
     public async Task<IActionResult> Edit([FromRoute] int projectId)
     {
-        ViewBag.Action = "edit";
-        
         var project = await _projectService.GetProjectByIdAsync(projectId);
         
         var projectVm = _projectViewModelService.ToProjectVm(project);
@@ -87,8 +82,6 @@ public class ProjectsController : Controller
     [Authorize(Roles = "legislador")]
     public async Task<IActionResult> Edit(ProjectViewModel projectVm)
     {
-        ViewBag.Action = "edit";
-        
         var savedProject = await _projectService.GetProjectByIdAsync(projectVm.ProjectId);
         
         if (!ModelState.IsValid)
@@ -115,7 +108,6 @@ public class ProjectsController : Controller
         if (!ModelState.IsValid)
         {
             _projectViewModelService.UpdateMissingValues(projectVm, savedProject);
-            ViewBag.Action = "edit";
             return View("Edit", projectVm); //doesnt clear data for on back validation
         }
         

@@ -27,6 +27,7 @@ public class ProjectViewModelService: IProjectViewModelService
             StateName = project.GetCurrentState().ProjectState.Name,
             StateDate = project.GetCurrentState().Date,
             CanEdit = project.CanEdit(),
+            IsEdit = project.IsEdit(),
             CommissionsAssigned = project.AreCommissionsAssigned()
         };
     
@@ -45,6 +46,7 @@ public class ProjectViewModelService: IProjectViewModelService
         projectVm.CurrentState = auxProject.GetCurrentState().ProjectState.State;
         projectVm.StateDate = auxProject.GetCurrentState().Date;
         projectVm.CanEdit = auxProject.CanEdit();
+        projectVm.IsEdit =  auxProject.IsEdit();
     }
 
     public void SetCommissionVmsToProjectVm(ProjectViewModel projectVm, List<Referral> referralCommissions)

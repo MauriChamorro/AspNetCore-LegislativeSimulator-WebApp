@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.ViewModels;
 
