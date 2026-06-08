@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Authorization;
-using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.ViewModels;
 
@@ -22,17 +21,17 @@ public class AccountController: Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> Login(CredentialVm credentials)
+    public async Task<IActionResult> Login(LoginVm loginVm)
     {
-        if (!ModelState.IsValid) return View(credentials);
+        if (!ModelState.IsValid) return View(loginVm);
         
-        if (_accountService.ExistUser(credentials.Username, credentials.Password))
+        if (_accountService.ExistUser(loginVm.Username, loginVm.Password))
         {
-            var claims = _accountService.GetClaims(credentials.Username);
+            var claims = _accountService.GetClaims(loginVm.Username);
             var principal = _accountService.GetPrincipal(claims, ExpedientesAuthValues.CookieName);
             var authProps = new AuthenticationProperties
             {
-               IsPersistent = credentials.RememberMe
+               IsPersistent = loginVm.RememberMe
             };
             
             //hace el inicio de sesion usando las implementaciones injectadas
@@ -43,7 +42,7 @@ public class AccountController: Controller
         }
         
         //TODO: user not exist message
-        return View(credentials);
+        return View(loginVm);
     }
 
     [HttpPost]

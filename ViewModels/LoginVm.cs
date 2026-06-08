@@ -2,13 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebAppMVC.ViewModels;
 
-public class CredentialVm
+public class LoginVm
 {
-    [Required]
+    [Required(ErrorMessage = "El campo Usuario es obligatorio")]
     [Display(Name = "Usuario")]
     public string Username { get; set; }
     
-    [Required]
+    [Required(ErrorMessage = "El campo Contraseña es obligatorio")]
     [DataType(DataType.Password)]
     [Display(Name = "Contraseña")]
     public string Password { get; set; }
