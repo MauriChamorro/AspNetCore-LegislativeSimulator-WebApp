@@ -14,4 +14,5 @@ public interface ICommissionService
     bool IsRejectedReferral(Referral actualReferral);
     bool AcceptedByAllCommission(List<Referral> referrals);
     bool AlreadyRejected(List<Referral> referrals);
+    Task UpdateReferral(Referral referral);
 }
