@@ -163,4 +163,11 @@ public class ProjectService : IProjectService
 
     public bool IsInSession(Project project) => 
         project.GetCurrentState().ProjectState.State == FileState.InSession;
+
+    public async Task<bool> CanSendToSession(Project project)
+    {
+        var referrals = await _projectRepository.GetReferralsFor(project.ProjectId);
+        return project.InCommission() &&
+            referrals.TrueForAll(r => r.State == ReferralState.Accepted);
+    }
 }

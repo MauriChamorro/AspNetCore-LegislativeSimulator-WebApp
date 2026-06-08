@@ -15,5 +15,4 @@ public class Project
     public bool CanEdit() => GetCurrentState().ProjectState.State == FileState.Scratch;
     public bool InCommission() => GetCurrentState().ProjectState.State == FileState.InCommission;
     public bool IsEdit() => ProjectId != 0 && CanEdit();
-    public bool CanSendToSession() => GetCurrentState().ProjectState.State == FileState.Scratch;
 }

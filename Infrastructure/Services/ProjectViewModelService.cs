@@ -1,21 +1,28 @@
 using Microsoft.IdentityModel.Tokens;
 using WebAppMVC.Domain.Models.Projects;
+using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Infrastructure.Services;
 
-public class ProjectViewModelService: IProjectViewModelService
+public class ProjectViewModelService : IProjectViewModelService
 {
+    private readonly IProjectService _projectService;
 
-   public List<ProjectViewModel> ToProjectsVm(List<Project> projects)
+    public ProjectViewModelService(IProjectService projectService)
+    {
+        _projectService = projectService;
+    }
+    
+    public List<ProjectViewModel> ToProjectsVm(List<Project> projects)
     {
         var projectsVm = new List<ProjectViewModel>();
         foreach (var project in projects)
             projectsVm.Add(ToProjectVm(project));
         return projectsVm;
     }
-    
+
     public ProjectViewModel ToProjectVm(Project project) =>
         new()
         {
@@ -29,9 +36,9 @@ public class ProjectViewModelService: IProjectViewModelService
             CanEdit = project.CanEdit(),
             IsEdit = project.IsEdit(),
             InCommission = project.InCommission(),
-            CanSendToSession = false
+            CanSendToSession = _projectService.CanSendToSession(project).Result
         };
-    
+
     public void UpdateMissingValues(ProjectViewModel projectVm, Project auxProject)
     {
         if (projectVm.Title.IsNullOrEmpty())
@@ -42,14 +49,14 @@ public class ProjectViewModelService: IProjectViewModelService
             projectVm.Articles = auxProject.Articles;
         if (projectVm.Summary.IsNullOrEmpty())
             projectVm.Summary = auxProject.Summary;
-        
+
         projectVm.StateName = auxProject.GetCurrentState().ProjectState.Name;
         projectVm.CurrentState = auxProject.GetCurrentState().ProjectState.State;
         projectVm.StateDate = auxProject.GetCurrentState().Date;
         projectVm.InCommission = auxProject.InCommission();
         projectVm.CanEdit = auxProject.CanEdit();
-        projectVm.IsEdit =  auxProject.IsEdit();
-        projectVm.CanSendToSession = false;
+        projectVm.IsEdit = auxProject.IsEdit();
+        projectVm.CanSendToSession = _projectService.CanSendToSession(auxProject).Result;
     }
 
     public void SetCommissionVmsToProjectVm(ProjectViewModel projectVm, List<Referral> referralCommissions)

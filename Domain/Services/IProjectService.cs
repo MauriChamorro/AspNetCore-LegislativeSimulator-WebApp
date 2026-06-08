@@ -21,4 +21,5 @@ public interface IProjectService
     bool CanAssignCommissions(Project project);
     bool IsInCommission(Project project);
     bool IsInSession(Project project);
+    Task<bool> CanSendToSession(Project project);
 }
