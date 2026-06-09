@@ -110,16 +110,32 @@ public class SimulationController : ControllerBase
         return Ok(actualReferral);
     }
 
-    [HttpPost("DoSession/{projectId}")]
+    [HttpPost("DoSessionRandomly/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
-    public async Task<IActionResult> DoSession(int projectId)
+    public async Task<IActionResult> DoSessionRandomly(int projectId)
     {
         var project = await _projectService.GetProjectByIdAsync(projectId);
 
         if (!_projectService.IsInSession(project))
             return BadRequest("No es posible finalizar el proyecto.");
 
-        var sessionResult = await _projectService.DoSession(project);
+        var sessionResult = await _projectService.DoSessionRandomly(project);
+
+        _notificationService.AddSessionResultNotification(project, sessionResult);
+
+        return Ok($"Resultado de Sesión: {GetResultText(sessionResult)}");
+    }
+    
+    [HttpPost("DoSession/{projectId}")]
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    public async Task<IActionResult> DoSession(int projectId, [FromQuery] int result)
+    {
+        var project = await _projectService.GetProjectByIdAsync(projectId);
+
+        if (!_projectService.IsInSession(project))
+            return BadRequest("El proyecto debe encontrarse En Sesión.");
+
+        var sessionResult = await _projectService.DoSessionWithResult(project, result);
 
         _notificationService.AddSessionResultNotification(project, sessionResult);
 

@@ -97,29 +97,6 @@ public class ProjectService : IProjectService
         await _projectRepository.AddStateHistory(projectId, projectStateHistory);
     }
 
-    public async Task<bool> DoSession(Project project)
-    {
-        var rnd = new Random();
-        var success = rnd.Next(2) == 0;
-
-        var projectStateHistory = new ProjectStateHistory();
-        
-        if (success)
-        {
-            projectStateHistory.ProjectState = await _projectRepository.GetApprovedInSessionProjectState();
-            projectStateHistory.Date = DateTime.Now;
-        }
-        else
-        {
-            projectStateHistory.ProjectState = await _projectRepository.GetRejectedInSessionProjectState();
-            projectStateHistory.Date = DateTime.Now;
-        }
-
-        await _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
-        
-        return success;
-    }
-
     public bool CanSendToCommission(Project project) =>
         project.GetCurrentState().ProjectState.State == FileState.Scratch;
 
@@ -169,5 +146,39 @@ public class ProjectService : IProjectService
         var referrals = await _projectRepository.GetReferralsFor(project.ProjectId);
         return project.InCommission() &&
             referrals.TrueForAll(r => r.State == ReferralState.Accepted);
+    }
+
+    public async Task<bool> DoSessionRandomly(Project project)
+    {
+        var rnd = new Random();
+        var success = rnd.Next(2) == 0;
+
+        return await ApplySessionResult(project, success);
+    }
+
+
+    public async Task<bool> DoSessionWithResult(Project project, int result)
+    {
+        var success = result == 1;
+        return await ApplySessionResult(project, success);
+    }
+    
+    private async Task<bool> ApplySessionResult(Project project, bool success)
+    {
+        var projectStateHistory = new ProjectStateHistory();
+        if (success)
+        {
+            projectStateHistory.ProjectState = await _projectRepository.GetApprovedInSessionProjectState();
+            projectStateHistory.Date = DateTime.Now;
+        }
+        else
+        {
+            projectStateHistory.ProjectState = await _projectRepository.GetRejectedInSessionProjectState();
+            projectStateHistory.Date = DateTime.Now;
+        }
+
+        await _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
+        
+        return success;
     }
 }
