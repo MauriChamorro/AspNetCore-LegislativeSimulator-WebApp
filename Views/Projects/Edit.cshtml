@@ -48,7 +48,6 @@
                 confirmButtonText: actionTxt,
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
-                console.log('sending --> ' + url);
                 if (result.isConfirmed) {
                     const form = document.getElementById('formExpediente');
                     form.action = url;

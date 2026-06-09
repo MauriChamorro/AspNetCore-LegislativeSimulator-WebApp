@@ -9,61 +9,89 @@
     <partial name="_Title"/>
 }
 
-@{
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Nro Expediente</th>
+        <th scope="col">Título</th>
+        <th scope="col" style="background-color: #fff7d9">Estado</th>
+        <th scope="col">Fecha Estado</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var projectVm in Model)
+    {
         <tr>
-            <th scope="col">Nro Expediente</th>
-            <th scope="col">Título</th>
-            <th scope="col" style="background-color: #fff7d9">Estado</th>
-            <th scope="col">Fecha Estado</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var @projectVm in Model)
-        {
-            <tr>
-                <th scope="row">@projectVm.ProjectId</th>
-                <td>@projectVm.Title</td>
-                <td style="background-color: #fff7d9">@projectVm.StateName</td>
-                <td>@projectVm.StateDate.ToString("dd/MM/yyyy")</td>
+            <th scope="row">@projectVm.ProjectId</th>
+            <td>@projectVm.Title</td>
+            <td style="background-color: #fff7d9">@projectVm.StateName</td>
+            <td>@projectVm.StateDate.ToString("dd/MM/yyyy")</td>
 
-                @if (projectVm.CanEdit)
-                {
-                    <td>
-                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit"
-                           asp-route-projectId="@projectVm.ProjectId">Editar</a>
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        <a class="btn btn-success" asp-controller="Projects" asp-action="Edit"
-                           asp-route-projectId="@projectVm.ProjectId">Ver</a>
-                    </td>
-                }
-                @if (projectVm.CanSendToSession)
-                {
-                    <td>
-                        <form method="post" asp-controller="Projects" asp-action="SendToSession" asp-route-projectId="@projectVm.ProjectId">
-                            <button type="submit" class="btn btn-warning">
-                                Enviar a Sesión
-                            </button>
-                        </form>
-                    </td>
-                }
-                else if (projectVm.InCommission)
-                {
-                    <td>
-                        <a class="btn btn-info" asp-controller="ReferralCommittees" asp-action="Index"
-                           asp-route-projectId="@projectVm.ProjectId">Giros de Comisiones</a>
-                    </td>
-                }
-            </tr>
-        }
-        </tbody>
-    </table>}
+            @if (projectVm.CanEdit)
+            {
+                <td>
+                    <a class="btn btn-success" asp-controller="Projects" asp-action="Edit"
+                       asp-route-projectId="@projectVm.ProjectId">Editar</a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a class="btn btn-success" asp-controller="Projects" asp-action="Edit"
+                       asp-route-projectId="@projectVm.ProjectId">Ver</a>
+                </td>
+            }
+            @if (projectVm.CanSendToSession)
+            {
+                <td>
+                    <form method="post" class="form-send-to-session" asp-controller="Projects"
+                          asp-action="SendToSession" asp-route-projectId="@projectVm.ProjectId">
+                        <button type="submit" class="btn btn-warning">
+                            Enviar a Sesión
+                        </button>
+                    </form>
+                </td>
+            }
+            else if (projectVm.InCommission)
+            {
+                <td>
+                    <a class="btn btn-info" asp-controller="ReferralCommittees" asp-action="Index"
+                       asp-route-projectId="@projectVm.ProjectId">Giros de Comisiones</a>
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
 <br/>
 <div class="d-flex justify-content-end">
     <a class="btn btn-primary" asp-controller="Projects" asp-action="Add" role="button">Nuevo Proyecto</a>
 </div>
+
+@section Scripts {
+    <script>
+        const confirmationModals = document.querySelectorAll(".form-send-to-session");
+        confirmationModals.forEach((confirmationModal) => {
+            confirmationModal.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const form = this;
+
+                Swal.fire({
+                    title: '¿Está seguro de Enviar el proyecto a Sesión?',
+                    text: "Esta acción no podrá deshacerse.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Enviar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        })
+    </script>
+}
