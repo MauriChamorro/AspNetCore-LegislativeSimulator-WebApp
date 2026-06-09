@@ -6,3 +6,12 @@
 @section title {
     <partial name="_Title"/>
 }
+
+<form method="get" asp-controller="Admin" asp-action="SearchProject" class="d-flex">
+    <input class="form-control me-sm-2" 
+           type="search" 
+           name="projectId" 
+           placeholder="Número de Proyecto" 
+           value=@TempData["searchText"]>
+    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
+</form>
