@@ -10,4 +10,9 @@ public class AdminController: Controller
     {
         return View();
     }
+
+    public IActionResult EditProject()
+    {
+        return View();
+    }
 }
