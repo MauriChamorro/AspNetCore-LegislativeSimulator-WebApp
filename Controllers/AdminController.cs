@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
 
@@ -18,37 +19,40 @@ public class AdminController: Controller
     {
         return View();
     }
-
-    public IActionResult EditProject()
-    {
-        return View();
-    }
     
-    public async Task<IActionResult> SearchProject(string projectId)
+    [HttpGet]
+    public async Task<IActionResult> EditProject([FromQuery] string projectTxtId)
     {
-        if (projectId.IsNullOrEmpty())
-        {
-            TempData["SwalTitle"] = "Debe ingresar un número de proyecto.";
-            TempData["searchText"] = projectId;
-            return RedirectToAction("EditProject");
-        }
+        if (projectTxtId.IsNullOrEmpty())
+            return View(new EditProjectAdminVm());
 
-        if (!int.TryParse(projectId, out int id))
+        if (!int.TryParse(projectTxtId, out int projectId))
         {
             TempData["SwalTitle"] = "El número de proyecto no es válido.";
-            TempData["searchText"] = projectId;
-            return RedirectToAction("EditProject");
+            TempData["searchText"] = projectTxtId;
+            return View(new EditProjectAdminVm());
         }
 
-        if (!_projectService.ExistProjectAsync(id).Result)
+        if (!_projectService.ExistProjectAsync(projectId).Result)
         {
-            TempData["SwalTitle"] = $"El Proyecto \"{id}\" no Existe.";
-            TempData["searchText"] = projectId;
-            return RedirectToAction("EditProject");
+            TempData["SwalTitle"] = $"El Proyecto \"{projectId}\" no Existe.";
+            TempData["searchText"] = projectTxtId;
+            return View(new EditProjectAdminVm());
         }
-
-        var project = await _projectService.GetProjectByIdAsync(id);
-        TempData["SwalTitle"] = $"{project.Title}";
-        return RedirectToAction("EditProject");
+        
+        if (projectId != 0)
+        {
+            var project = await _projectService.GetProjectByIdAsync(projectId);
+            var editProjectVm = new EditProjectAdminVm
+            {
+                ProjectId = project.ProjectId,
+                Title = project.Title,
+                Summary = project.Summary,
+                StateName = project.GetCurrentState().ProjectState.Name
+            };
+            return View(editProjectVm);
+        }
+        
+        return View(new EditProjectAdminVm());
     }
 }

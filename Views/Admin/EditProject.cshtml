@@ -1,4 +1,6 @@
-﻿@{
+﻿@model EditProjectAdminVm
+
+@{
     ViewData["title"] = "Modificar Proyecto";
     ViewData["subtitle"] = "";
 }
@@ -7,11 +9,31 @@
     <partial name="_Title"/>
 }
 
-<form method="get" asp-controller="Admin" asp-action="SearchProject" class="d-flex">
-    <input class="form-control me-sm-2" 
-           type="search" 
-           name="projectId" 
-           placeholder="Número de Proyecto" 
+<form method="get" asp-controller="Admin" asp-action="EditProject" class="d-flex">
+    <input class="form-control me-sm-2"
+           type="search"
+           name="projectTxtId"
+           placeholder="Número de Proyecto"
            value=@TempData["searchText"]>
     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
 </form>
+<br/>
+<br/>
+<table class="table border">
+    <thead>
+    <tr>
+        <th scope="col">Nro</th>
+        <th scope="col">Título</th>
+        <th scope="col">Resumen</th>
+        <td class="text-center" style="background-color: #fff7d9">Estado</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">@Model.ProjectId</th>
+        <td>@Model.Title</td>
+        <td>@Model.Summary</td>
+        <td class="text-center fw-bold" style="background-color: #fff7d9">@Model.StateName?.ToUpper()</td>
+    </tr>
+    </tbody>
+</table>
