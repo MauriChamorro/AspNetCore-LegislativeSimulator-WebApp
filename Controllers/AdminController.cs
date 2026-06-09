@@ -48,7 +48,8 @@ public class AdminController: Controller
                 ProjectId = project.ProjectId,
                 Title = project.Title,
                 Summary = project.Summary,
-                StateName = project.GetCurrentState().ProjectState.Name
+                StateName = project.GetCurrentState().ProjectState.Name,
+                EnumState = project.GetCurrentState().ProjectState.State
             };
             return View(editProjectVm);
         }

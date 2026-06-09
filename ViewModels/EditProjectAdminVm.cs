@@ -1,3 +1,5 @@
+using WebAppMVC.Domain.Models.Projects;
+
 namespace WebAppMVC.ViewModels;
 
 public class EditProjectAdminVm
@@ -6,4 +8,5 @@ public class EditProjectAdminVm
     public string Title { get; set; }
     public string Summary { get; set; }
     public string StateName { get; set; }
+    public FileState EnumState { get; set; }
 }
