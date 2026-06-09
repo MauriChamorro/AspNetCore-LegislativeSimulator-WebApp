@@ -19,6 +19,12 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacidad</a>
                     </li>
+                    @if(User.IsInRole("admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Admin</a>
+                        </li>
+                    }
                 </ul>
             </div>
             <div class="mr-2" style="margin-right: 20px">
