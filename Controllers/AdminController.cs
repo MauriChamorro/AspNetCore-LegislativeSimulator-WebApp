@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
@@ -10,10 +11,12 @@ namespace WebAppMVC.Controllers;
 public class AdminController: Controller
 {
     private readonly IProjectService _projectService;
+    private readonly ISimulationServices _simulationServices;
 
-    public AdminController(IProjectService projectService)
+    public AdminController(IProjectService projectService, ISimulationServices simulationServices)
     {
         _projectService = projectService;
+        _simulationServices = simulationServices;
     }
     public IActionResult Index()
     {
@@ -55,5 +58,12 @@ public class AdminController: Controller
         }
         
         return View(new EditProjectAdminVm());
+    }
+
+    [HttpPost]
+    public IActionResult AssignCommissions(int projectId)
+    {
+        _simulationServices.AssignCommissionsFor(projectId);
+        return RedirectToAction("EditProject", new { projectTxtId =  projectId });
     }
 }

@@ -42,6 +42,8 @@ try
     builder.Services.AddScoped<ICommissionsVmService, CommissionsVmService>();
     builder.Services.AddScoped<IProjectViewModelService, ProjectViewModelService>();
     builder.Services.AddScoped<INotificationService, NotificationService>();
+    builder.Services.AddScoped<ISimulationServices, HttpClientSimulation>();
+    builder.Services.AddHttpClient<HttpClientSimulation>();
     
     // filter injections
     builder.Services.AddScoped<ProjectIdNotFoundAsyncFilterAttribute>();
