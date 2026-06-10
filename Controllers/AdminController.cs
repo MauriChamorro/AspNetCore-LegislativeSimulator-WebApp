@@ -61,9 +61,9 @@ public class AdminController: Controller
     }
 
     [HttpPost]
-    public IActionResult AssignCommissions(int projectId)
+    public async Task<IActionResult> AssignCommissions(int projectId)
     {
-        _simulationServices.AssignCommissionsFor(projectId);
+        await _simulationServices.AssignCommissionsFor(projectId);
         return RedirectToAction("EditProject", new { projectTxtId =  projectId });
     }
 }
