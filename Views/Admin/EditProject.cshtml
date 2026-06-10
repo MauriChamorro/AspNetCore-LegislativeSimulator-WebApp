@@ -38,6 +38,7 @@
     </tbody>
 </table>
 
+@if (Model.ProjectId !=0 && Model.EnumState == FileState.PendingForAssignCommissions)
 {
     <form method="post" asp-controller="Admin" asp-action="AssignCommissions" asp-route-projectId="@Model.ProjectId">
         <button type="submit" class="btn btn-warning">

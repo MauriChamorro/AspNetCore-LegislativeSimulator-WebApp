@@ -1,4 +1,5 @@
-using WebAppMVC.Domain.Models.Projects;
+using System.Net.Mime;
+using System.Text;
 using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Infrastructure.Services;
@@ -15,11 +16,9 @@ public class HttpClientSimulation : ISimulationServices
 
     public async Task AssignCommissionsFor(int projectId)
     {
-        //var stringContent = new StringContent("", Encoding.UTF8, MediaTypeNames.Application.Json);
+        var stringContent = new StringContent("", Encoding.UTF8, MediaTypeNames.Application.Json);
         Console.WriteLine($"Assigning commissions for {projectId}");
-        var response = await _httpClient.GetFromJsonAsync<List<Referral>>($"AssignedCommissions/{projectId}");
-        if (response == null)
-            Console.WriteLine("The response is null");
-        Console.WriteLine(response?[1].Commission.Name);
+        var response = await _httpClient.PostAsync($"AssignCommissions/{projectId}", stringContent);
+        Console.WriteLine(response.StatusCode);
     }
 }
