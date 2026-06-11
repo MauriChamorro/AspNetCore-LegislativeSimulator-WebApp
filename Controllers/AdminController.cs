@@ -71,4 +71,14 @@ public class AdminController : Controller
         TempData["searchText"] = projectId;
         return RedirectToAction("EditProject", new { projectTxtId = projectId });
     }
+
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> DoNextReferringRandomly(int projectId)
+    {
+        var result = await _simulationServices.DoNextReferringRandomly(projectId);
+        TempData["SwalTitle"] = result;
+        TempData["searchText"] = projectId;
+        return RedirectToAction("EditProject", new { projectTxtId = projectId });
+    }
 }

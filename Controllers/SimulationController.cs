@@ -61,6 +61,31 @@ public class SimulationController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("DoNextReferringRandomly/{projectId}")]
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    public async Task<IActionResult> DoRandomReferring(int projectId)
+    {
+        var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
+        if (!hasBeenAssigned)
+            return BadRequest("El proyecto no tiene comisiones asignadas.");
+
+        var referrals = await _commissionService.GetReferralsFor(projectId);
+        if (_commissionService.AllCommissionEvaluated(referrals))
+            return BadRequest("Todas la comisiones ya evaluaron.");
+
+        if (_commissionService.AlreadyRejected(referrals))
+            return BadRequest("El proyecto ya fue rechazado.");
+
+        var actualReferral = _commissionService.GetActualReferralFor(referrals);
+        await _commissionService.DoNextReferralPhase(actualReferral);
+        if (_commissionService.IsRejectedReferral(actualReferral))
+            await _projectService.RejectProjectByCommissions(projectId);
+
+        await _notificationService.AddReferralChangeNotification(projectId);
+
+        return Ok(actualReferral);
+    }
+    
     [HttpPost("EditReferral/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     public async Task<IActionResult> EditReferral(int projectId, [FromQuery] int commissionId, [FromQuery] int referralState)
@@ -87,30 +112,7 @@ public class SimulationController : ControllerBase
         return Ok(referral);
     }
     
-    [HttpPost("DoNextReferringRandomly/{projectId}")]
-    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
-    public async Task<IActionResult> DoRandomReferring(int projectId)
-    {
-        var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
-        if (!hasBeenAssigned)
-            return BadRequest("El proyecto no tiene comisiones asignadas.");
-
-        var referrals = await _commissionService.GetReferralsFor(projectId);
-        if (_commissionService.AllCommissionEvaluated(referrals))
-            return BadRequest("Todas la comisiones ya evaluaron.");
-
-        if (_commissionService.AlreadyRejected(referrals))
-            return BadRequest("El proyecto ya fue rechazado.");
-
-        var actualReferral = _commissionService.GetActualReferralFor(referrals);
-        await _commissionService.DoNextReferralPhase(actualReferral);
-        if (_commissionService.IsRejectedReferral(actualReferral))
-            await _projectService.RejectProjectByCommissions(projectId);
-
-        await _notificationService.AddReferralChangeNotification(projectId);
-
-        return Ok(actualReferral);
-    }
+    
 
     [HttpPost("DoSessionRandomly/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
