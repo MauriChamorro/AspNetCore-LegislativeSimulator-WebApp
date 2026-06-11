@@ -2,7 +2,7 @@
 <form method="post" asp-controller="Admin" asp-action="EditReferral"
       asp-route-projectId="@ViewData["projectId"]" asp-route-commissionId="@Model.CommissionId">
     <div class="container d-flex flex-row gap-3">
-        <select class="form-select" id="referralSelectId" name="state">
+        <select class="form-select" id="referralSelectId" name="state" asp-for="@Model.StateId">
             <option value="0">Asignado</option>
             <option value="1">Pendiente</option>
             <option value="2">Aprobado</option>

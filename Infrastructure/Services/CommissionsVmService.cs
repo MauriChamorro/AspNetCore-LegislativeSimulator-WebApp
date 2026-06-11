@@ -29,6 +29,7 @@ public class CommissionsVmService: ICommissionsVmService
                     CommissionId = referral.CommissionId,
                     CommissionName = referral.Commission.Name,
                     ReferralStateName  = GetReferralStateName(referral.State),
+                    StateId = (int)referral.State,
                     ReferralDate =  referral.DateState,
                     BackgroundColor = GetBackgroundColorForCommission(referral.CommissionId),
                     Color = GetColorForCommission(referral.CommissionId)
