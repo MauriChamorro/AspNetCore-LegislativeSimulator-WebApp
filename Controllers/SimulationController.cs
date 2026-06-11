@@ -105,6 +105,7 @@ public class SimulationController : ControllerBase
 
         var referral = referrals.Find(r => r.ProjectId == projectId && r.CommissionId == commissionId);
         referral!.State = (ReferralState)referralState;
+        referral.DateState = DateTime.Now;
         
         await _commissionService.UpdateReferral(referral);
         await _notificationService.AddReferralChangeNotification(projectId);

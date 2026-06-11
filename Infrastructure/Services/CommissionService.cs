@@ -104,8 +104,6 @@ public class CommissionService : ICommissionService
     public bool AlreadyRejected(List<Referral> referrals)=>
         referrals.Any(rc => rc.State == ReferralState.Rejected);
 
-    public async Task UpdateReferral(Referral referral)
-    {
-       await _projectRepository.UpdateReferral(referral);
-    }
+    public async Task UpdateReferral(Referral referral) => 
+        await _projectRepository.UpdateReferral(referral);
 }
