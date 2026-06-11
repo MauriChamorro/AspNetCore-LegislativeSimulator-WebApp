@@ -43,9 +43,3 @@
 <div class="d-flex">
     <a class="btn btn-primary" asp-controller="Projects" asp-action="Index" role="button">Volver</a>
 </div>
-@if (User.IsInRole("admin"))
-{
-    <div class="d-flex">
-        <a class="btn btn-warning" asp-controller="Projects" asp-action="Index" role="button">Guardar</a>
-    </div>
-}
