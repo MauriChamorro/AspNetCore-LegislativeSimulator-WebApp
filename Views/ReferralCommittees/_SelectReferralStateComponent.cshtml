@@ -1,0 +1,15 @@
+@model ReferralViewModel
+<form method="post" asp-controller="Admin" asp-action="EditReferral"
+      asp-route-projectId="@ViewData["projectId"]" asp-route-commissionId="@Model.CommissionId">
+    <div class="container d-flex flex-row gap-3">
+        <select class="form-select" id="referralSelectId" name="state">
+            <option value="0">Asignado</option>
+            <option value="1">Pendiente</option>
+            <option value="2">Aprobado</option>
+            <option value="3">Rechazado</option>
+        </select>
+        <button type="submit" class="btn btn-warning">
+            Guardar
+        </button>
+    </div>
+</form>

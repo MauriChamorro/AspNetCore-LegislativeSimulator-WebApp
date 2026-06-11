@@ -1,6 +1,6 @@
 @model ProjectReferralCommissionsViewModel
 @{
-    ViewData["title"] = $"{Model.ProjectId} - {@Model.ProjectTitle}";
+    ViewData["title"] = $"{Model.ProjectId} - {Model.ProjectTitle}";
     ViewData["subtitle"] = "Estado de los Giros de Comisiones";
 }
 
@@ -17,12 +17,24 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var commission in Model.ReferralCommissions)
+    @for (int i = 0; i < Model.ReferralCommissions.Count; i++)
     {
+        var commission = Model.ReferralCommissions[i];
         <tr>
-            <th scope="row"
-                style="background-color: @commission.BackgroundColor; color: @commission.Color;">@commission.CommissionName </th>
-            <td style="background-color: @commission.BackgroundColor; color: @commission.Color;">@commission.ReferralStateName</td>
+            <th scope="row"style="background-color: @commission.BackgroundColor; color: @commission.Color;">@commission.CommissionName </th>
+
+            <td style="background-color: @commission.BackgroundColor; color: @commission.Color;">
+                @if (User.IsInRole("admin"))
+                {
+                    ViewData["projectId"] = Model.ProjectId;
+                    @await Html.PartialAsync("_SelectReferralStateComponent", commission, ViewData)
+                }
+                else
+                {
+                    @commission.ReferralStateName
+                }
+            </td>
+
             <td style="background-color: @commission.BackgroundColor; color: @commission.Color;">@commission.ReferralDate.ToString("dd/MM/yyyy")</td>
         </tr>
     }
@@ -31,3 +43,9 @@
 <div class="d-flex">
     <a class="btn btn-primary" asp-controller="Projects" asp-action="Index" role="button">Volver</a>
 </div>
+@if (User.IsInRole("admin"))
+{
+    <div class="d-flex">
+        <a class="btn btn-warning" asp-controller="Projects" asp-action="Index" role="button">Guardar</a>
+    </div>
+}

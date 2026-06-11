@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters.Async;
 using WebAppMVC.Infrastructure.Interfaces;
@@ -80,5 +81,14 @@ public class AdminController : Controller
         TempData["SwalTitle"] = result;
         TempData["searchText"] = projectId;
         return RedirectToAction("EditProject", new { projectTxtId = projectId });
+    }
+
+    [HttpPost("EditReferral/{projectId}")]
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    public async Task<IActionResult> EditReferral(int projectId, int commissionId, ReferralState state)
+    {
+        var result = await _simulationServices.EditReferral(projectId, commissionId, state);
+        TempData["SwalTitle"] = result;
+        return RedirectToAction("Index", "ReferralCommittees", new { projectId });
     }
 }
