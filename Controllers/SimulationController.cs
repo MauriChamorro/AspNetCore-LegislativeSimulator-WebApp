@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
@@ -6,6 +7,7 @@ using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Controllers;
 
+[Authorize(Roles = "admin")]
 [ApiController]
 [Route("api/[controller]")]
 public class SimulationController : ControllerBase

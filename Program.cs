@@ -43,7 +43,10 @@ try
     builder.Services.AddScoped<IProjectViewModelService, ProjectViewModelService>();
     builder.Services.AddScoped<INotificationService, NotificationService>();
     builder.Services.AddScoped<ISimulationServices, HttpClientSimulation>();
+    
+    //http client
     builder.Services.AddHttpClient<HttpClientSimulation>();
+    builder.Services.AddHttpContextAccessor();
     
     // filter injections
     builder.Services.AddScoped<ProjectIdNotFoundAsyncFilterAttribute>();
