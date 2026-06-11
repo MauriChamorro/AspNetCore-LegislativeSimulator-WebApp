@@ -2,13 +2,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebAppMVC.Domain.Services;
+using WebAppMVC.Filters.ActionFilters.Async;
 using WebAppMVC.Infrastructure.Interfaces;
 using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Controllers;
 
 [Authorize(Roles = "admin")]
-public class AdminController: Controller
+public class AdminController : Controller
 {
     private readonly IProjectService _projectService;
     private readonly ISimulationServices _simulationServices;
@@ -18,11 +19,12 @@ public class AdminController: Controller
         _projectService = projectService;
         _simulationServices = simulationServices;
     }
+
     public IActionResult Index()
     {
         return View();
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> EditProject([FromQuery] string projectTxtId)
     {
@@ -42,7 +44,7 @@ public class AdminController: Controller
             TempData["searchText"] = projectTxtId;
             return View(new EditProjectAdminVm());
         }
-        
+
         if (projectId != 0)
         {
             var project = await _projectService.GetProjectByIdAsync(projectId);
@@ -56,14 +58,17 @@ public class AdminController: Controller
             };
             return View(editProjectVm);
         }
-        
+
         return View(new EditProjectAdminVm());
     }
 
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     [HttpPost]
     public async Task<IActionResult> AssignCommissions(int projectId)
     {
-        await _simulationServices.AssignCommissionsFor(projectId);
-        return RedirectToAction("EditProject", new { projectTxtId =  projectId });
+        var result = await _simulationServices.AssignCommissionsFor(projectId);
+        TempData["SwalTitle"] = result;
+        TempData["searchText"] = projectId;
+        return RedirectToAction("EditProject", new { projectTxtId = projectId });
     }
 }

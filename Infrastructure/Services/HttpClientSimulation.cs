@@ -17,19 +17,21 @@ public class HttpClientSimulation : ISimulationServices
         _httpClient.BaseAddress = new Uri("http://localhost:5008/api/Simulation/");
     }
 
-    public async Task AssignCommissionsFor(int projectId)
+    public async Task<string> AssignCommissionsFor(int projectId)
     {
-        if (_httpContextAccessor.HttpContext != null)
-        {
-            if (_httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(ExpedientesAuthValues.CookieName, out var cookie))
-            {
-                _httpClient.DefaultRequestHeaders.Add("Cookie", $"{ExpedientesAuthValues.CookieName}={cookie}");
-                var content = new StringContent("", Encoding.UTF8, MediaTypeNames.Application.Json);
-                Console.WriteLine($"Assigning commissions for {projectId}");
-                var response = await _httpClient.PostAsync($"AssignCommissions/{projectId}", content);
-                Console.WriteLine(response.StatusCode);   
-                Console.WriteLine(await response.Content.ReadAsStringAsync());   
-            }
-        }
+        if (_httpContextAccessor.HttpContext == null)
+            return "Hubo un error en el pedido";
+        if (!_httpContextAccessor.HttpContext.User.Identity!.IsAuthenticated)
+            return "El usuario debe estar autenticado";
+        if (!_httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(ExpedientesAuthValues.CookieName, out var cookie))
+            return "Hubo un error en la autenticación del usuario";
+
+        _httpClient.DefaultRequestHeaders.Add("Cookie", $"{ExpedientesAuthValues.CookieName}={cookie}");
+        var content = new StringContent("", Encoding.UTF8, MediaTypeNames.Application.Json);
+        var response = await _httpClient.PostAsync($"AssignCommissions/{projectId}", content);
+        var result = await response.Content.ReadAsStringAsync();
+        if (response.IsSuccessStatusCode)
+            result = "Comisiones Asignadas";
+        return result;
     }
 }
