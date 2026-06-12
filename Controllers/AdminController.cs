@@ -98,6 +98,15 @@ public class AdminController : Controller
     {
         var result = await _simulationServices.DoSessionRandomly(projectId);
         TempData["SwalTitle"] = result;
-        return RedirectToAction("Index", "ReferralCommittees", new { projectId });
+        return RedirectToAction("EditProject", new { projectTxtId = projectId });
+    }
+    
+    [HttpPost]
+    [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
+    public async Task<IActionResult> DoSession(int projectId, int sessionResult)
+    {
+        var result = await _simulationServices.DoSession(projectId, sessionResult);
+        TempData["SwalTitle"] = result;
+        return RedirectToAction("EditProject", new { projectTxtId = projectId });
     }
 }

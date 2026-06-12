@@ -62,4 +62,12 @@
             Realizar Sesión al azar
         </button>
     </form>
+    <form method="post" asp-controller="Admin" asp-action="DoSessionRandomly" asp-route-projectId="@Model.ProjectId">
+        <button type="submit" class="btn btn-success">
+            Aprobar
+        </button>
+        <button type="submit" class="btn btn-danger">
+            Rechazar
+        </button>
+    </form>
 }

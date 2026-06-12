@@ -45,7 +45,7 @@ public class SimulationController : ControllerBase
         //todo: check if can parallelize method
         var assignedReferrals = await _commissionService.AssignCommissionTo(commissions, project.ProjectId);
         await _projectService.SetInCommissionFor(projectId);
-        await _notificationService.AddCommissionAssignedNotification(projectId);
+        //await _notificationService.AddCommissionAssignedNotification(projectId);
         return Ok(assignedReferrals);
     }
 
@@ -81,14 +81,14 @@ public class SimulationController : ControllerBase
         if (_commissionService.IsRejectedReferral(actualReferral))
             await _projectService.RejectProjectByCommissions(projectId);
 
-        await _notificationService.AddReferralChangeNotification(projectId);
+        //await _notificationService.AddReferralChangeNotification(projectId);
 
         return Ok(actualReferral);
     }
-    
+
     [HttpPost("EditReferral/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
-    public async Task<IActionResult> EditReferral(int projectId, [FromQuery] int commissionId, [FromQuery] int referralState)
+    public async Task<IActionResult> EditReferral(int projectId, int commissionId, int referralState)
     {
         var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
 
@@ -106,14 +106,13 @@ public class SimulationController : ControllerBase
         var referral = referrals.Find(r => r.ProjectId == projectId && r.CommissionId == commissionId);
         referral!.State = (ReferralState)referralState;
         referral.DateState = DateTime.Now;
-        
+
         await _commissionService.UpdateReferral(referral);
-        await _notificationService.AddReferralChangeNotification(projectId);
+        //await _notificationService.AddReferralChangeNotification(projectId);
 
         return Ok(referral);
     }
-    
-    
+
 
     [HttpPost("DoSessionRandomly/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
@@ -126,14 +125,14 @@ public class SimulationController : ControllerBase
 
         var sessionResult = await _projectService.DoSessionRandomly(project);
 
-        _notificationService.AddSessionResultNotification(project, sessionResult);
+        //_notificationService.AddSessionResultNotification(project, sessionResult);
 
         return Ok($"Resultado de Sesión: {GetResultText(sessionResult)}");
     }
-    
+
     [HttpPost("DoSession/{projectId}")]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
-    public async Task<IActionResult> DoSession(int projectId, [FromQuery] int result)
+    public async Task<IActionResult> DoSession(int projectId, int result)
     {
         var project = await _projectService.GetProjectByIdAsync(projectId);
 
@@ -142,7 +141,7 @@ public class SimulationController : ControllerBase
 
         var sessionResult = await _projectService.DoSessionWithResult(project, result);
 
-        _notificationService.AddSessionResultNotification(project, sessionResult);
+        //_notificationService.AddSessionResultNotification(project, sessionResult);
 
         return Ok($"Resultado de Sesión: {GetResultText(sessionResult)}");
     }
