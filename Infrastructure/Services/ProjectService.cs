@@ -30,19 +30,18 @@ public class ProjectService : IProjectService
         };
     }
 
-    private async Task<ProjectState> GetScratchProjectState() => 
+    private async Task<ProjectState> GetScratchProjectState() =>
         await _projectRepository.GetScratchProjectState();
 
     public async Task CreateNewProject(string title, string articles, string fundaments, string summary)
     {
-
         var history = new List<ProjectStateHistory>();
-        history.Add( new ProjectStateHistory
-            {
-                Date = DateTime.Now,
-                ProjectState = await GetScratchProjectState()
-            });
-            
+        history.Add(new ProjectStateHistory
+        {
+            Date = DateTime.Now,
+            ProjectState = await GetScratchProjectState()
+        });
+
         var newProject = new Project
         {
             FileId = "alphabetic-id",
@@ -52,8 +51,8 @@ public class ProjectService : IProjectService
             Summary = summary,
             StateHistory = history
         };
-        
-       await _projectRepository.Add(newProject);
+
+        await _projectRepository.Add(newProject);
     }
 
     public async Task<Project> GetProjectByIdAsync(int projectId)
@@ -111,7 +110,7 @@ public class ProjectService : IProjectService
         await _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
     }
 
-    public async Task DeleteProject(int projectId) => 
+    public async Task DeleteProject(int projectId) =>
         await _projectRepository.Delete(projectId);
 
     public async Task<bool> CanDelete(int projectId)
@@ -132,20 +131,21 @@ public class ProjectService : IProjectService
         await _projectRepository.AddStateHistory(projectId, projectStateHistory);
     }
 
-    public bool CanAssignCommissions(Project project) => 
+    public bool CanAssignCommissions(Project project) =>
         project.GetCurrentState().ProjectState.State == FileState.PendingForAssignCommissions;
 
-    public bool IsInCommission(Project project) => 
+    public bool IsInCommission(Project project) =>
         project.GetCurrentState().ProjectState.State == FileState.InCommission;
 
-    public bool IsInSession(Project project) => 
+    public bool IsInSession(Project project) =>
         project.GetCurrentState().ProjectState.State == FileState.InSession;
 
     public async Task<bool> CanSendToSession(Project project)
     {
         var referrals = await _projectRepository.GetReferralsFor(project.ProjectId);
-        return project.InCommission() &&
-            referrals.TrueForAll(r => r.State == ReferralState.Accepted);
+        return referrals.Count > 0 &&
+               project.GetCurrentState().ProjectState.State == FileState.InCommission &&
+               referrals.TrueForAll(r => r.State == ReferralState.Accepted);
     }
 
     public async Task<bool> DoSessionRandomly(Project project)
@@ -162,7 +162,7 @@ public class ProjectService : IProjectService
         var success = result == 1;
         return await ApplySessionResult(project, success);
     }
-    
+
     private async Task<bool> ApplySessionResult(Project project, bool success)
     {
         var projectStateHistory = new ProjectStateHistory();
@@ -178,7 +178,7 @@ public class ProjectService : IProjectService
         }
 
         await _projectRepository.AddStateHistory(project.ProjectId, projectStateHistory);
-        
+
         return success;
     }
 }

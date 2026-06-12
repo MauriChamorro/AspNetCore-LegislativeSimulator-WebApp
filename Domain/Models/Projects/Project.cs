@@ -10,9 +10,16 @@ public class Project
     public string Summary { get; set; } = string.Empty;
     public int StateId { get; set; }
     public List<ProjectStateHistory> StateHistory { get; set; } = null!;
-    public ICollection<Referral> Referrals { get; set; } = new List<Referral>();
     public ProjectStateHistory GetCurrentState() => StateHistory.Last();
     public bool CanEdit() => GetCurrentState().ProjectState.State == FileState.Scratch;
-    public bool InCommission() => GetCurrentState().ProjectState.State == FileState.InCommission;
+
+    public bool HasCommissions()
+    {
+        var currentState = GetCurrentState().ProjectState.State;
+        return !(currentState == FileState.Scratch ||
+               currentState == FileState.PendingForAssignCommissions ||
+               currentState == FileState.DeletedByLawmaker);
+    }
+
     public bool IsEdit() => ProjectId != 0 && CanEdit();
 }

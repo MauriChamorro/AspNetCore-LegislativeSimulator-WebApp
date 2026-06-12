@@ -36,6 +36,6 @@ public class ProjectViewModel
 
     public bool IsEdit { get; set; }
     public bool CanEdit { get; set; }
-    public bool InCommission { get; set; }
+    public bool HasCommissions { get; set; }
     public bool CanSendToSession { get; set; }
 }

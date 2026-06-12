@@ -35,7 +35,7 @@ public class ProjectViewModelService : IProjectViewModelService
             StateDate = project.GetCurrentState().Date,
             CanEdit = project.CanEdit(),
             IsEdit = project.IsEdit(),
-            InCommission = project.InCommission(),
+            HasCommissions = project.HasCommissions(),
             CanSendToSession = _projectService.CanSendToSession(project).Result
         };
 
@@ -53,7 +53,7 @@ public class ProjectViewModelService : IProjectViewModelService
         projectVm.StateName = auxProject.GetCurrentState().ProjectState.Name;
         projectVm.CurrentState = auxProject.GetCurrentState().ProjectState.State;
         projectVm.StateDate = auxProject.GetCurrentState().Date;
-        projectVm.InCommission = auxProject.InCommission();
+        projectVm.HasCommissions = auxProject.HasCommissions();
         projectVm.CanEdit = auxProject.CanEdit();
         projectVm.IsEdit = auxProject.IsEdit();
         projectVm.CanSendToSession = _projectService.CanSendToSession(auxProject).Result;
