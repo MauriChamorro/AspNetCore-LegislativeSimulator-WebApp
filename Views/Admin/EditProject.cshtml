@@ -38,7 +38,7 @@
     </tbody>
 </table>
 
-@if (Model.ProjectId !=0 && Model.EnumState == FileState.PendingForAssignCommissions)
+@if (Model.ProjectId != 0 && Model.EnumState == FileState.PendingForAssignCommissions)
 {
     <form method="post" asp-controller="Admin" asp-action="AssignCommissions" asp-route-projectId="@Model.ProjectId">
         <button type="submit" class="btn btn-warning">
@@ -46,28 +46,39 @@
         </button>
     </form>
 }
-@if (Model.ProjectId !=0 && Model.EnumState == FileState.InCommission)
+@if (Model.ProjectId != 0 && Model.EnumState == FileState.InCommission)
 {
-    <form method="post" asp-controller="Admin" asp-action="DoNextReferringRandomly" asp-route-projectId="@Model.ProjectId">
-        <button type="submit" class="btn btn-warning">
-            Realizar siguiente Giro al azar
-        </button>
-    </form>
+    <div class="d-flex justify-content-between gap-2">
+
+        <form method="post" asp-controller="Admin" asp-action="DoNextReferringRandomly"
+              asp-route-projectId="@Model.ProjectId">
+            <button type="submit" class="btn btn-warning">
+                Realizar siguiente Giro al azar
+            </button>
+        </form>
+        <a class="btn btn-info" asp-controller="ReferralCommittees" asp-action="Index"
+           asp-route-projectId="@Model.ProjectId">Ver Comisiones</a>
+    </div>
 }
 
-@if (Model.ProjectId !=0 && Model.EnumState == FileState.InSession)
+@if (Model.ProjectId != 0 && Model.EnumState == FileState.InSession)
 {
-    <form method="post" asp-controller="Admin" asp-action="DoSessionRandomly" asp-route-projectId="@Model.ProjectId">
-        <button type="submit" class="btn btn-warning">
-            Realizar Sesión al azar
-        </button>
-    </form>
-    <form method="post" asp-controller="Admin" asp-action="DoSessionRandomly" asp-route-projectId="@Model.ProjectId">
-        <button type="submit" class="btn btn-success">
-            Aprobar
-        </button>
-        <button type="submit" class="btn btn-danger">
-            Rechazar
-        </button>
-    </form>
+    <div class="d-flex justify-content-start gap-2">
+
+        <form method="post" asp-controller="Admin" asp-action="DoSessionRandomly"
+              asp-route-projectId="@Model.ProjectId">
+            <button type="submit" class="btn btn-warning">
+                Realizar Sesión al azar
+            </button>
+        </form>
+        <form method="post" asp-controller="Admin" asp-action="DoSessionRandomly"
+              asp-route-projectId="@Model.ProjectId">
+            <button type="submit" class="btn btn-success">
+                Aprobar
+            </button>
+            <button type="submit" class="btn btn-danger">
+                Rechazar
+            </button>
+        </form>
+    </div>
 }
