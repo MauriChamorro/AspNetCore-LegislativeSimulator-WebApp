@@ -78,17 +78,17 @@
     </div>
     <br/>
     <div class="d-flex justify-content-between align-items-center">
-        <a class="btn btn-primary" asp-controller="Projects" asp-action="Index" role="button">Volver</a>
+        <a class="btn btn-info" asp-controller="Projects" asp-action="Index" role="button">Volver</a>
         @if (Model.CanEdit)
         {
-            <input type="submit" class="btn btn-info" value="@callToAction"/>
+            <input type="submit" class="btn btn-primary" value="@callToAction"/>
         }
     </div>
     <br/>
     @if (Model.IsEdit)
     {
         <div class="d-flex justify-content-end">
-            <a class="btn btn-success confirm-modal"
+            <a class="btn btn-warning confirm-modal"
                data-message="¿Enviar a Comisiones?"
                data-success-text="Enviar"
                data-url="@Url.Action("SendToCommission", "Projects", new { id = Model.ProjectId })"
