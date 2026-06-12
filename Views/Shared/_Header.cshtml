@@ -8,21 +8,29 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
+                    @{
+                        string? controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+                        string? actionName = ViewContext.RouteData.Values["action"]?.ToString();
+                    }
                     <li class="nav-item">
-                        <a class="nav-link active" asp-controller="Home" asp-action="Index">Inicio
+                        <a class="nav-link @(controllerName == "Home" && actionName == "Index" ? "active" : "")"
+                           asp-controller="Home" asp-action="Index">Inicio
                             <span class="visually-hidden">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Projects" asp-action="Index">Mis Proyectos</a>
+                        <a class="nav-link @(controllerName == "Projects" && actionName == "Index" ? "active" : "")" 
+                           asp-controller="Projects" asp-action="Index">Mis Proyectos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+                        <a class="nav-link @(controllerName == "Home" && actionName == "Privacy" ? "active" : "")" 
+                           asp-controller="Home" asp-action="Privacy">Privacidad</a>
                     </li>
-                    @if(User.IsInRole("admin"))
+                    @if (User.IsInRole("admin"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Admin" asp-action="Index">Admin</a>
+                            <a class="nav-link @(controllerName == "Admin" ? "active" : "")" 
+                               asp-controller="Admin" asp-action="Index">Admin</a>
                         </li>
                     }
                 </ul>
