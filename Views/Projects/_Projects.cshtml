@@ -35,21 +35,19 @@
                 <label class="col-form-label">Nro Expediente</label>
             </div>
             <div class="col-sm-10">
-                <input type="text" readonly class="form-control-plaintext fw-bold" value="@Model.ProjectId">
+                <input type="text" readonly class="form-control fw-bold" value="@Model.ProjectId">
             </div>
         </div>
     }
 
     <div id="title" class="row mb-3">
-        <div class="col-2">
+        <div class="col-sm-2">
             <label class="col-form-label">Título</label>
         </div>
-        <div class="col-6">
-            <input type="text" asp-for="Title" class="form-control border p-2 pb-3"
+        <div class="col-sm-10">
+            <input type="text" asp-for="Title" class="form-control border p-2 pb-3 w-100"
                    readonly="@readOnlyAttribute"/>
-        </div>
-        <div class="col">
-            <span class="text-danger" asp-validation-for="Title"></span>
+            <span class="text-danger small" asp-validation-for="Title"></span>
         </div>
     </div>
     <div>
