@@ -50,7 +50,16 @@
 {
     <form method="post" asp-controller="Admin" asp-action="DoNextReferringRandomly" asp-route-projectId="@Model.ProjectId">
         <button type="submit" class="btn btn-warning">
-            Realizar siguiente Giro automaticamente
+            Realizar siguiente Giro al azar
+        </button>
+    </form>
+}
+
+@if (Model.ProjectId !=0 && Model.EnumState == FileState.InSession)
+{
+    <form method="post" asp-controller="Admin" asp-action="DoSessionRandomly" asp-route-projectId="@Model.ProjectId">
+        <button type="submit" class="btn btn-warning">
+            Realizar Sesión al azar
         </button>
     </form>
 }

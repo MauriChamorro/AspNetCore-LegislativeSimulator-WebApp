@@ -66,6 +66,20 @@ public class HttpClientSimulation : ISimulationServices
         return result;
     }
 
+    public async Task<string> DoSessionRandomly(int projectId)
+    {
+        var validationResult = RequestValidations();
+        if (validationResult != null)
+            return validationResult;
+        
+        var cookie = _httpContextAccessor.HttpContext!.Request.Cookies[ExpedientesAuthValues.CookieName];
+        _httpClient.DefaultRequestHeaders.Add("Cookie", $"{ExpedientesAuthValues.CookieName}={cookie}");
+        var content = new StringContent("", Encoding.UTF8, MediaTypeNames.Application.Json);
+        var response = await _httpClient.PostAsync($"DoSessionRandomly/{projectId}", content);
+        var result = await response.Content.ReadAsStringAsync();
+        return result;
+    }
+
     private string? RequestValidations()
     {
         if (_httpContextAccessor.HttpContext == null)

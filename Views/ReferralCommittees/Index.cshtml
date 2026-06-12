@@ -21,7 +21,7 @@
     {
         var commission = Model.ReferralCommissions[i];
         <tr>
-            <th scope="row"style="background-color: @commission.BackgroundColor; color: @commission.Color;">@commission.CommissionName </th>
+            <th scope="row" style="background-color: @commission.BackgroundColor; color: @commission.Color;">@commission.CommissionName </th>
 
             <td style="background-color: @commission.BackgroundColor; color: @commission.Color;">
                 @if (User.IsInRole("admin"))
