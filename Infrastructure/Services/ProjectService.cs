@@ -163,6 +163,9 @@ public class ProjectService : IProjectService
         return await ApplySessionResult(project, success);
     }
 
+    public bool CanEditReferrals(Project project) => 
+        project.GetCurrentState().ProjectState.State == FileState.InCommission;
+
     private async Task<bool> ApplySessionResult(Project project, bool success)
     {
         var projectStateHistory = new ProjectStateHistory();

@@ -90,18 +90,21 @@ public class SimulationController : ControllerBase
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     public async Task<IActionResult> EditReferral(int projectId, int commissionId, int referralState)
     {
+        if (!Enum.IsDefined(typeof(ReferralState), referralState))
+            return BadRequest("El Estado de Giro no es válido");
+        
         var hasBeenAssigned = await _commissionService.HasBeenAssigned(projectId);
-
         if (!hasBeenAssigned)
-            return BadRequest("El proyecto no tiene comisiones asignadas.");
+            return BadRequest("El proyecto no tiene comisiones asignadas");
 
         var referrals = await _commissionService.GetReferralsFor(projectId);
 
         if (!referrals.Exists(r => r.CommissionId == commissionId))
-            return BadRequest("El proyecto no tiene la comisión que estas buscando.");
+            return BadRequest("El proyecto no tiene la comisión que estas buscando");
 
-        if (!Enum.IsDefined(typeof(ReferralState), referralState))
-            return BadRequest("El Estado de Giro no es válido.");
+        var project = await _projectService.GetProjectByIdAsync(projectId);
+        if(!_projectService.CanEditReferrals(project))
+            return BadRequest("El proyecto debe encontrarse En Comisiones");
 
         var referral = referrals.Find(r => r.ProjectId == projectId && r.CommissionId == commissionId);
         referral!.State = (ReferralState)referralState;
