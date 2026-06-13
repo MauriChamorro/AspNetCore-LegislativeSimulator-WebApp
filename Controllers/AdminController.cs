@@ -14,11 +14,15 @@ public class AdminController : Controller
 {
     private readonly IProjectService _projectService;
     private readonly ISimulationServices _simulationServices;
+    private readonly INotificationService _notificationService;
 
-    public AdminController(IProjectService projectService, ISimulationServices simulationServices)
+    public AdminController(IProjectService projectService, 
+        ISimulationServices simulationServices,
+        INotificationService notificationService)
     {
         _projectService = projectService;
         _simulationServices = simulationServices;
+        _notificationService = notificationService;
     }
 
     public IActionResult Index()
@@ -88,7 +92,8 @@ public class AdminController : Controller
     public async Task<IActionResult> EditReferral(int projectId, int commissionId, ReferralState state)
     {
         var result = await _simulationServices.EditReferral(projectId, commissionId, state);
-        TempData["SwalTitle"] = result;
+        TempData["adminNoti"] = result;
+        await _notificationService.AddReferralChangeNotification(projectId);
         return RedirectToAction("Index", "ReferralCommittees", new { projectId });
     }
 

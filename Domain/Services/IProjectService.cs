@@ -22,4 +22,5 @@ public interface IProjectService
     bool IsInSession(Project project);
     Task<bool> CanSendToSession(Project project);
     Task<bool> DoSessionWithResult(Project project, int result);
+    bool CanEditReferrals(Project project);
 }

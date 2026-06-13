@@ -15,9 +15,9 @@ public class NotificationService: INotificationService
     {
         if (ThereAreNotification())
         {
-            var noti = GetNextNotification();
-            tempData["SwalTitle"] = noti.Title;
-            tempData["SwalMessage"] = noti.Message;
+            var notificationVm = GetNextNotification();
+            tempData["userNoti"] = notificationVm.Title;
+            tempData["SwalMessage"] = notificationVm.Message;
             tempData["SwalIcon"] = "info"; // success, error, warning, info
         }
 
