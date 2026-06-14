@@ -29,7 +29,6 @@ public class ProjectsController : Controller
     [Authorize(Roles = "legislador, admin")]
     public async Task<IActionResult> Index()
     {
-        _notificationService.SendNotification(TempData);
         var projects = await _projectService.GetProjects();
         var projectVms = _projectViewModelService.ToProjectsVm(projects);
         return View(projectVms);
@@ -93,7 +92,6 @@ public class ProjectsController : Controller
 
         await UpdateProject(projectVm, savedProject);
         _notificationService.AddProjectUpdatedNotification();
-        _notificationService.SendNotification(TempData);
         return View(projectVm);
     }
 
@@ -108,7 +106,7 @@ public class ProjectsController : Controller
         if (!ModelState.IsValid)
         {
             _projectViewModelService.UpdateMissingValues(projectVm, savedProject);
-            return View("Edit", projectVm); //doesnt clear data for on back validation
+            return View("Edit", projectVm); //doesn't clear data for on back validation
         }
         
         await _projectService.SetPendingForCommissionsFor(savedProject);
@@ -126,7 +124,7 @@ public class ProjectsController : Controller
     {
         await _projectService.DeleteProject(projectId);
         //todo: setear estado Eliminado por Legislador solo cuando se decida Marcar y no borrar de BD
-        _notificationService.AddProjectDeletedNotification();
+        _notificationService.AddProjectDeletedNotification("legislador");
         return RedirectToAction(nameof(Index));
     }
 
@@ -151,7 +149,7 @@ public class ProjectsController : Controller
         }
        
         await _projectService.SendToSession(project.ProjectId);
-        _notificationService.AddSentToSessionNotification();
+        _notificationService.AddSentToSessionNotification("legislador");
         return RedirectToAction(nameof(Index));
     }
     

@@ -72,8 +72,9 @@ public class AdminController : Controller
     public async Task<IActionResult> AssignCommissions(int projectId)
     {
         var result = await _simulationServices.AssignCommissionsFor(projectId);
-        TempData["SwalTitle"] = result;
         TempData["searchText"] = projectId;
+        TempData["adminNoti"] = result;
+        TempData["userNoti"] = "result";
         return RedirectToAction("EditProject", new { projectTxtId = projectId });
     }
 
@@ -93,7 +94,8 @@ public class AdminController : Controller
     {
         var result = await _simulationServices.EditReferral(projectId, commissionId, state);
         TempData["adminNoti"] = result;
-        await _notificationService.AddReferralChangeNotification(projectId);
+        TempData["userNoti"] = "hi";
+        //await _notificationService.AddReferralChangeNotification(projectId);
         return RedirectToAction("Index", "ReferralCommittees", new { projectId });
     }
 
@@ -102,7 +104,8 @@ public class AdminController : Controller
     public async Task<IActionResult> DoSessionRandomly(int projectId)
     {
         var result = await _simulationServices.DoSessionRandomly(projectId);
-        TempData["SwalTitle"] = result;
+        TempData["adminNoti"] = result;
+        TempData["userNoti"] = "result";
         return RedirectToAction("EditProject", new { projectTxtId = projectId });
     }
     
@@ -111,7 +114,7 @@ public class AdminController : Controller
     public async Task<IActionResult> DoSession(int projectId, int sessionResult)
     {
         var result = await _simulationServices.DoSession(projectId, sessionResult);
-        TempData["SwalTitle"] = result;
+        TempData["adminNoti"] = result;
         return RedirectToAction("EditProject", new { projectTxtId = projectId });
     }
 }

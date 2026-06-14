@@ -1,0 +1,30 @@
+<script>
+    function ShowModal(title, message, type) {
+        Swal.fire({
+            title: title || 'Notificación',
+            text: message || '',
+            icon: type || 'info', // Si no hay icono, por defecto info
+            timer: null,
+            timerProgressBar: false,
+            showConfirmButton: true,
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#3085d6',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        });
+    }
+
+    function ListenNotifications() {
+        document.addEventListener("DOMContentLoaded", function () {
+            var notification = JSON.parse('@Html.Raw(TempData["notification"])');
+            if (notification) {
+                var title = notification.Title;
+                var message = notification.Message;
+                var type = notification.Type;
+                ShowModal(title, message, type);
+            }
+        });
+    }
+
+    ListenNotifications();
+</script>

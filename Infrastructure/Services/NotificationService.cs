@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
@@ -6,32 +8,36 @@ using WebAppMVC.ViewModels;
 
 namespace WebAppMVC.Infrastructure.Services;
 
-public class NotificationService: INotificationService
+public class NotificationService : INotificationService
 {
     private readonly INotificationRepository _notificationRepository;
     private readonly IProjectService _projectService;
+    private readonly IHttpContextAccessor _contextAccessor;
+    private readonly ClaimsPrincipal _user;
 
-    public void SendNotification(ITempDataDictionary tempData)
-    {
-        if (ThereAreNotification())
-        {
-            var notificationVm = GetNextNotification();
-            tempData["userNoti"] = notificationVm.Title;
-            tempData["SwalMessage"] = notificationVm.Message;
-            tempData["SwalIcon"] = "info"; // success, error, warning, info
-        }
-
-        //todo: notification ui feature for old notifications
-        _notificationRepository.Clear();
-    }
-    
     public NotificationService(INotificationRepository notificationRepository,
-        IProjectService projectService)
+        IProjectService projectService,
+        IHttpContextAccessor contextAccessor)
     {
         _notificationRepository = notificationRepository;
         _projectService = projectService;
+        _contextAccessor = contextAccessor;
+        _user = _contextAccessor.HttpContext?.User!;
     }
-    
+
+    public bool ExistNotificationForCurrentUser() =>
+        _notificationRepository.ExistNotificationsFor(GetCurrentUserIdentifier());
+
+    public void SendNotification(ITempDataDictionary tempData)
+    {
+        var notificationVm = GetNotificationForCurrentUser();
+        tempData["notification"] = JsonSerializer.Serialize(notificationVm);
+        _notificationRepository.RemoveNotification(notificationVm);
+    }
+
+    private string GetCurrentUserIdentifier() =>
+        _user.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
+
     public async Task AddCommissionAssignedNotification(int projectId)
     {
         var project = await GetProjectByIdAsync(projectId);
@@ -52,13 +58,13 @@ public class NotificationService: INotificationService
             Message = $"El proyecto {project.Title} tuvo un cambio en sus Giros"
         };
         AddNotification(notificationVm);
-
     }
 
-    public void AddSentToSessionNotification()
+    public void AddSentToSessionNotification(string userIdentifier)
     {
         var notificationVm = new NotificationViewModel
         {
+            UserIdentifier = userIdentifier,
             Title = "Proyecto Enviado a Sesión"
         };
         AddNotification(notificationVm);
@@ -112,27 +118,25 @@ public class NotificationService: INotificationService
         AddNotification(notificationVm);
     }
 
-    public void AddProjectDeletedNotification()
+    public void AddProjectDeletedNotification(string userIdentifier)
     {
         var notificationVm = new NotificationViewModel
         {
+            UserIdentifier = userIdentifier,
             Title = "Proyecto eliminado",
         };
         AddNotification(notificationVm);
     }
 
-    private string GetSessionResultTxt(bool success) => 
+    private string GetSessionResultTxt(bool success) =>
         success ? "Aprobado" : "Rechazado";
 
-    private bool ThereAreNotification() => 
-        _notificationRepository.GetAll().Count > 0;
+    private NotificationViewModel GetNotificationForCurrentUser()
+        => _notificationRepository.GetNotificationForUser(GetCurrentUserIdentifier());
 
-    private NotificationViewModel GetNextNotification() 
-        => _notificationRepository.GetNext();
-
-    private async Task<Project> GetProjectByIdAsync(int projectId) => 
+    private async Task<Project> GetProjectByIdAsync(int projectId) =>
         await _projectService.GetProjectByIdAsync(projectId);
 
-    private void AddNotification(NotificationViewModel notificationVm) => 
+    private void AddNotification(NotificationViewModel notificationVm) =>
         _notificationRepository.Add(notificationVm);
 }

@@ -17,7 +17,8 @@ public class AccountService: IAccountService
         {
             return
             [
-                new(ClaimTypes.Name, userName),
+                //todo: in the future, name identifier is userId
+                new(ClaimTypes.NameIdentifier, userName),
                 new(ClaimTypes.Country, "ar"),
                 new(ClaimTypes.Role, "admin")
             ];
@@ -27,7 +28,8 @@ public class AccountService: IAccountService
         {
             return
             [
-                new(ClaimTypes.Name, userName),
+                //todo: in the future, name identifier is userId
+                new(ClaimTypes.NameIdentifier, userName),
                 new(ClaimTypes.Country, "ar"),
                 new(ClaimTypes.Role, "legislador"),
                 new("ProbationDate", "2026-5-20")

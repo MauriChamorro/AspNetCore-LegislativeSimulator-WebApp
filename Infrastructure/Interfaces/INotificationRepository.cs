@@ -5,7 +5,7 @@ namespace WebAppMVC.Infrastructure.Interfaces;
 public interface INotificationRepository
 {
     void Add(NotificationViewModel notificationVm);
-    List<NotificationViewModel> GetAll();
-    NotificationViewModel GetNext();
-    void Clear();
+    bool ExistNotificationsFor(string getUserIdentifier);
+    NotificationViewModel GetNotificationForUser(string userIdentifier);
+    void RemoveNotification(NotificationViewModel notificationVm);
 }

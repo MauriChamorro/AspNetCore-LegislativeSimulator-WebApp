@@ -30,6 +30,10 @@ try
     var connectionString = builder.Configuration.GetConnectionString("DbConnection");
     builder.Services.AddDbContext<ExpedientesDevContext>(options => options.UseSqlServer(connectionString));
     
+    //http client
+    builder.Services.AddHttpClient<HttpClientSimulation>();
+    builder.Services.AddHttpContextAccessor();
+    
     // repository injections
     //.Services.AddScoped<IPersonRepository, PersonDbContext>();
     builder.Services.AddScoped<IProjectRepository, DbContextProjectRepository>();
@@ -41,18 +45,15 @@ try
     builder.Services.AddScoped<ICommissionService, CommissionService>();
     builder.Services.AddScoped<ICommissionsVmService, CommissionsVmService>();
     builder.Services.AddScoped<IProjectViewModelService, ProjectViewModelService>();
-    builder.Services.AddScoped<INotificationService, NotificationService>();
+    builder.Services.AddScoped<INotificationService, NotificationService>(); //depends on User
     builder.Services.AddScoped<ISimulationServices, HttpClientSimulation>();
-    
-    //http client
-    builder.Services.AddHttpClient<HttpClientSimulation>();
-    builder.Services.AddHttpContextAccessor();
     
     // filter injections
     builder.Services.AddScoped<ProjectIdNotFoundAsyncFilterAttribute>();
     builder.Services.AddScoped<CanDeleteProjectAsyncFilterAttribute>();
     builder.Services.AddScoped<ProjectVmAsyncFilterAttribute>();
     builder.Services.AddScoped<ReferralCommitteesAsyncFilterAttribute>();
+    builder.Services.AddScoped<CheckNotificationAsyncActionFilter>();
 
     builder.Services.AddAuthentication(ExpedientesAuthValues.CookieName) //crea las bases y abstracciones
         //Agrega una implementación "Scheme para Cookies" dandole el id-name
@@ -87,6 +88,7 @@ try
     builder.Services.AddControllersWithViews(options =>
     {
         options.Filters.Add<GlobalExceptionFilter>();
+        options.Filters.Add<CheckNotificationAsyncActionFilter>();
     });
     
     builder.Services.AddSwaggerGen();
