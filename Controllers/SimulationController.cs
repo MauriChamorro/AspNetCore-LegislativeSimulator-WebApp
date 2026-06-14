@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Filters.ActionFilters.Async;
-using WebAppMVC.Infrastructure.Interfaces;
 
 namespace WebAppMVC.Controllers;
 
@@ -13,16 +12,13 @@ namespace WebAppMVC.Controllers;
 public class SimulationController : ControllerBase
 {
     private readonly ICommissionService _commissionService;
-    private readonly INotificationService _notificationService;
     private readonly IProjectService _projectService;
 
     public SimulationController(IProjectService projectService,
-        ICommissionService commissionService,
-        INotificationService notificationService)
+        ICommissionService commissionService)
     {
         _projectService = projectService;
         _commissionService = commissionService;
-        _notificationService = notificationService;
     }
 
     [HttpPost("AssignCommissions/{projectId}")]
@@ -38,14 +34,12 @@ public class SimulationController : ControllerBase
         if (commissions.Count == 0)
         {
             await _projectService.RejectProjectByCommissions(projectId);
-            await _notificationService.AddProjectStateChangedNotification(projectId);
             return BadRequest("No se encontraron comisiones adecuadas.");
         }
 
         //todo: check if can parallelize method
         var assignedReferrals = await _commissionService.AssignCommissionTo(commissions, project.ProjectId);
         await _projectService.SetInCommissionFor(projectId);
-        //await _notificationService.AddCommissionAssignedNotification(projectId);
         return Ok(assignedReferrals);
     }
 
@@ -81,8 +75,6 @@ public class SimulationController : ControllerBase
         if (_commissionService.IsRejectedReferral(actualReferral))
             await _projectService.RejectProjectByCommissions(projectId);
 
-        //await _notificationService.AddReferralChangeNotification(projectId);
-
         return Ok(actualReferral);
     }
 
@@ -111,7 +103,6 @@ public class SimulationController : ControllerBase
         referral.DateState = DateTime.Now;
 
         await _commissionService.UpdateReferral(referral);
-        //await _notificationService.AddReferralChangeNotification(projectId);
 
         return Ok(referral);
     }
@@ -128,8 +119,6 @@ public class SimulationController : ControllerBase
 
         var sessionResult = await _projectService.DoSessionRandomly(project);
 
-        //_notificationService.AddSessionResultNotification(project, sessionResult);
-
         return Ok($"Resultado de Sesión: {GetResultText(sessionResult)}");
     }
 
@@ -143,8 +132,6 @@ public class SimulationController : ControllerBase
             return BadRequest("El proyecto debe encontrarse En Sesión.");
 
         var sessionResult = await _projectService.DoSessionWithResult(project, result);
-
-        //_notificationService.AddSessionResultNotification(project, sessionResult);
 
         return Ok($"Resultado de Sesión: {GetResultText(sessionResult)}");
     }

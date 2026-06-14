@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.IdentityModel.Tokens;
 using WebAppMVC.Domain.Models.Projects;
 using WebAppMVC.Domain.Services;
 using WebAppMVC.Infrastructure.Interfaces;
@@ -38,24 +39,26 @@ public class NotificationService : INotificationService
     private string GetCurrentUserIdentifier() =>
         _user.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
 
-    public async Task AddCommissionAssignedNotification(int projectId)
+    public async Task AddCommissionAssignedNotification(int projectId, string toUserIdentifier, string message)
     {
         var project = await GetProjectByIdAsync(projectId);
         var notificationVm = new NotificationViewModel
         {
+            UserIdentifier = toUserIdentifier,
             Title = "Comisiones asignadas",
-            Message = $"Se asignaron comisiones al proyecto: {project.Title}"
+            Message = message.IsNullOrEmpty() ? $"Se asignaron comisiones al proyecto: [{project.Title}]" : message
         };
         AddNotification(notificationVm);
     }
 
-    public async Task AddReferralChangeNotification(int projectId)
+    public async Task AddReferralChangeNotification(int projectId, string toUserIdentifier, string message)
     {
         var project = await GetProjectByIdAsync(projectId);
         var notificationVm = new NotificationViewModel
         {
+            UserIdentifier = toUserIdentifier,
             Title = "Cambio de Giro",
-            Message = $"El proyecto {project.Title} tuvo un cambio en sus Giros"
+            Message = message.IsNullOrEmpty() ? $"El proyecto [{project.Title}] tuvo un cambio en sus Giros de Comisiones" : message
         };
         AddNotification(notificationVm);
     }
@@ -70,50 +73,45 @@ public class NotificationService : INotificationService
         AddNotification(notificationVm);
     }
 
-    public void AddSessionResultNotification(Project project, bool success)
+    public async Task AddSessionResultNotification(int projectId, string toUserIdentifier, string message)
     {
+        var project = await GetProjectByIdAsync(projectId);
+        
         var notificationVm = new NotificationViewModel
         {
-            Title = "Dictamen",
-            Message = $"El proyecto {project.Title} ha sido {GetSessionResultTxt(success)}"
+            UserIdentifier = toUserIdentifier,
+            Title = $"Proyecto [{project.Title}] Dicaminado",
+            Message = message
         };
         AddNotification(notificationVm);
     }
 
-    public void AddProjectCreatedNotification()
+    public void AddProjectCreatedNotification(string toUserIdentifier)
     {
         var notificationVm = new NotificationViewModel
         {
+            UserIdentifier = toUserIdentifier,
             Title = "Proyecto creado"
         };
         AddNotification(notificationVm);
     }
 
-    public void AddProjectUpdatedNotification()
+    public void AddProjectUpdatedNotification(string toUserIdentifier)
     {
         var notificationVm = new NotificationViewModel
         {
+            UserIdentifier = toUserIdentifier,
             Title = "Proyecto actualizado"
         };
         AddNotification(notificationVm);
     }
 
-    public void AddSentToCommissionsNotification()
+    public void AddSentToCommissionsNotification(string toUserIdentifier)
     {
         var notificationVm = new NotificationViewModel
         {
+            UserIdentifier = toUserIdentifier,
             Title = "Proyecto enviado a Comisiones"
-        };
-        AddNotification(notificationVm);
-    }
-
-    public async Task AddProjectStateChangedNotification(int projectId)
-    {
-        var project = await GetProjectByIdAsync(projectId);
-        var notificationVm = new NotificationViewModel
-        {
-            Title = "Proyecto rechazado",
-            Message = $"El proyecto {project.Title} ha sido recahzado porque no se han encontrado comisiones adecuadas"
         };
         AddNotification(notificationVm);
     }
@@ -127,9 +125,6 @@ public class NotificationService : INotificationService
         };
         AddNotification(notificationVm);
     }
-
-    private string GetSessionResultTxt(bool success) =>
-        success ? "Aprobado" : "Rechazado";
 
     private NotificationViewModel GetNotificationForCurrentUser()
         => _notificationRepository.GetNotificationForUser(GetCurrentUserIdentifier());

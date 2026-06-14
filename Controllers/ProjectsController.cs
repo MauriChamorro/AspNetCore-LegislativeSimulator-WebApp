@@ -55,7 +55,7 @@ public class ProjectsController : Controller
         }
 
         await _projectService.CreateNewProject(projectVm.Title, projectVm.Articles, projectVm.Fundaments,projectVm.Summary);
-        _notificationService.AddProjectCreatedNotification();
+        _notificationService.AddProjectCreatedNotification("legislador");
         return RedirectToAction(nameof(Index));
     }
     
@@ -91,7 +91,7 @@ public class ProjectsController : Controller
         }
 
         await UpdateProject(projectVm, savedProject);
-        _notificationService.AddProjectUpdatedNotification();
+        _notificationService.AddProjectUpdatedNotification("legislador");
         return View(projectVm);
     }
 
@@ -112,7 +112,7 @@ public class ProjectsController : Controller
         await _projectService.SetPendingForCommissionsFor(savedProject);
         await UpdateProject(projectVm, savedProject);
         
-        _notificationService.AddSentToCommissionsNotification();
+        _notificationService.AddSentToCommissionsNotification("legislador");
         return RedirectToAction(nameof(Index));
     }
     

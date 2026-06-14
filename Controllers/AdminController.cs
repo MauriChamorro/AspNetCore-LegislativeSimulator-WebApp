@@ -16,7 +16,7 @@ public class AdminController : Controller
     private readonly ISimulationServices _simulationServices;
     private readonly INotificationService _notificationService;
 
-    public AdminController(IProjectService projectService, 
+    public AdminController(IProjectService projectService,
         ISimulationServices simulationServices,
         INotificationService notificationService)
     {
@@ -72,9 +72,8 @@ public class AdminController : Controller
     public async Task<IActionResult> AssignCommissions(int projectId)
     {
         var result = await _simulationServices.AssignCommissionsFor(projectId);
-        TempData["searchText"] = projectId;
-        TempData["adminNoti"] = result;
-        TempData["userNoti"] = "result";
+        await _notificationService.AddCommissionAssignedNotification(projectId, "legislador");
+        await _notificationService.AddCommissionAssignedNotification(projectId, "admin", result);
         return RedirectToAction("EditProject", new { projectTxtId = projectId });
     }
 
@@ -83,8 +82,8 @@ public class AdminController : Controller
     public async Task<IActionResult> DoNextReferringRandomly(int projectId)
     {
         var result = await _simulationServices.DoNextReferringRandomly(projectId);
-        TempData["SwalTitle"] = result;
-        TempData["searchText"] = projectId;
+        await _notificationService.AddReferralChangeNotification(projectId, "legislador");
+        await _notificationService.AddReferralChangeNotification(projectId, "admin", result);
         return RedirectToAction("EditProject", new { projectTxtId = projectId });
     }
 
@@ -93,9 +92,8 @@ public class AdminController : Controller
     public async Task<IActionResult> EditReferral(int projectId, int commissionId, ReferralState state)
     {
         var result = await _simulationServices.EditReferral(projectId, commissionId, state);
-        TempData["adminNoti"] = result;
-        TempData["userNoti"] = "hi";
-        //await _notificationService.AddReferralChangeNotification(projectId);
+        await _notificationService.AddReferralChangeNotification(projectId, "legislador");
+        await _notificationService.AddReferralChangeNotification(projectId, "admin", result);
         return RedirectToAction("Index", "ReferralCommittees", new { projectId });
     }
 
@@ -104,17 +102,18 @@ public class AdminController : Controller
     public async Task<IActionResult> DoSessionRandomly(int projectId)
     {
         var result = await _simulationServices.DoSessionRandomly(projectId);
-        TempData["adminNoti"] = result;
-        TempData["userNoti"] = "result";
+        await _notificationService.AddSessionResultNotification(projectId, "legislador", result);
+        await _notificationService.AddSessionResultNotification(projectId, "admin", result);
         return RedirectToAction("EditProject", new { projectTxtId = projectId });
     }
-    
+
     [HttpPost]
     [ServiceFilter(typeof(ProjectIdNotFoundAsyncFilterAttribute))]
     public async Task<IActionResult> DoSession(int projectId, int sessionResult)
     {
         var result = await _simulationServices.DoSession(projectId, sessionResult);
-        TempData["adminNoti"] = result;
+        await _notificationService.AddSessionResultNotification(projectId, "legislador", result);
+        await _notificationService.AddSessionResultNotification(projectId, "admin", result);
         return RedirectToAction("EditProject", new { projectTxtId = projectId });
     }
 }

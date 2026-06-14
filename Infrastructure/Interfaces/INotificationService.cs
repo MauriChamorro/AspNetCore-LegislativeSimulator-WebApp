@@ -1,19 +1,17 @@
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using WebAppMVC.Domain.Models.Projects;
 
 namespace WebAppMVC.Infrastructure.Interfaces;
 
 public interface INotificationService
 {
-    void SendNotification(ITempDataDictionary tempData);
-    Task AddCommissionAssignedNotification(int projectId);
-    Task AddReferralChangeNotification(int projectId);
-    void AddSentToSessionNotification(string userIdentifier);
-    void AddSessionResultNotification(Project projectId, bool success);
-    void AddProjectCreatedNotification();
-    void AddProjectUpdatedNotification();
-    void AddSentToCommissionsNotification();
-    Task AddProjectStateChangedNotification(int projectId);
-    void AddProjectDeletedNotification(string userIdentifier);
     bool ExistNotificationForCurrentUser();
+    void SendNotification(ITempDataDictionary tempData);
+    void AddProjectCreatedNotification(string toUserIdentifier);
+    void AddProjectUpdatedNotification(string toUserIdentifier);
+    void AddProjectDeletedNotification(string userIdentifier);
+    void AddSentToCommissionsNotification(string userIdentifier);
+    Task AddCommissionAssignedNotification(int projectId, string toUserIdentifier, string message = "");
+    Task AddReferralChangeNotification(int projectId, string toUserIdentifier, string message = "");
+    void AddSentToSessionNotification(string userIdentifier);
+    Task AddSessionResultNotification(int projectId, string toUserIdentifier, string message = "");
 }
