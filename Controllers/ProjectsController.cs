@@ -91,7 +91,9 @@ public class ProjectsController : Controller
         }
 
         await UpdateProject(projectVm, savedProject);
+        //instant notification
         _notificationService.AddProjectUpdatedNotification("legislador");
+        _notificationService.SendNotification(TempData);
         return View(projectVm);
     }
 
