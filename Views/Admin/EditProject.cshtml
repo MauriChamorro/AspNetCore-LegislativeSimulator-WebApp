@@ -1,7 +1,7 @@
 ﻿@model EditProjectAdminVm
 
 @{
-    ViewData["title"] = "Modificar Proyecto";
+    ViewData["title"] = "Proyecto";
     ViewData["subtitle"] = "";
 }
 
@@ -48,7 +48,7 @@
 }
 @if (Model.ProjectId != 0 && Model.EnumState == FileState.InCommission)
 {
-    <div class="d-flex justify-content-between gap-2">
+    <div class="d-flex justify-content-start gap-2">
 
         <form method="post" asp-controller="Admin" asp-action="DoNextReferringRandomly"
               asp-route-projectId="@Model.ProjectId">
@@ -57,7 +57,7 @@
             </button>
         </form>
         <a class="btn btn-info" asp-controller="ReferralCommittees" asp-action="Index"
-           asp-route-projectId="@Model.ProjectId">Ver Comisiones</a>
+           asp-route-projectId="@Model.ProjectId">Modificar Giro Manualmente</a>
     </div>
 }
 
