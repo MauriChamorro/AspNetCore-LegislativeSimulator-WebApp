@@ -2,3 +2,41 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>c
+    function showInfoModal(title, message) {
+        Swal.fire({
+            title: title || 'Notificación',
+            text: message || '',
+            icon: 'info', // Si no hay icono, por defecto info
+            timer: null,
+            timerProgressBar: false,
+            showConfirmButton: true,
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#3085d6',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        });
+    }
+
+    function showConfirmationModal(modalTitle, actionTxt, url, form) {
+        Swal.fire({
+            title: modalTitle,
+            text: "Esta acción no podrá deshacerse.",
+            icon: 'warning',
+            showCancelButton: true,
+            reverseButtons: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: actionTxt,
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (url && url.trim() !== ''){
+                    form.action = url;
+                }
+                form.submit();
+            }
+        });
+    }
+</script>

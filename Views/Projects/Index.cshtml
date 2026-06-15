@@ -70,28 +70,17 @@
 
 @section Scripts {
     <script>
-        const confirmationModals = document.querySelectorAll(".form-send-to-session");
-        confirmationModals.forEach((confirmationModal) => {
-            confirmationModal.addEventListener("submit", function (event) {
-                event.preventDefault();
-                const form = this;
-
-                Swal.fire({
-                    title: '¿Está seguro de Enviar el proyecto a Sesión?',
-                    text: "Esta acción no podrá deshacerse.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Enviar',
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
+        document.addEventListener("DOMContentLoaded", function () {
+            const sendToSessionListeners = document.querySelectorAll(".form-send-to-session");
+            sendToSessionListeners.forEach((listener) => {
+                listener.addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    const form = this;
+                    var message = '¿Está seguro de Enviar el proyecto a Sesión?';
+                    var actionText = "Enviar"
+                    showConfirmationModal(message, actionText, url = null, form);
                 });
             });
-        })
+        });
     </script>
 }
