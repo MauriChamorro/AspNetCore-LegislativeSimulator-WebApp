@@ -103,7 +103,10 @@ public class SimulationController : ControllerBase
         referral.DateState = DateTime.Now;
 
         await _commissionService.UpdateReferral(referral);
-
+        
+        if (_commissionService.IsRejectedReferral(referral))
+            await _projectService.RejectProjectByCommissions(projectId);
+        
         return Ok(referral);
     }
 

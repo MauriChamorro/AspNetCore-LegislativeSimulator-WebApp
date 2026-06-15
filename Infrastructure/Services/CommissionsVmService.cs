@@ -14,6 +14,8 @@ public class CommissionsVmService: ICommissionsVmService
         {
             ProjectId =  project.ProjectId,
             ProjectTitle = project.Title,
+            ProjectStateName = project.GetCurrentState().ProjectState.Name,
+            CurrentProjectState =  project.GetCurrentState().ProjectState.State,
             ReferralCommissions = CreateReferralVms(referralCommissions),
         };
     }
